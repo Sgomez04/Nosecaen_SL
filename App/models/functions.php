@@ -61,12 +61,16 @@ function CreaSelect($name, $opciones, $valorDefecto = '')
  */
 function ShowTaskData($campo)
 {
-	if ($_POST) {
-		global $tareas;
-		if ($tareas[$campo] != "") {
-			return $tareas[$campo];
-		} else {
-			echo $_POST[$campo];
-		}
-	}
+	include "add.php";
+	global $tareas;
+	return $tareas[$campo];
+}
+
+/**
+ * Mostrar lista de tareas
+ * 
+ */
+function ShowTaskList()
+{
+	
 }

@@ -2,6 +2,7 @@
 $hayError = FALSE;
 $errores = [];
 
+/*
 /// FILTRADO DEL CAMPO persona ///
 if (ValorPost('persona') == '') {
     $hayError = true;
@@ -102,8 +103,4 @@ if (ValorPost('fechaR') == '') {
     }
 }
 
-if ($hayError) { // Hay error
-    include 'views/forms/task.php';
-} else { // NO hay error
-    include 'controller/add.php';
-}
+*/

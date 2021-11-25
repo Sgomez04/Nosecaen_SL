@@ -7,9 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="index.php" method="post">
-
-        Modificar tarea : <input type="submit" value="Mostrar Formulario">
-    </form>
+    <h1>Eliminacion de la tarea</h1>
+    <p>¿Esta segur@ de que desea eliminar la tarea?
+    <input type="submit" name="S" value="SI">
+    <input type="submit" name="N" value="NO">
+    </p>
 </body>
 </html>
