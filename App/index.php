@@ -23,5 +23,5 @@ else
     $controller = new $controller;
     
     // Llama la accion
-    call_user_func( array( $controller, $accion ) );
+    call_user_func(array( $controller, $accion ) );
 }

@@ -9,8 +9,8 @@
 <body>
     <h1>Eliminacion de la tarea</h1>
     <p>¿Esta segur@ de que desea eliminar la tarea?
-    <input type="submit" name="S" value="SI">
-    <input type="submit" name="N" value="NO">
+    <button><a href="?c=task&a=Eliminar&id=<?php echo $_REQUEST['id']; ?>">Eliminar</a></button>
+    <button><a href="?c=task&a=Index&id=1">Volver Atras</a></button>
     </p>
 </body>
 </html>

@@ -9,12 +9,10 @@
 
 function ValorPost($nombreCampo, $valorPorDefecto = '')
 {
-	if ($_POST) {
-		if (isset($_POST[$nombreCampo]))
-			return $_POST[$nombreCampo];
-		else
-			return $valorPorDefecto;
-	}
+	if (isset($_REQUEST[$nombreCampo]))
+		return $_REQUEST[$nombreCampo];
+	else
+		return $valorPorDefecto;
 }
 
 /**
@@ -24,12 +22,15 @@ function ValorPost($nombreCampo, $valorPorDefecto = '')
 
 function VerError($campo)
 {
-	if ($_POST) {
 		global $errores;
 		if (isset($errores[$campo])) {
 			echo '<span style="color:red">' . $errores[$campo] . '</span>';
+			var_dump($errores);
 		}
-	}
+		else{
+			echo "error";
+		}
+	
 }
 
 /**
@@ -54,23 +55,4 @@ function CreaSelect($name, $opciones, $valorDefecto = '')
 	$html .= "\n</select>";
 
 	return $html;
-}
-
-/**
- * Mostrar datos a modificar de una tarea
- */
-function ShowTaskData($campo)
-{
-	include "add.php";
-	global $tareas;
-	return $tareas[$campo];
-}
-
-/**
- * Mostrar lista de tareas
- * 
- */
-function ShowTaskList()
-{
-	
 }

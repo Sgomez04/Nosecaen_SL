@@ -1,106 +1,81 @@
 <?php
-$hayError = FALSE;
-$errores = [];
 
-/*
 /// FILTRADO DEL CAMPO persona ///
-if (ValorPost('persona') == '') {
-    $hayError = true;
-    $errores['persona'] = 'El campo no puede estar vacio';
-} elseif (filter_var(ValorPost('persona'), FILTER_VALIDATE_INT)) {
-    $hayError = true;
-    $errores['persona'] = 'El nombre y apellidos no pueden contener carácteres numéricos';
-} elseif (preg_match("/\W/", ValorPost('persona'))) {
-    $hayError = true;
-    $errores['persona'] = 'El nombre y apellidos no pueden contener carácteres especiales';
+if (empty($_REQUEST['persona'])) {
+    $error->AnotaError("persona","El campo no puede estar vacio");
+} elseif (filter_var($_REQUEST['persona'], FILTER_VALIDATE_INT)) {
+    $error->AnotaError("persona","El nombre y apellidos no pueden contener carácteres numéricos");
+} elseif (preg_match("/\W/", $_REQUEST['persona'])) {
+   $error->AnotaError("persona", "El nombre y apellidos no pueden contener carácteres especiales");
 }
 
 
+/*
 /// FILTRADO DEL CAMPO telefono /// 
-if (ValorPost('telefono') == '') {
-    $errores['telefono'] = 'El campo telefono no puede estar vacio';
-    $hayError = true;
-} elseif (!filter_var(ValorPost('telefono'), FILTER_VALIDATE_INT)) {
-    $errores['telefono'] = 'El numero de telefono solo puede contener numeros';
-    $hayError = true;
-} elseif (strlen(ValorPost('telefono')) > 9) {
-    $errores['telefono'] = 'El campo telefono solo puede contener 9 digitos';
-    $hayError = true;
+if (empty($_REQUEST['telefono'])) {
+    $error->AnotaError("telefono",'El campo telefono no puede estar vacio');
+} elseif (!filter_var($_REQUEST['telefono'], FILTER_VALIDATE_INT)) {
+    $error->AnotaError("telefono",'El numero de telefono solo puede contener numeros');
+} elseif (strlen($_REQUEST['telefono']) > 9) {
+    $error->AnotaError("telefono",'El campo telefono solo puede contener 9 digitos');
 }
 
 /// FILTRADO DEL CAMPO descripcion ///
-if (ValorPost('descripcion') == '') {
-    $errores['descripcion'] = 'El campo descripcion no puede estar vacio';
-    $hayError = true;
+if (empty($_REQUEST['descripcion'])) {
+    $error->AnotaError("descripcion",'El campo descripcion no puede estar vacio');
 }
 
 /// FILTRADO DEL CAMPO email  ///
-if (ValorPost('correo') == '') {
-    $hayError = true;
-    $errores['correo'] = 'El campo correo no puede estar vacio.';
-} elseif (!filter_var(ValorPost('correo'), FILTER_VALIDATE_EMAIL)) {
-    $hayError = true;
-    $errores['correo'] = 'Introduzca un correo válido.';
+if (empty($_REQUEST['correo'])) {
+    $error->AnotaError("correo",'El campo correo no puede estar vacio.');
+} elseif (!filter_var($_REQUEST['correo'], FILTER_VALIDATE_EMAIL)) {
+    $error-> AnotaError("correo",'Introduzca un correo válido.');
 }
 
 /// FILTRADO DEL CAMPO direccion ///
-if (ValorPost('direccion') == '') {
-    $hayError = true;
-    $errores['direccion'] = 'El campo direccion no puede estar vacio';
+if (empty($_REQUEST['direccion'])) {
+    $error->AnotaError("direccion",'El campo direccion no puede estar vacio');
 }
 
 /// FILTRADO DEL CAMPO poblacion ///
-if (ValorPost('poblacion') == '') {
-    $hayError = true;
-    $errores['poblacion'] = 'El campo no puede estar vacio';
-} elseif (filter_var(ValorPost('poblacion'), FILTER_VALIDATE_INT)) {
-    $hayError = true;
-    $errores['poblacion'] = 'El nombre de la poblacion no puede contener carácteres numéricos';
-} elseif (preg_match("/\W/", ValorPost('persona'))) {
-    $hayError = true;
-    $errores['poblacion'] = 'El nombre de la poblacion no puede contener carácteres especiales';
+if (empty($_REQUEST['poblacion'])) {
+    $error->AnotaError("poblacion",'El campo no puede estar vacio');
+} elseif (filter_var($_REQUEST['poblacion'], FILTER_VALIDATE_INT)) {
+    $error->AnotaError("poblacion",'El nombre de la poblacion no puede contener carácteres numéricos');
+} elseif (preg_match("/\W/", $_REQUEST['poblacion'])) {
+    $error->AnotaError("poblacion",'El nombre de la poblacion no puede contener carácteres especiales');
 }
 
 /// FILTRADO DEL CAMPO codigoPostal///
-if (ValorPost('cp') == '') {
-    $hayError = true;
-    $errores['cp'] = 'El campo Codigo postal no puede estar vacio';
-} elseif (!filter_var(ValorPost('cp'), FILTER_VALIDATE_INT)) {
-    $hayError = true;
-    $errores['cp'] = 'El campo Codigo postal debe contener únicamente carácteres númericos';
-} elseif (strlen(ValorPost('cp')) > 5) {
-    $errores['cp'] = 'El campo Codigo postal no puede ser mayor de 5 numeros';
-    $hayError = true;
+if (empty($_REQUEST['cp'])) {
+    $error->AnotaError("cp",'El campo Codigo postal no puede estar vacio');
+} elseif (!filter_var($_REQUEST['cp'], FILTER_VALIDATE_INT)) {
+    $error->AnotaError("cp",'El campo Codigo postal debe contener únicamente carácteres númericos');
+} elseif (strlen($_REQUEST['cp']) > 5) {
+    $error->AnotaError("cp",'El campo Codigo postal no puede ser mayor de 5 numeros');
 }
 
 /// FILTRADO DEL CAMPO provincia ///
-// if (ValorPost('provincia') == '') {
-//     $hayError = true;
-//     $errores['provincia'] = 'Tienes que seleccionar una provincia';
+// if ($_REQUEST['provincia') == '') {
+//     $error -> AnotaError("provincia",'Tienes que seleccionar una provincia');
 // }
 
 /// FILTRADO DEL CAMPO operario ///
-if (ValorPost('operario') == '') {
-    $hayError = true;
-    $errores['operario'] = 'El campo no puede estar vacio';
-} elseif (filter_var(ValorPost('persona'), FILTER_VALIDATE_INT)) {
-    $hayError = true;
-    $errores['operario'] = 'El nombre del operario no puede contener carácteres numéricos';
-} elseif (preg_match("/\W/", ValorPost('persona'))) {
-    $hayError = true;
-    $errores['operario'] = 'El nombre del operario no puede contener carácteres especiales';
+if (empty($_REQUEST['operario'])) {
+    $error->AnotaError("operario",'El campo no puede estar vacio');
+} elseif (filter_var($_REQUEST['persona'], FILTER_VALIDATE_INT)) {
+    $error->AnotaError("operario",'El nombre del operario no puede contener carácteres numéricos');
+} elseif (preg_match("/\W/", $_REQUEST['persona'])) {
+    $error->AnotaError("operario",'El nombre del operario no puede contener carácteres especiales');
 }
 
-// FILTRADO DEL CAMPO fecha de realizacion //
-if (ValorPost('fechaR') == '') {
-    $hayError = true;
-    $errores['fechaR'] = 'El campo no puede estar vacio';
+// // FILTRADO DEL CAMPO fecha de realizacion //
+if ($_REQUEST['fechaR'] == '') {
+     $error -> AnotaError("fechaR",'El campo no puede estar vacio');
 } else {
-    $fecha = explode('/', ValorPost('fechaR'));
+    $fecha = explode('-', $_REQUEST['fechaR']);
     if (!checkdate($fecha[1], $fecha[2], $fecha[0])) {
-        $hayError = true;
-        $errores['fechaR'] = 'Introduzca una fecha válida.';
+       $error -> AnotaError("fechaR",'Introduzca una fecha válida (formato yyyy-mm-dd).');
     }
 }
-
 */

@@ -28,6 +28,18 @@ class Pagination{
     }
 
     function mostrarPaginas(){
+        $actual = '';
+        echo "<ul>";
+
+        for($i=0; $i < $this->totalPaginas; $i++){
+            if(($i + 1) == $this->paginaActual){
+                $actual = ' class="actual" ';
+            }else{
+                $actual = '';
+            }
+            echo '<li><a ' .$actual . 'href="?pagina='. ($i + 1). '">'. ($i + 1) . '</a></li>';
+        }
+        echo "</ul>";
     }
 
     function mostrarTotalResultados(){
