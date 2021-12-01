@@ -53,7 +53,7 @@
                     </td>
                     <td>
                         <a class="btn btn-outline-secondary btn-lg"
-                            href="<?= BASE_URL ?>cdel?id=<?= $t['id_task'] ?>">Eliminar</a>
+                            href="<?= BASE_URL ?>cdel?id=<?php echo e($t['id_task']); ?>">Eliminar</a>
                     </td>
                 </tr>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

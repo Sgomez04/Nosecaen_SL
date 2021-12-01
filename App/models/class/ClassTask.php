@@ -8,6 +8,7 @@
 class Task extends Connection
 {
 
+    //Propiedades de la Tarea
     public $id_task ="";
     public $persona ="";
     public $telefono ="";
@@ -24,14 +25,20 @@ class Task extends Connection
     public $anot_anterior ="";
     public $anot_posterior ="";
 
-    //PAGINACION
+    //Paginacion
     private $paginaActual;
     private $totalPaginas;
     private $nResultados;
     private $resultadosPorPagina;
     private $indice;
     private $pag;
-
+    
+    /**
+     * Constructor de la clase Task
+     *
+     * @param  mixed $nPorPagina
+     * @return void
+     */
     function __construct($nPorPagina)
     {
         try {
@@ -51,8 +58,9 @@ class Task extends Connection
     /**
      * Muestra una lista de todas las tareas existentes en la DataBase
      *
-     * 
-     */
+     * @return void
+     */    
+
     function listaTareas()
     {
         try {
@@ -68,6 +76,7 @@ class Task extends Connection
     /**
      * Modifica los datos de una tarea elegida 
      * 
+     * @return void
      */
     function modificarTarea(Task $data)
     {
@@ -94,44 +103,6 @@ class Task extends Connection
             anot_anterior= " . $aa . ", anot_posterior= " . $ap . " WHERE id_task =  " . $id . "";
 
             $sentencia = $this->connect()->prepare($sql);
-            
-            //No funciona al bindear los parametros
-            
-            // $sentencia->bindParam(':idtask', $id);
-            // $sentencia->bindParam(':persona', $persona);
-            // $sentencia->bindParam(':phone', $telefono);
-            // $sentencia->bindParam(':descripcion', $desc);
-            // $sentencia->bindParam(':correo', $correo);
-            // $sentencia->bindParam(':direccion', $direc);
-            // $sentencia->bindParam(':poblacion', $poblacion);
-            // $sentencia->bindParam(':cp', $cp);
-            // // $sentencia->bindParam(':provincia', $provincia);
-            // $sentencia->bindParam(':estado', $estado);
-            // $sentencia->bindParam(':fcreacion', $fc);
-            // $sentencia->bindParam(':operario', $operario);
-            // $sentencia->bindParam(':fechaR', $fr);
-            // $sentencia->bindParam(':aa', $aa);
-            // $sentencia->bindParam(':ap', $ap);
-
-
-
-            // $data_task = [
-            //     'persona' => $data->persona,
-            //     'phone' => $data->telefono,
-            //     'descripcion' => $data->descripcion,
-            //     'correo' => $data->correo,
-            //     'direccion' => $data->direccion,
-            //     'poblacion' => $data->poblacion,
-            //     'cp' => $data->cp,
-            //     'provincia' => $data->provincia,
-            //     'estado' => $data->estado,
-            //     'fcreacion' => $data->fecha_creacion,
-            //     'operario' => $data->operario,
-            //     'fechaR' => $data->fecha_realizacion,
-            //     'aa' => $data->anot_anterior,
-            //     'ap' => $data->anot_posterior,
-            //     'idtask' => $data->id_task
-            // ];
 
             $sentencia->execute();
         } catch (Exception $e) {
@@ -142,7 +113,7 @@ class Task extends Connection
     /**
      * Elimina una tarea elegida
      * 
-     * 
+     * @return void
      */
     function borrarTarea($id_task)
     {
@@ -159,6 +130,7 @@ class Task extends Connection
     /**
      * Añade una nueva tarea a la DataBase
      * 
+     * @return void
      */
     function añadirTarea(Task $data)
     {
@@ -193,6 +165,7 @@ class Task extends Connection
     /**
      * Muestra los datos tan solo de una tarea
      * 
+     * @return void
      */
     public function verTarea($id_task)
     {
@@ -210,6 +183,7 @@ class Task extends Connection
     /**
      * Modifica una tarea añadiendole tan solo datos a los campos de comentarios
      * 
+     * @return void
      */
     function añadirAnotacion(Task $task)
     {
@@ -225,7 +199,12 @@ class Task extends Connection
         }
     }
 
-    //PAGINACION
+    //PAGINACION    
+    /**
+     * Calcula el numero de paginas que tiene que montar
+     *
+     * @return void
+     */
     function calcularPaginas(){
         $queryTotalResultados = $this->connect()->query('SELECT COUNT(*) AS total FROM task');
         $this->nResultados = $queryTotalResultados->fetch(PDO::FETCH_OBJ)->total; 
@@ -236,7 +215,12 @@ class Task extends Connection
             $this->indice = ($this->paginaActual - 1) * $this->resultadosPorPagina;
         }
     }
-
+    
+    /**
+     * Muestra las paginas
+     *
+     * @return void
+     */
     function mostrarPaginas(){
         $actual = '';
         echo "<ul>";
@@ -252,16 +236,14 @@ class Task extends Connection
         }
         echo "</ul>";
     }
-
+    
+    /**
+     * Muestra el numero total de resultados encontrados
+     *
+     * @return void
+     */
     function mostrarTotalResultados(){
         return $this->nResultados;
     }
-
-    function mostrarPag(){
-        return $this->pag;
-    }
-
     
-
-
 }

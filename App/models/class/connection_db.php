@@ -15,7 +15,12 @@ class Connection{
         $this->password = '';
         $this->charset  = 'utf8mb4';
     }
-
+    
+    /**
+     * Conexion con la base de datos
+     *
+     * @return void
+     */
     function connect()
     {
         try {

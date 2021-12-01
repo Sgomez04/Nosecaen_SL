@@ -49,11 +49,11 @@
                     <td>
                         <!-- <a class="btn btn-outline-secondary btn-lg" href="?c=task&a=edit&id=<?php echo $t['id_task']; ?>">Editar</a> -->
                         <a class="btn btn-outline-secondary btn-lg"
-                            href="<?= BASE_URL ?>form?id={{ $t['id_task'] }}">Editar</a>
+                            href="<?= BASE_URL ?>form?id={{$t['id_task']}}">Editar</a>
                     </td>
                     <td>
                         <a class="btn btn-outline-secondary btn-lg"
-                            href="<?= BASE_URL ?>cdel?id=<?= $t['id_task'] ?>">Eliminar</a>
+                            href="<?= BASE_URL ?>cdel?id={{$t['id_task']}}">Eliminar</a>
                     </td>
                 </tr>
             @endforeach

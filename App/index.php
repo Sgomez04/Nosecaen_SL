@@ -66,12 +66,6 @@ $app->any('/add', function (Request $request, Response $response, $args) {
     return $response;
 });
 
-// $app->any('/update', function (Request $request, Response $response, $args) {
-//     $response->getBody()->write(TaskController::getInstance()->Modificar() );
-//     return $response;
-// });
-
-// Borrar //
 
 //confirmar borrado
 $app->any('/cdel', function (Request $request, Response $response, $args) {
@@ -87,32 +81,3 @@ $app->any('/del', function (Request $request, Response $response, $args) {
 
 // Run app
 $app->run();
-
-
-
-// include_once 'models/class/connection_db.php';
-
-// $controller = 'task';
-
-// // Todo esta lógica hara el papel de un FrontController
-// if(!isset($_REQUEST['c']))
-// {
-//     require_once "controller/$controller"."controller.php";
-//     $controller = ucwords($controller) . 'Controller';
-//     $controller = new $controller;
-//     $controller->Index();    
-// }
-// else
-// {
-//     // Obtenemos el controlador que queremos cargar
-//     $controller = strtolower($_REQUEST['c']);
-//     $accion = isset($_REQUEST['a']) ? $_REQUEST['a'] : 'Index';
-    
-//     // Instanciamos el controlador
-//     require_once "controller/$controller"."controller.php";
-//     $controller = ucwords($controller) . 'Controller';
-//     $controller = new $controller;
-    
-//     // Llama la accion
-//     call_user_func(array( $controller, $accion ) );
-// }
