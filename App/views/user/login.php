@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,9 +9,9 @@
 <body>
     <h1>ACCESO DE USUARIO</h1>
     <form action="" method="post"></form>
-    <p> Usuario: <input type="text" name="user" value="<?= ValorPost('user') ?>" /> <?=VerError('user');?> </p>
-    <p> Contraseña: <input type="password" name="password" value="" /> <?=VerError('password');?> </p>
+    <p> Usuario: <input type="text" name="user" value=" ?>" />  </p>
+    <p> Contraseña: <input type="password" name="password" value="" /> </p>
     <input type="submit" value="Acceder">
 
 </body>
-</html>
+</html> -->

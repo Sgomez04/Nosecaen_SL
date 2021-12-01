@@ -1,0 +1,11 @@
+{
+    "require": {
+        "slim/slim": "3.*"
+
+    },
+    
+    "require-dev": {
+        "jenssegers/blade": "dev-master"
+    }
+
+}

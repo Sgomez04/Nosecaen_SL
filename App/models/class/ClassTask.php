@@ -7,6 +7,7 @@
  */
 class Task extends Connection
 {
+
     public $id_task ="";
     public $persona ="";
     public $telefono ="";
