@@ -9,21 +9,21 @@ class Task extends Connection
 {
 
     //Propiedades de la Tarea
-    public $id_task ="";
-    public $persona ="";
-    public $telefono ="";
-    public $descripcion ="";
-    public $correo ="";
-    public $direccion ="";
-    public $poblacion ="";
-    public $cp ="";
-    public $provincia = "Andalucia";
-    public $estado ="";
-    public $fecha_creacion ="";
-    public $operario ="";
-    public $fecha_realizacion ="";
-    public $anot_anterior ="";
-    public $anot_posterior ="";
+    public $id_task = "";
+    public $persona = "";
+    public $telefono = "";
+    public $descripcion = "";
+    public $correo = "";
+    public $direccion = "";
+    public $poblacion = "";
+    public $cp = "";
+    public $provincia = "";
+    public $estado = "";
+    public $fecha_creacion = "";
+    public $operario = "";
+    public $fecha_realizacion = "";
+    public $anot_anterior = "";
+    public $anot_posterior = "";
 
     //Paginacion
     private $paginaActual;
@@ -32,7 +32,7 @@ class Task extends Connection
     private $resultadosPorPagina;
     private $indice;
     private $pag;
-    
+
     /**
      * Constructor de la clase Task
      *
@@ -47,9 +47,8 @@ class Task extends Connection
             $this->resultadosPorPagina = $nPorPagina;
             $this->indice = 0;
             $this->paginaActual = 1;
-    
-            $this->calcularPaginas();
 
+            $this->calcularPaginas();
         } catch (Exception $e) {
             die($e->getMessage());
         }
@@ -59,13 +58,30 @@ class Task extends Connection
      * Muestra una lista de todas las tareas existentes en la DataBase
      *
      * @return void
-     */    
+     */
 
     function listaTareas()
     {
         try {
-            $query = $this->connect()->prepare('SELECT * FROM task LIMIT :pos, :n');    
+            $query = $this->connect()->prepare('SELECT * FROM task LIMIT :pos, :n');
             $query->execute(['pos' => $this->indice, 'n' => $this->resultadosPorPagina]);
+
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    /**
+     * Muestra una lista de todas las provincias existentes en la DataBase
+     *
+     * @return void
+     */
+    function listaProvincias()
+    {
+        try {
+            $query = $this->connect()->prepare('SELECT nombre FROM provincias');
+            $query->execute();
 
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
@@ -88,9 +104,8 @@ class Task extends Connection
             $direc = "'" . $data->direccion . "'";
             $poblacion = "'" . $data->poblacion . "'";
             $cp = "'" . $data->cp . "'";
-            // $provincia = $data->provincia;
+            $provincia = "'" . $data->provincia . "'";
             $estado = "'" . $data->estado . "'";
-            // $fc = "'" . $data->fecha_creacion . "'";
             $operario = "'" . $data->operario . "'";
             $fr = "'" . $data->fecha_realizacion . "'";
             $aa = "'" . $data->anot_anterior . "'";
@@ -98,9 +113,9 @@ class Task extends Connection
             $id = "'" . $data->id_task . "'";
 
             $sql = "UPDATE task SET persona= " . $persona . ", telefono= " . $telefono . ",
-            descripcion= " . $desc . ", correo= " . $correo . ", direccion= " . $direc . ", poblacion= " . $poblacion . ", cp= " . $cp . ", provincia='Huelva',
-            estado= " . $estado . ", operario= " . $operario . ", fecha_realizacion= " . $fr . ",
-            anot_anterior= " . $aa . ", anot_posterior= " . $ap . " WHERE id_task =  " . $id . "";
+            descripcion= " . $desc . ", correo= " . $correo . ", direccion= " . $direc . ", poblacion= " . $poblacion . ",
+            cp= " . $cp . ", provincia=" . $provincia. ", estado= " . $estado . ", operario= " . $operario . ",
+            fecha_realizacion= " . $fr . ", anot_anterior= " . $aa . ", anot_posterior= " . $ap . " WHERE id_task =  " . $id . "";
 
             $sentencia = $this->connect()->prepare($sql);
 
@@ -180,70 +195,58 @@ class Task extends Connection
         }
     }
 
-    /**
-     * Modifica una tarea añadiendole tan solo datos a los campos de comentarios
-     * 
-     * @return void
-     */
-    function añadirAnotacion(Task $task)
-    {
-        try {
-            $sentencia = $this->connect()->prepare("UPDATE `task` SET `anot_anterior`=:aa,`anot_posterior`=:ap WHERE `id_task` = :id_task");
-
-            $sentencia->bindParam(':aa', $task["aa"]);
-            $sentencia->bindParam(':ap', $task["ap"]);
-
-            $sentencia->execute();
-        } catch (Exception $e) {
-            die($e->getMessage());
-        }
-    }
-
     //PAGINACION    
     /**
      * Calcula el numero de paginas que tiene que montar
      *
      * @return void
      */
-    function calcularPaginas(){
+    function calcularPaginas()
+    {
         $queryTotalResultados = $this->connect()->query('SELECT COUNT(*) AS total FROM task');
-        $this->nResultados = $queryTotalResultados->fetch(PDO::FETCH_OBJ)->total; 
+        $this->nResultados = $queryTotalResultados->fetch(PDO::FETCH_OBJ)->total;
         $this->totalPaginas = $this->nResultados / $this->resultadosPorPagina;
 
-        if(isset($_GET['pagina'])){
-            $this->paginaActual = $_GET['pagina'];
+        if (isset($_GET['pag'])) {
+            $this->paginaActual = $_GET['pag'];
             $this->indice = ($this->paginaActual - 1) * $this->resultadosPorPagina;
         }
     }
-    
+
     /**
      * Muestra las paginas
      *
      * @return void
      */
-    function mostrarPaginas(){
+    function mostrarPaginas()
+    {
         $actual = '';
         echo "<ul>";
 
-        for($i=0; $i < $this->totalPaginas; $i++){
-            if(($i + 1) == $this->paginaActual){
+        for ($i = 0; $i < $this->totalPaginas; $i++) {
+            if (($i + 1) == $this->paginaActual) {
                 $actual = ' class="actual" ';
                 $this->pag == $this->paginaActual;
-            }else{
+            } else {
                 $actual = '';
             }
-            echo '<li><a ' .$actual . 'href="?pagina='. ($i + 1). '">'. ($i + 1) . '</a></li>';
+            echo '<li><a ' . $actual . 'href="?pag=' . ($i + 1) . '">' . ($i + 1) . '</a></li>';
         }
         echo "</ul>";
     }
-    
+
     /**
      * Muestra el numero total de resultados encontrados
      *
      * @return void
      */
-    function mostrarTotalResultados(){
+    function mostrarTotalResultados()
+    {
         return $this->nResultados;
     }
-    
+
+    function mostrarPag(){
+        return $this->pag;
+    }
+
 }

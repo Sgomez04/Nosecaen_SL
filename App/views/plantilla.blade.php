@@ -52,7 +52,7 @@
     </nav>
 
     <div class="container">
-        <?php echo $__env->yieldContent('cuerpo'); ?>
+        @yield('cuerpo')
     </div>
 
     <div class="row">
@@ -68,8 +68,10 @@
         </div>
     </div>
 
-    
+    {{-- <script src="<?= ASSETS_URL ?>js/jquery.min.js"></script>
+    <script src="<?= ASSETS_URL ?>js/popper.js"></script>
+    <script src="<?= ASSETS_URL ?>js/bootstrap.min.js"></script>
+    <script src="<?= ASSETS_URL ?>js/main.js"></script> --}}
 </body>
 
 </html>
-<?php /**PATH D:\Programas\DB\htdocs\PHP\NoSeCaenSL\App\views/layouts/plantilla.blade.php ENDPATH**/ ?>

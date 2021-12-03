@@ -1,0 +1,1 @@
+En blade<?php /**PATH D:\Programas\DB\htdocs\PHP\NoSeCaenSL\App\views/pru.blade.php ENDPATH**/ ?>

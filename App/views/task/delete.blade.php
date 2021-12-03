@@ -1,4 +1,4 @@
-@extends ('layouts/plantilla');
+@extends ('plantilla')
 
 @section("cuerpo")
     <h1>Eliminacion de la tarea</h1>

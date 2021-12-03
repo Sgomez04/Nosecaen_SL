@@ -1,5 +1,5 @@
 <?php
-include(MODEL_PATH . '/class/ClassTask.php');
+include(MODEL_PATH . '/class/Task.php');
 include(LIB_PATH . 'GestorErrores.php');
 include(LIB_PATH . 'Blade.php');
 include(HELPERS_PATH . 'form.php');
@@ -9,28 +9,22 @@ class TaskController
     private $pag = 5;
     private $model;
     private $blade;
-    
-    /**
-     * Constructor del controlador de la tarea
-     *
-     * @return void
-     */
-    public function __CONSTRUCT()
+    private $type;
+    private $user;
+
+    public function __construct()
     {
         $this->model = new Task($this->pag);
         $this->blade = TemplateBlade::GetInstance();
+        $this->type = $_COOKIE['type'];
+        $this->user = new Employer();
     }
-    
-    /**
-     * Devuelve un objeto de tipo Tareas
-     *
-     * @return void
-     */
+
     public static function getInstance()
     {
-        return new self();
+        return new self;
     }
-    
+
     /**
      * Indice de la aplicacion
      *
@@ -40,20 +34,15 @@ class TaskController
     {
         // return $this->Inicio();
     }
-    
-    /**
-     * Muestra el listado de tareas
-     *
-     * @return void
-     */
-    public function Inicio()
-    {
-        echo $this->blade->render('task/list');
-        // setcookie("pag", $_REQUEST['pag'], time()+3600);  
 
+
+    public function ListaTarea()
+    {
+        setcookie('pag', $_REQUEST['pag']);
+        return $this->blade->render('task/list', ['type' => $_COOKIE['type']]);
     }
 
-    
+
     /**
      * Muestra el formulario de relleno/modificacion de una tarea
      *
@@ -62,12 +51,16 @@ class TaskController
     public function Formulario()
     {
         $t = new Task($this->pag);
+        // $user_type= $this->user;
+      
+        $u = new Employer();
 
         if (isset($_REQUEST['id'])) {
             $t = $this->model->verTarea($_REQUEST['id']);
-        } 
+        }
 
-        echo $this->blade->render('task/add_upd', [
+
+        return  $this->blade->render('task/add_upd', [
             'id' => $t->id_task,
             'persona' => $t->persona,
             'telefono' => $t->telefono,
@@ -76,14 +69,18 @@ class TaskController
             'direccion' => $t->direccion,
             'poblacion' => $t->poblacion,
             'cp' => $t->cp,
+            'provincia' => $t->provincia,
+            'estado' => $t->estado,
             'fcreacion' => $t->fecha_creacion,
             'operario' => $t->operario,
             'frealizacion' => $t->fecha_realizacion,
             'aa' => $t->anot_anterior,
             'ap' => $t->anot_posterior,
+            'type' =>  $this->type,
+            'error' => ''
         ]);
     }
-    
+
     /**
      * Realiza el guardado de una tarea ya sea nueva o modificada
      *
@@ -96,36 +93,28 @@ class TaskController
 
         if ($error->HayErrores()) {
 
-            echo $this->blade->render('task/add_upd_error',[         
-            'id' => ValorPost("id_task"),
-            'persona' => ValorPost("persona"),
-            'telefono' => ValorPost("telefono"),
-            'desc' => ValorPost("descripcion"),
-            'correo' => ValorPost("correo"),
-            'direccion' => ValorPost("direccion"),
-            'poblacion' => ValorPost("poblacion"),
-            'cp' => ValorPost("cp"),
-            'fcreacion' => ValorPost("fcreacion"),
-            'operario' => ValorPost("operario"),
-            'frealizacion' => ValorPost("fechaR"),
-            'aa' => ValorPost("aa"),
-            'ap' => ValorPost("ap")
-            ],
-            [            
-            'e_persona' => $error->ErrorFormateado("persona"),
-            'e_telefono' => $error->ErrorFormateado("telefono"),
-            'e_desc' => $error->ErrorFormateado("descripcion"),
-            'e_correo' => $error->ErrorFormateado("correo"),
-            'e_direccion' => $error->ErrorFormateado("direccion"),
-            'e_poblacion' => $error->ErrorFormateado("poblacion"),
-            'e_cp' => $error->ErrorFormateado("cp"),
-            'e_fcreacion' => $error->ErrorFormateado("fcreacion"),
-            'e_operario' => $error->ErrorFormateado("operario"),
-            'e_frealizacion' => $error->ErrorFormateado("fechaR"),
-            'e_aa' => $error->ErrorFormateado("aa"),
-            'e_ap' => $error->ErrorFormateado("ap")
-            ]);
-
+            return $this->blade->render(
+                'task/add_upd',
+                [
+                    'id' => ValorPost("id_task"),
+                    'persona' => ValorPost("persona"),
+                    'telefono' => ValorPost("telefono"),
+                    'desc' => ValorPost("descripcion"),
+                    'correo' => ValorPost("correo"),
+                    'direccion' => ValorPost("direccion"),
+                    'poblacion' => ValorPost("poblacion"),
+                    'cp' => ValorPost("cp"),
+                    'provincia' => ValorPost("provincia"),
+                    'estado' => ValorPost("estado"),
+                    'fcreacion' => ValorPost("fcreacion"),
+                    'operario' => ValorPost("operario"),
+                    'frealizacion' => ValorPost("fechaR"),
+                    'aa' => ValorPost("aa"),
+                    'ap' => ValorPost("ap"),
+                    'type' =>  $this->type,
+                    'error' => $error
+                ]
+            );
         } else {
             $task = new Task($this->pag);
 
@@ -137,7 +126,7 @@ class TaskController
             $task->direccion =  ValorPost('direccion');
             $task->poblacion =  ValorPost('poblacion');
             $task->cp =  ValorPost('cp');
-            // $task->provincia =  ValorPost('provincia');
+            $task->provincia =  ValorPost('provincia');
             $task->estado =  ValorPost('estado');
             $task->fecha_creacion =  ValorPost('fcreacion');
             $task->operario =  ValorPost('operario');
@@ -152,11 +141,11 @@ class TaskController
                 $this->model->añadirTarea($task);
             }
 
-            header("Location: " .BASE_URL . "list?pag=1");
+            header("Location: " . BASE_URL . "list?pag=1");
             exit;
         }
     }
-    
+
     /**
      * Peticion de confirmacion de eliminado de una tarea al usuario
      *
@@ -165,9 +154,9 @@ class TaskController
     public function cEliminar()
     {
         $this->pag = $this->model->mostrarPag();
-        echo $this->blade->render('task/delete',['id'=>$_REQUEST['id']]);
+        return $this->blade->render('task/delete', ['id' => $_REQUEST['id']]);
     }
-    
+
     /**
      * Elimina una tarea tras confirmar su eliminacion
      *
@@ -175,15 +164,15 @@ class TaskController
      */
     public function Eliminar()
     {
-       
+
         $this->model->borrarTarea($_REQUEST['id']);
-        header("Location: " .BASE_URL . "list?pag=" . $_COOKIE["pag"]);
+        header("Location: " . BASE_URL . "list?pag=" . $_COOKIE["pag"]);
         exit;
     }
 
 
     //VISTAS
-    
+
     /**
      * Realiza una lista de las tareas
      *
@@ -193,7 +182,18 @@ class TaskController
     {
         return $this->model->listaTareas();
     }
-    
+
+    /**
+     * Realiza una lista de las provincias que pueden introducirse en una terea
+     *
+     * @return void
+     */
+    public function listarProv()
+    {
+        return $this->model->listaProvincias();
+    }
+
+
     /**
      * Muestra el total de tareas encontradas
      *
@@ -203,7 +203,7 @@ class TaskController
     {
         return $this->model->mostrarTotalResultados();
     }
-    
+
     /**
      * Muestra la paginacion de las tareas
      *

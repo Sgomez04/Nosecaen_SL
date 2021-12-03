@@ -10,7 +10,7 @@ if (empty($_REQUEST['persona'])) {
 }
 
 
-/*
+
 /// FILTRADO DEL CAMPO telefono /// 
 if (empty($_REQUEST['telefono'])) {
     $error->AnotaError("telefono",'El campo telefono no puede estar vacio');
@@ -78,4 +78,4 @@ if ($_REQUEST['fechaR'] == '') {
        $error -> AnotaError("fechaR",'Introduzca una fecha válida (formato yyyy-mm-dd).');
     }
 }
-*/
+

@@ -72,4 +72,4 @@
 </body>
 
 </html>
-<?php /**PATH D:\Programas\DB\htdocs\PHP\NoSeCaenSL\App\views/layouts/plantilla.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\Programas\DB\htdocs\PHP\NoSeCaenSL\App\views/plantilla.blade.php ENDPATH**/ ?>

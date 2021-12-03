@@ -1,4 +1,4 @@
-;
+
 <?php $__env->startSection("cuerpo"); ?>
 <h1 class="page-header">
     <?php if($id != null): ?>
@@ -27,7 +27,7 @@
     </div>
 
     <div class="form-group">
-        <p> Persona de contacto: <?php echo $e_persona; ?> <input type="text" name="persona" class="form-control" value="<?php echo e($persona); ?>" placeholder="Nombre del contratante" /> </p>
+        <p> Persona de contacto: <?php echo ErrorShow('persona',$error); ?> <input type="text" name="persona" class="form-control" value="<?php echo e($persona); ?>" placeholder="Nombre del contratante" /> </p>
     </div>
 
     <div class="form-group">
@@ -56,9 +56,15 @@
 
     <div class="form-group">
         <p>
-            Provincia:
             <select name="provincia">
-                <!-- <option value="value1">Value 1</option> -->
+                <option value="" selected></option> 
+                <?php $__currentLoopData = TaskController::getInstance()->listarProv(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
+                    <?php if($p['nombre'] == "<?php echo e($provincia); ?>"): ?>
+                    <option value="<?php echo e($p['nombre']); ?>" selected><?php echo e($p['nombre']); ?></option> 
+                    <?php else: ?>
+                    <option value="<?php echo e($p['nombre']); ?>"><?php echo e($p['nombre']); ?></option> 
+                    <?php endif; ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
         </p>
     </div>
@@ -98,4 +104,4 @@
 
 </form>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts/plantilla', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Programas\DB\htdocs\PHP\NoSeCaenSL\App\views/task/add_upd_error.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('plantilla', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Programas\DB\htdocs\PHP\NoSeCaenSL\App\views/task/add_upd_error.blade.php ENDPATH**/ ?>

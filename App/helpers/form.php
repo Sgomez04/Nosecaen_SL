@@ -23,3 +23,11 @@ function ValorPost($campo, $default='')
         return $default;
     }
 }
+
+function ErrorShow($campo,$error){
+    if($_POST){
+        return $error->ErrorFormateado($campo);
+    }else{
+        return "";
+    }
+}
