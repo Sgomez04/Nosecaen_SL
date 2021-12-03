@@ -56,9 +56,9 @@ if (empty($_REQUEST['cp'])) {
 }
 
 /// FILTRADO DEL CAMPO provincia ///
-// if ($_REQUEST['provincia') == '') {
-//     $error -> AnotaError("provincia",'Tienes que seleccionar una provincia');
-// }
+if (empty($_REQUEST['provincia'])) {
+    $error -> AnotaError("provincia",'Tienes que seleccionar una provincia');
+}
 
 /// FILTRADO DEL CAMPO operario ///
 if (empty($_REQUEST['operario'])) {

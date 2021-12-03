@@ -18,7 +18,6 @@
             <?php else: ?>
                 Nuevo Registro
             <?php endif; ?>
-
     </ol>
 
     <form id="frm-tarea" action="add?id=<?php echo e($id); ?>" method="post" enctype="multipart/form-data">

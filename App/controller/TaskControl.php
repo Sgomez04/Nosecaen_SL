@@ -17,7 +17,7 @@ class TaskController
         $this->model = new Task($this->pag);
         $this->blade = TemplateBlade::GetInstance();
         $this->type = $_COOKIE['type'];
-        $this->user = new Employer();
+        $this->user = new Employer($this->pag);
     }
 
     public static function getInstance()
@@ -50,10 +50,8 @@ class TaskController
      */
     public function Formulario()
     {
-        $t = new Task($this->pag);
-        // $user_type= $this->user;
-      
-        $u = new Employer();
+        $t = new Task($this->pag);      
+        $u = new Employer($this->pag);
 
         if (isset($_REQUEST['id'])) {
             $t = $this->model->verTarea($_REQUEST['id']);
@@ -164,7 +162,6 @@ class TaskController
      */
     public function Eliminar()
     {
-
         $this->model->borrarTarea($_REQUEST['id']);
         header("Location: " . BASE_URL . "list?pag=" . $_COOKIE["pag"]);
         exit;

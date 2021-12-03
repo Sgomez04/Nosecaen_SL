@@ -7,7 +7,7 @@
       <p><h2> Login de usuario:</h2></p>
     </div>
     <div class="container">
-      <form  action="index.php/check" method="POST">
+      <form  action="check" method="POST">
         <label for="name">Usuario:
           <input type="text" name="user" class="form-control" value="" /> 
         </label>

@@ -2,11 +2,18 @@
 
 <?php $__env->startSection('cuerpo'); ?>
     <h1 class="page-header">Tareas (<?php echo e(TaskController::getInstance()->tResultados()); ?> registradas) </h1>
+
+    
     <?php if($type == 'admin'): ?>
         <div class="well well-sm text-right">
             <a class="btn btn-primary" href="<?= BASE_URL ?>form">Nueva Tarea</a>
         </div>
     <?php endif; ?>
+
+    
+    <div class="well well-sm text-right">
+        <a class="btn btn-primary" href="<?= BASE_URL ?>logout">Logout</a>
+    </div>
 
     <div class="row">
         <div class="col-md-12">
@@ -57,10 +64,10 @@
                                     href="<?= BASE_URL ?>form?id=<?php echo e($t['id_task']); ?>">Editar</a>
                             </td>
                             <?php if($type == 'admin'): ?>
-                            <td>
-                                <a class="btn btn-outline-secondary btn-lg"
-                                    href="<?= BASE_URL ?>cdel?id=<?php echo e($t['id_task']); ?>">Eliminar</a>
-                            </td>
+                                <td>
+                                    <a class="btn btn-outline-secondary btn-lg"
+                                        href="<?= BASE_URL ?>cdel?id=<?php echo e($t['id_task']); ?>">Eliminar</a>
+                                </td>
                             <?php endif; ?>
                         </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

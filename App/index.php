@@ -54,7 +54,7 @@ $app->any('/', function (Request $request, Response $response, $args) {
 
 
 //USUARIO
-
+//session
 $app->any('/login', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserController::getInstance()->Login());
     return $response;
@@ -65,16 +65,48 @@ $app->any('/check', function (Request $request, Response $response, $args) {
     return $response;
 });
 
-// $app->any('/users', function (Request $request, Response $response, $args) {
-//         $response->getBody()->write(UserController::getInstance()->login());
-//         return $response;
-//     });
+$app->any('/logout', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(UserController::getInstance()->logout());
+    return $response;
+});
+
+//CRUD Users
+$app->any('/listU', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(UserController::getInstance()->ListaUsuario());
+    return $response;
+});
+
+// Formulario Tarea
+$app->any('/formU', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(UserController::getInstance()->FormularioU());
+    return $response;
+});
+
+
+// Alta - Modificacion
+$app->any('/addU', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(UserController::getInstance()->GuardarU());
+    return $response;
+});
+
+
+//confirmar borrado
+$app->any('/cdelU', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(UserController::getInstance()->cEliminarU());
+    return $response;
+});
+
+//eliminar
+$app->any('/delU', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(UserController::getInstance()->EliminarU());
+    return $response;
+});
+
 
 
 //TAREA
-// Página principal
 
-
+//CRUD Task
 // Listar
 $app->any('/list', function (Request $request, Response $response, $args) {
     $response->getBody()->write(TaskController::getInstance()->ListaTarea());

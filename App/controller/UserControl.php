@@ -14,7 +14,7 @@ class UserController
 
     public function __construct()
     {
-        $this->model = new Employer();
+        $this->model = new Employer($this->pag);
         $this->blade = TemplateBlade::GetInstance();
     }
 
@@ -23,7 +23,6 @@ class UserController
         return new self();
     }
 
-
     public function login()
     {
         return $this->blade->render('user/login');
@@ -31,18 +30,22 @@ class UserController
 
     public function checkUser()
     {
-        $user = $this->model->verTrabajador($_POST['user'], $_POST['password']);
+        $error = new GestorErrores('<span class="alert alert-danger" role="alert">', '</span>');
+        require_once 'models/task_errors.php';
 
-        if (isset($_POST['submit'])) { // Comprobamos que recibimos los datos y que no están vacíos
-            if ($user) {
+        $user = $this->model->comprobarUser($_POST['user'], $_POST['password']);
+
+        if (isset($_POST['submit'])) { // Comprobamos que recibimos los datos y que no hay errores
+
+            if ($user) { //si no hay errores comprobamos si el usuario existe
                 $usuariook = strtolower($user->user);
                 $passok =  strtolower($user->password);
 
                 //comprobamos que tipo de trabajador es el usuario
-                if($user->type == "Administrador"){
-                setcookie("type", "admin");  
-                }elseif($user->type == "Operario"){
-                setcookie("type", "operator");  
+                if ($user->type == "Administrador") {
+                    setcookie("type", "admin");
+                } elseif ($user->type == "Operario") {
+                    setcookie("type", "operator");
                 }
 
                 session_start();
@@ -80,13 +83,16 @@ class UserController
                 }
 
                 // Redirigimos a la página de inicio de nuestro sitio  
-                header("Location:" . BASE_URL . "list?pag=1");
+                header("Location:" . BASE_URL . "listU?pagU=1");
                 exit;
 
             } else {
                 header("Location:" . BASE_URL . "login");
                 exit;
             }
+        } else {
+            header("Location:" . BASE_URL . "login");
+            exit;
         }
     }
 
@@ -96,11 +102,109 @@ class UserController
         session_unset();
         session_destroy();
         setcookie('type', "");
-        header("Location:". BASE_URL);
+        header("Location:" . BASE_URL);
+        exit;
     }
 
+    public function ListaUsuario()
+    {
+        setcookie('pagU', $_REQUEST['pagU']);
+        return $this->blade->render('user/listU');
+    }
+
+    public function FormularioU()
+    {     
+        $u = new Employer($this->pag);
+
+        if (isset($_REQUEST['idU'])) {
+            $u = $this->model->verUser($_REQUEST['idU']);
+        }
+
+        return  $this->blade->render('user/add_updU', [
+            'id' => $u->id_employer,
+            'user' => $u->user,
+            'password' => $u->passwords,
+            'type' => $u->types,
+            'name' => $u->name,
+            'error' => ''
+        ]);
+    }
+
+    public function GuardarU()
+    {
+        $error = new GestorErrores('<span class="alert alert-danger" role="alert">', '</span>');
+        require_once 'models/user_errors.php';
+
+        if ($error->HayErrores()) {
+
+            return $this->blade->render(
+                'user/add_updU',
+                [
+                    'id' => ValorPost("id_employer"),
+                    'user' => ValorPost("user"),
+                    'password' => ValorPost("password"),
+                    'name' => ValorPost("name"),
+                    'type' =>  ValorPost("type"),
+                    'error' => $error
+                ]
+            );
+        } else {
+            $user = new Employer($this->pag);
+
+            $user->id_employer =  $_REQUEST['id'];
+            $user->user =  ValorPost('user');
+            $user->passwords =  ValorPost('password');
+            $user->name =  ValorPost('name');
+            $user->types =  ValorPost('type');
+
+
+            if ($user->id_employer > 0) {
+                $this->model->modificarUser($user);
+            } else {
+                $this->model->añadirUser($user);
+            }
+
+            header("Location: " . BASE_URL . "listU?pagU=1");
+            exit;
+        }
+    }
+
+    public function cEliminarU()
+    {
+        $this->pag = $this->model->mostrarPag();
+        return $this->blade->render('user/deleteU', ['id' => $_REQUEST['idU']]);
+    }
+
+    public function EliminarU()
+    {
+        $this->model->borrarUser($_REQUEST['idU']);
+        header("Location: " . BASE_URL . "listU?pagU=" . $_COOKIE["pagU"]);
+        exit;
+    }
+
+    //VISTA
     public function listarUsuarios()
     {
         return $this->model->todosTrabajadores();
+    }
+
+    /**
+     * Muestra el total de tareas encontradas
+     *
+     * @return void
+     */
+    public function tResultadosU()
+    {
+        return $this->model->mostrarTotalResultados();
+    }
+
+    /**
+     * Muestra la paginacion de las tareas
+     *
+     * @return void
+     */
+    public function paginacionU()
+    {
+        return $this->model->mostrarPaginas();
     }
 }

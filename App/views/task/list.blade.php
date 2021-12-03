@@ -2,11 +2,18 @@
 
 @section('cuerpo')
     <h1 class="page-header">Tareas ({{ TaskController::getInstance()->tResultados() }} registradas) </h1>
+
+    {{-- Boton para crear una nueva tarea --}}
     @if ($type == 'admin')
         <div class="well well-sm text-right">
             <a class="btn btn-primary" href="<?= BASE_URL ?>form">Nueva Tarea</a>
         </div>
     @endif
+
+    {{-- Boton para hacer logout --}}
+    <div class="well well-sm text-right">
+        <a class="btn btn-primary" href="<?= BASE_URL ?>logout">Logout</a>
+    </div>
 
     <div class="row">
         <div class="col-md-12">
@@ -57,10 +64,10 @@
                                     href="<?= BASE_URL ?>form?id={{ $t['id_task'] }}">Editar</a>
                             </td>
                             @if ($type == 'admin')
-                            <td>
-                                <a class="btn btn-outline-secondary btn-lg"
-                                    href="<?= BASE_URL ?>cdel?id={{ $t['id_task'] }}">Eliminar</a>
-                            </td>
+                                <td>
+                                    <a class="btn btn-outline-secondary btn-lg"
+                                        href="<?= BASE_URL ?>cdel?id={{ $t['id_task'] }}">Eliminar</a>
+                                </td>
                             @endif
                         </tr>
                     @endforeach
