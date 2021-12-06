@@ -7,7 +7,7 @@ class Employer extends Connection
 {
     public $user;
     public $passwords;
-    public $name;
+    public $names;
     public $types;
     public $id_employer;
 

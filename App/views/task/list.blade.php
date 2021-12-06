@@ -1,49 +1,74 @@
 @extends ('plantilla')
 
+@section('link')
+    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/list.css" />
+@endsection
+
+@section('nav')
+<a href="#" class="nav-item nav-link"><i
+    class="fa fa-users"></i><span>Inicio</span></a>
+<a href="<?= BASE_URL ?>list?pag=1" class="nav-item nav-link active"><i
+        class="fa fa-gears"></i><span>Tareas</span></a>
+@if($type=='admin')
+        <a href="<?= BASE_URL ?>listU?pagU=1" class="nav-item nav-link"><i
+        class="fa fa-users"></i><span>Empleados</span></a>
+@else
+        <a href="#" class="nav-item nav-link"><i
+        class="fa fa-users"></i><span>Empleados</span></a>
+@endif
+<a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
+@endsection
+
 @section('cuerpo')
-    <h1 class="page-header">Tareas ({{ TaskController::getInstance()->tResultados() }} registradas) </h1>
-
-    {{-- Boton para crear una nueva tarea --}}
-    @if ($type == 'admin')
-        <div class="well well-sm text-right">
-            <a class="btn btn-primary" href="<?= BASE_URL ?>form">Nueva Tarea</a>
+    <div class="container-xl">
+        <div class="row table-title">
+            <div class="col-sm-6">
+                <h2>Gestion <b>Tareas</b></h2>
+            </div>
+            <div class="col-sm-6">
+                @if ($type == 'admin')
+                    <a href="<?= BASE_URL ?>form" class="btn btn-success"><i class="material-icons">&#xE147;</i>
+                        <span>Añadir nueva Tarea</span></a>
+                @endif
+            </div>
         </div>
-    @endif
-
-    {{-- Boton para hacer logout --}}
-    <div class="well well-sm text-right">
-        <a class="btn btn-primary" href="<?= BASE_URL ?>logout">Logout</a>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-
-            <table class="table table-striped">
-                <thead class="thead-dark" style="text-align:center">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th scope="col" style="width:60;">Tarea</th>
-                        <th scope="col" style="width:60px;">Persona</th>
-                        <th scope="col" style="width:60px;">Telefono</th>
-                        <th scope="col" style="width:60px;">Descripcion</th>
-                        <th scope="col" style="width:60px;">Correo</th>
-                        <th scope="col" style="width:60px;">Direccion</th>
-                        <th scope="col" style="width:60px;">Poblacion</th>
-                        <th scope="col" style="width:60px;">C.Postal</th>
-                        <th scope="col" style="width:60px;">Provincia</th>
-                        <th scope="col" style="width:60px;">Estado</th>
-                        <th scope="col" style="width:60px;">F.Creacion</th>
-                        <th scope="col" style="width:60px;">Operario</th>
-                        <th scope="col" style="width:60px;">F.Realizacion</th>
-                        <th scope="col" style="width:60px;">A.Anterior</th>
-                        <th scope="col" style="width:60px;">A.Posterior</th>
-                        <th scope="col" colspan=2 style="width:60px;"></th>
-
+                        <td scope="col"><b> # </b></td>
+                        <th scope="col">Tarea</th>
+                        <th scope="col">Persona</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Direccion</th>
+                        <th scope="col">Poblacion</th>
+                        <th scope="col">C.Postal</th>
+                        <th scope="col">Provincia</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">F.Creacion</th>
+                        <th scope="col">Operario</th>
+                        <th scope="col">F.Realizacion</th>
+                        <th scope="col">A.Anterior</th>
+                        <th scope="col">A.Posterior</th>
+                        <th scope="col">Fichero</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (TaskController::getInstance()->listar() as $t)
-                        <tr>
-                            <th scope="row"><?php echo $t['id_task']; ?></th>
+                        <tr class="list">
+                            <td>
+                                <a href="<?= BASE_URL ?>form?id={{ $t['id_task'] }}" class="edit"><i
+                                        class="material-icons" title="Editar Tarea">&#xE254;</i></a>
+                                <br>
+                                <br>
+                                @if ($type == 'admin')
+                                    <a href="<?= BASE_URL ?>cdel?id={{ $t['id_task'] }}" class="delete"><i
+                                            class="material-icons" title="Eliminar Tarea">&#xE872;</i></a>
+                                @endif
+                            </td>
+                            <td scope="row"><b>{{$t['id_task']}}</b></th>
                             <td>{{ $t['persona'] }} </td>
                             <td>{{ $t['telefono'] }} </td>
                             <td><textarea cols="20" rows="5" readonly>{{ $t['descripcion'] }} </textarea></td>
@@ -58,24 +83,26 @@
                             <td>{{ $t['fecha_realizacion'] }}</td>
                             <td><textarea cols="20" rows="5" readonly>{{ $t['anot_anterior'] }}</textarea></td>
                             <td><textarea cols="20" rows="5" readonly>{{ $t['anot_posterior'] }}</textarea></td>
-                            <td>
-                                <!-- <a class="btn btn-outline-secondary btn-lg" href="?c=task&a=edit&id=<?php echo $t['id_task']; ?>">Editar</a> -->
-                                <a class="btn btn-outline-secondary btn-lg"
-                                    href="<?= BASE_URL ?>form?id={{ $t['id_task'] }}">Editar</a>
-                            </td>
-                            @if ($type == 'admin')
-                                <td>
-                                    <a class="btn btn-outline-secondary btn-lg"
-                                        href="<?= BASE_URL ?>cdel?id={{ $t['id_task'] }}">Eliminar</a>
-                                </td>
+                            @if($t['fichero'] != "")
+                            <td><a href="#">Ver archivo</a></td>
+                            @else 
+                            <td>Sin archivo</td>
                             @endif
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+        <div class="clearfix">
+            <div class="hint-text">Mostrando <b>5</b> de
+                <b>{{ TaskController::getInstance()->tResultados() }}</b> registros
+            </div>
+
+            <b class="pagination"> {{ TaskController::getInstance()->paginacion() }}</b>
+        </div>
     </div>
-    <div id="paginas">
-        {{ TaskController::getInstance()->paginacion() }}
-    </div>
+@endsection
+
+@section('script')
+<script src="<?= ASSETS_URL ?>js/orderby.js"></script>
 @endsection

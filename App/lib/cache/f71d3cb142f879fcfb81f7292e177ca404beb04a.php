@@ -1,59 +1,73 @@
 
 
+<?php $__env->startSection('link'); ?>
+
+    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/listU.css" />
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('nav'); ?>
+<a href="#" class="nav-item nav-link"><i
+    class="fa fa-users"></i><span>Inicio</span></a>
+<a href="<?= BASE_URL ?>list?pag=1" class="nav-item nav-link"><i
+        class="fa fa-gears"></i><span>Tareas</span></a>
+<a href="<?= BASE_URL ?>listU?pagU=1" class="nav-item nav-link active"><i
+        class="fa fa-users"></i><span>Empleados</span></a>
+<a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
+<?php $__env->stopSection(); ?>
+
+
 <?php $__env->startSection('cuerpo'); ?>
-    <h1 class="page-header">Usuarios (<?php echo e(UserController::getInstance()->tResultadosU()); ?> registradas) </h1>
-
-    
-
-    <div class="well well-sm text-right">
-        <a class="btn btn-primary" href="<?= BASE_URL ?>formU">Nuevo Usuario</a>
-    </div>
-
-    
-    <div class="well well-sm text-right">
-        <a class="btn btn-primary" href="<?= BASE_URL ?>logout">Logout</a>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-
-            <table class="table table-striped">
-                <thead class="thead-dark" style="text-align:center">
+    <div class="container-xl">
+        <div class="row table-title">
+            <div class="col-sm-6">
+                <h2>Gestion <b>Empleados</b></h2>
+            </div>
+            <div class="col-sm-6">
+                <a href="<?= BASE_URL ?>formU" class="btn btn-success"><i class="material-icons">&#xE147;</i>
+                    <span>Añadir nuevo Empleado</span>
+                </a>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th scope="col" style="width:60;">Empleado</th>
-                        <th scope="col" colspan=2 style="width:60px;">Nombre de Usuario</th>
-                        <th scope="col" style="width:60px;">Contraseña</th>
-                        <th scope="col" colspan=2 style="width:60px;">Tipo de empleado</th>
-                        <th scope="col" colspan=2 style="width:60px;">Nombre del empleado</th>
-                        <th scope="col" colspan=2 style="width:60px;"></th>
+                        <td><b>#</b></td>
+                        <th>Empleado</th>
+                        <th>Nombre de Usuario</th>
+                        <th>Contraseña</th>
+                        <th>Tipo de empleado</th>
+                        <th>Nombre del empleado</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $__currentLoopData = UserController::getInstance()->listarUsuarios(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $u): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <tr>
-                            <th scope="row"><?php echo e($u['id_employer']); ?></th>
-                            <td colspan=2><?php echo e($u['user']); ?> </td>
+                        <tr class="list">
+                            <td>
+                                <a href="<?= BASE_URL ?>formU?idU=<?php echo e($u['id_employer']); ?>" class="edit"><i
+                                        class="material-icons" title="Editar Tarea">&#xE254;</i></a>
+                                <br>
+                                <br>
+                                <a href="<?= BASE_URL ?>cdelU?idU=<?php echo e($u['id_employer']); ?>" class="delete"><i
+                                        class="material-icons" title="Eliminar Tarea">&#xE872;</i></a>
+                            </td>
+                            <td><b><?php echo e($u['id_employer']); ?></b></td>
+                            <td><?php echo e($u['user']); ?> </td>
                             <td><?php echo e($u['passwords']); ?> </td>
-                            <td colspan=2><?php echo e($u['types']); ?> </td>
-                            <td colspan=2><?php echo e($u['names']); ?></td>
-                            <td>
-                                <a class="btn btn-outline-secondary btn-lg"
-                                    href="<?= BASE_URL ?>formU?idU=<?php echo e($u['id_employer']); ?>">Editar</a>
-                            </td>
-
-                            <td>
-                                <a class="btn btn-outline-secondary btn-lg"
-                                    href="<?= BASE_URL ?>cdelU?idU=<?php echo e($u['id_employer']); ?>">Eliminar</a>
-                            </td>
+                            <td><?php echo e($u['types']); ?> </td>
+                            <td><?php echo e($u['names']); ?></td>
                         </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
             </table>
         </div>
-    </div>
-    <div id="paginas">
-        <?php echo e(UserController::getInstance()->paginacionU()); ?>
-
+        <div class="clearfix">
+            <div class="hint-text">Mostrando <b>5</b> de
+                <b><?php echo e(UserController::getInstance()->tResultadosU()); ?></b> registros
+            </div>
+            <b class="pagination"> <?php echo e(UserController::getInstance()->paginacionU()); ?></b>
+        </div>
     </div>
 <?php $__env->stopSection(); ?>
 

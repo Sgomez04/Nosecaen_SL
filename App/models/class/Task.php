@@ -24,6 +24,7 @@ class Task extends Connection
     public $fecha_realizacion = "";
     public $anot_anterior = "";
     public $anot_posterior = "";
+    public $fichero = "";
 
     //Paginacion
     private $paginaActual;
@@ -110,12 +111,13 @@ class Task extends Connection
             $fr = "'" . $data->fecha_realizacion . "'";
             $aa = "'" . $data->anot_anterior . "'";
             $ap = "'" . $data->anot_posterior . "'";
+            $fichero = "'" . $data->fichero . "'";
             $id = "'" . $data->id_task . "'";
 
             $sql = "UPDATE task SET persona= " . $persona . ", telefono= " . $telefono . ",
             descripcion= " . $desc . ", correo= " . $correo . ", direccion= " . $direc . ", poblacion= " . $poblacion . ",
             cp= " . $cp . ", provincia=" . $provincia. ", estado= " . $estado . ", operario= " . $operario . ",
-            fecha_realizacion= " . $fr . ", anot_anterior= " . $aa . ", anot_posterior= " . $ap . " WHERE id_task =  " . $id . "";
+            fecha_realizacion= " . $fr . ", anot_anterior= " . $aa . ", anot_posterior= " . $ap . ", fichero= " . $fichero . " WHERE id_task =  " . $id . "";
 
             $sentencia = $this->connect()->prepare($sql);
 
@@ -153,7 +155,7 @@ class Task extends Connection
             $sql = "INSERT INTO task(id_task, persona, telefono, descripcion,
             correo, direccion, poblacion, cp, provincia, estado, fecha_creacion, operario,
             fecha_realizacion, anot_anterior, anot_posterior)VALUES ('',:persona,:phone,:descripcion,:correo,
-            :direccion,:poblacion,:cp,:provincia,:estado,CURDATE(),:operario,:fechaR,:aa,:ap);";
+            :direccion,:poblacion,:cp,:provincia,:estado,CURDATE(),:operario,:fechaR,:aa,:ap,:fichero);";
 
             $sentencia = $this->connect()->prepare($sql);
 
@@ -170,6 +172,7 @@ class Task extends Connection
             $sentencia->bindParam(':fechaR', $data->fecha_realizacion);
             $sentencia->bindParam(':aa', $data->anot_anterior);
             $sentencia->bindParam(':ap', $data->anot_posterior);
+            $sentencia->bindParam(':fichero', $data->fichero);
 
             $sentencia->execute();
         } catch (Exception $e) {
@@ -221,16 +224,16 @@ class Task extends Connection
     function mostrarPaginas()
     {
         $actual = '';
-        echo "<ul>";
+        echo "<ul class='pagination'>";
 
         for ($i = 0; $i < $this->totalPaginas; $i++) {
             if (($i + 1) == $this->paginaActual) {
-                $actual = ' class="actual" ';
+                $actual = 'class="actual"';
                 $this->pag == $this->paginaActual;
             } else {
                 $actual = '';
             }
-            echo '<li><a ' . $actual . 'href="?pag=' . ($i + 1) . '">' . ($i + 1) . '</a></li>';
+            echo '<li><a ' . $actual . ' href="?pag='  . ($i + 1) . '" class="page-link">' . ($i + 1) . '</a></li>';
         }
         echo "</ul>";
     }

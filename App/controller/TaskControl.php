@@ -4,20 +4,22 @@ include(LIB_PATH . 'GestorErrores.php');
 include(LIB_PATH . 'Blade.php');
 include(HELPERS_PATH . 'form.php');
 
+
 class TaskController
 {
     private $pag = 5;
     private $model;
     private $blade;
-    private $type;
     private $user;
+    private $fileDir;
+
 
     public function __construct()
     {
         $this->model = new Task($this->pag);
         $this->blade = TemplateBlade::GetInstance();
-        $this->type = $_COOKIE['type'];
         $this->user = new Employer($this->pag);
+        $this->fileDir = $_SERVER['DOCUMENT_ROOT'] . "/PHP/NoSeCaenSL/Assets/files/";
     }
 
     public static function getInstance()
@@ -32,14 +34,13 @@ class TaskController
      */
     public function Index()
     {
-        // return $this->Inicio();
-    }
+        return $this->blade->render('index');    }
 
 
     public function ListaTarea()
     {
         setcookie('pag', $_REQUEST['pag']);
-        return $this->blade->render('task/list', ['type' => $_COOKIE['type']]);
+        return $this->blade->render('task/list', ['type' => $_SESSION['type'],'fileDir'=>$this->fileDir]);
     }
 
 
@@ -50,13 +51,21 @@ class TaskController
      */
     public function Formulario()
     {
-        $t = new Task($this->pag);      
+        $t = new Task($this->pag);
         $u = new Employer($this->pag);
+
+        if($_SESSION['type'] == "admin"){
+        $hide1 = "";
+        $hide2 = "hidden";
+        }
+        elseif($_SESSION['type'] == "operario"){
+            $hide1 = "hidden";
+            $hide2 = "";
+        }
 
         if (isset($_REQUEST['id'])) {
             $t = $this->model->verTarea($_REQUEST['id']);
         }
-
 
         return  $this->blade->render('task/add_upd', [
             'id' => $t->id_task,
@@ -74,7 +83,10 @@ class TaskController
             'frealizacion' => $t->fecha_realizacion,
             'aa' => $t->anot_anterior,
             'ap' => $t->anot_posterior,
-            'type' =>  $this->type,
+            'fichero' =>"http://localhost/PHP/NoSeCaenSL/Assets/files/Sumario.odt",
+            'type' => $_SESSION['type'],
+            'hide1' => $hide1,
+            'hide2' => $hide2,
             'error' => ''
         ]);
     }
@@ -86,10 +98,21 @@ class TaskController
      */
     public function Guardar()
     {
-        $error = new GestorErrores('<span class="alert alert-danger" role="alert">', '</span>');
+        $error = new GestorErrores('<span style="color:red">', '</span>');
         require_once 'models/task_errors.php';
 
+        $fichero_subido = basename($_FILES['fichero']['name']);
+
         if ($error->HayErrores()) {
+
+            if($_SESSION['type'] == "admin"){
+                $hide1 = "";
+                $hide2 = "hidden";
+                }
+                elseif($_SESSION['type'] == "operario"){
+                    $hide1 = "hidden";
+                    $hide2 = "";
+                }
 
             return $this->blade->render(
                 'task/add_upd',
@@ -102,19 +125,26 @@ class TaskController
                     'direccion' => ValorPost("direccion"),
                     'poblacion' => ValorPost("poblacion"),
                     'cp' => ValorPost("cp"),
-                    'provincia' => ValorPost("provincia"),
+                    'provincia' => "Alicante",
                     'estado' => ValorPost("estado"),
                     'fcreacion' => ValorPost("fcreacion"),
                     'operario' => ValorPost("operario"),
                     'frealizacion' => ValorPost("fechaR"),
                     'aa' => ValorPost("aa"),
                     'ap' => ValorPost("ap"),
-                    'type' =>  $this->type,
+                    'fichero' => ValorPost("fichero"),
+                    'type' => $_SESSION['type'],
+                    'hide1' => $hide1,
+                    'hide2' => $hide2,
                     'error' => $error
                 ]
             );
         } else {
             $task = new Task($this->pag);
+
+            $fichero_subido = basename($_FILES['fichero']['name']);
+            $nameFile = $_FILES['fichero']['name'];
+            move_uploaded_file($_FILES['fichero']['tmp_name'], $this->fileDir . $fichero_subido);
 
             $task->id_task =  $_REQUEST['id'];
             $task->persona =  ValorPost('persona');
@@ -131,7 +161,7 @@ class TaskController
             $task->fecha_realizacion = ValorPost('fechaR');
             $task->anot_anterior =  ValorPost('aa');
             $task->anot_posterior =  ValorPost('ap');
-
+            $task->fichero = $nameFile;
 
             if ($task->id_task > 0) {
                 $this->model->modificarTarea($task);
@@ -161,7 +191,7 @@ class TaskController
      * @return void
      */
     public function Eliminar()
-    {
+    {   
         $this->model->borrarTarea($_REQUEST['id']);
         header("Location: " . BASE_URL . "list?pag=" . $_COOKIE["pag"]);
         exit;

@@ -1,57 +1,76 @@
 @extends ('plantilla')
 
+@section('link')
+
+    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/listU.css" />
+
+@endsection
+
+@section('nav')
+<a href="#" class="nav-item nav-link"><i
+    class="fa fa-users"></i><span>Inicio</span></a>
+<a href="<?= BASE_URL ?>list?pag=1" class="nav-item nav-link"><i
+        class="fa fa-gears"></i><span>Tareas</span></a>
+<a href="<?= BASE_URL ?>listU?pagU=1" class="nav-item nav-link active"><i
+        class="fa fa-users"></i><span>Empleados</span></a>
+<a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
+@endsection
+
+
 @section('cuerpo')
-    <h1 class="page-header">Usuarios ({{ UserController::getInstance()->tResultadosU() }} registradas) </h1>
-
-    {{-- Boton para crear una nueva tarea --}}
-
-    <div class="well well-sm text-right">
-        <a class="btn btn-primary" href="<?= BASE_URL ?>formU">Nuevo Usuario</a>
-    </div>
-
-    {{-- Boton para hacer logout --}}
-    <div class="well well-sm text-right">
-        <a class="btn btn-primary" href="<?= BASE_URL ?>logout">Logout</a>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-
-            <table class="table table-striped">
-                <thead class="thead-dark" style="text-align:center">
+    <div class="container-xl">
+        <div class="row table-title">
+            <div class="col-sm-6">
+                <h2>Gestion <b>Empleados</b></h2>
+            </div>
+            <div class="col-sm-6">
+                <a href="<?= BASE_URL ?>formU" class="btn btn-success"><i class="material-icons">&#xE147;</i>
+                    <span>Añadir nuevo Empleado</span>
+                </a>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th scope="col" style="width:60;">Empleado</th>
-                        <th scope="col" colspan=2 style="width:60px;">Nombre de Usuario</th>
-                        <th scope="col" style="width:60px;">Contraseña</th>
-                        <th scope="col" colspan=2 style="width:60px;">Tipo de empleado</th>
-                        <th scope="col" colspan=2 style="width:60px;">Nombre del empleado</th>
-                        <th scope="col" colspan=2 style="width:60px;"></th>
+                        <td><b>#</b></td>
+                        <th>Empleado</th>
+                        <th>Nombre de Usuario</th>
+                        <th>Contraseña</th>
+                        <th>Tipo de empleado</th>
+                        <th>Nombre del empleado</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (UserController::getInstance()->listarUsuarios() as $u)
-                        <tr>
-                            <th scope="row">{{ $u['id_employer'] }}</th>
-                            <td colspan=2>{{ $u['user'] }} </td>
+                        <tr class="list">
+                            <td>
+                                <a href="<?= BASE_URL ?>formU?idU={{ $u['id_employer'] }}" class="edit"><i
+                                        class="material-icons" title="Editar Tarea">&#xE254;</i></a>
+                                <br>
+                                <br>
+                                <a href="<?= BASE_URL ?>cdelU?idU={{ $u['id_employer'] }}" class="delete"><i
+                                        class="material-icons" title="Eliminar Tarea">&#xE872;</i></a>
+                            </td>
+                            <td><b>{{ $u['id_employer'] }}</b></td>
+                            <td>{{ $u['user'] }} </td>
                             <td>{{ $u['passwords'] }} </td>
-                            <td colspan=2>{{ $u['types'] }} </td>
-                            <td colspan=2>{{ $u['names'] }}</td>
-                            <td>
-                                <a class="btn btn-outline-secondary btn-lg"
-                                    href="<?= BASE_URL ?>formU?idU={{ $u['id_employer'] }}">Editar</a>
-                            </td>
-
-                            <td>
-                                <a class="btn btn-outline-secondary btn-lg"
-                                    href="<?= BASE_URL ?>cdelU?idU={{ $u['id_employer'] }}">Eliminar</a>
-                            </td>
+                            <td>{{ $u['types'] }} </td>
+                            <td>{{ $u['names'] }}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+        <div class="clearfix">
+            <div class="hint-text">Mostrando <b>5</b> de
+                <b>{{ UserController::getInstance()->tResultadosU() }}</b> registros
+            </div>
+            <b class="pagination"> {{ UserController::getInstance()->paginacionU() }}</b>
+        </div>
     </div>
-    <div id="paginas">
-        {{ UserController::getInstance()->paginacionU() }}
-    </div>
+@endsection
+
+@section('script')
+<script src="<?= ASSETS_URL ?>js/orderby.js"></script>
 @endsection

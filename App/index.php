@@ -26,14 +26,13 @@ $configuration = [
     ],
 ];
 
+session_start();
 
 //Incluimos la conexion a la DB y el controlador de la tarea
 include(MODEL_PATH . 'class/Connection_db.php');
 
 include(CTRL_PATH . 'TaskControl.php');
 include(CTRL_PATH . 'UserControl.php');
-
-
 
 /**
  * Instantiate App
@@ -42,16 +41,10 @@ include(CTRL_PATH . 'UserControl.php');
 $app = new \Slim\App($configuration);
 
 
-// $app->any('/', function (Request $request, Response $response, $args) {
-//     $response->getBody()->write(TaskController::getInstance()->Inicio());
-//     return $response;
-// });
-
 $app->any('/', function (Request $request, Response $response, $args) {
-    $response->getBody()->write(UserController::getInstance()->Login());
+    $response->getBody()->write(TaskController::getInstance()->Index());
     return $response;
 });
-
 
 //USUARIO
 //session
@@ -67,6 +60,11 @@ $app->any('/check', function (Request $request, Response $response, $args) {
 
 $app->any('/logout', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserController::getInstance()->logout());
+    return $response;
+});
+
+$app->any('/profile', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(UserController::getInstance()->profile());
     return $response;
 });
 

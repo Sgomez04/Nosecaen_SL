@@ -1,5 +1,6 @@
 <?php
 
+if($_SESSION['type'] == "admin"){
 /// FILTRADO DEL CAMPO persona ///
 if (empty($_REQUEST['persona'])) {
     $error->AnotaError("persona","El campo no puede estar vacio");
@@ -62,11 +63,7 @@ if (empty($_REQUEST['provincia'])) {
 
 /// FILTRADO DEL CAMPO operario ///
 if (empty($_REQUEST['operario'])) {
-    $error->AnotaError("operario",'El campo no puede estar vacio');
-} elseif (filter_var($_REQUEST['persona'], FILTER_VALIDATE_INT)) {
-    $error->AnotaError("operario",'El nombre del operario no puede contener carácteres numéricos');
-} elseif (preg_match("/\W/", $_REQUEST['persona'])) {
-    $error->AnotaError("operario",'El nombre del operario no puede contener carácteres especiales');
+    $error->AnotaError("operario",'Tienes que seleccionar un operario');
 }
 
 // // FILTRADO DEL CAMPO fecha de realizacion //
@@ -79,3 +76,20 @@ if ($_REQUEST['fechaR'] == '') {
     }
 }
 
+}
+
+if($_SESSION['type'] == "operario"){
+// // FILTRADO DEL CAMPO anotacion anterior //
+if (preg_match("/\W/", $_REQUEST['aa'])) {
+    $error->AnotaError("operario",'El nombre del operario no puede contener carácteres especiales');
+}
+
+// // FILTRADO DEL CAMPO anotacion posterior //
+if (preg_match("/\W/", $_REQUEST['ap'])) {
+    $error->AnotaError("operario",'El nombre del operario no puede contener carácteres especiales');
+}
+
+if ($_FILES['fichero']['type'] == "image" ) {
+    $error->AnotaError("fichero",'El archivo ha de ser un archivo de tipo Documento de texto o PDF');
+}
+}

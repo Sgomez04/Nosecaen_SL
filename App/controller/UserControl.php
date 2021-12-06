@@ -8,7 +8,7 @@ include(MODEL_PATH . '/class/Employer.php');
 class UserController
 {
 
-    private $pag = 5;
+    private $pag = 1;
     private $model;
     private $blade;
 
@@ -30,62 +30,51 @@ class UserController
 
     public function checkUser()
     {
-        $error = new GestorErrores('<span class="alert alert-danger" role="alert">', '</span>');
-        require_once 'models/task_errors.php';
-
-        $user = $this->model->comprobarUser($_POST['user'], $_POST['password']);
-
-        if (isset($_POST['submit'])) { // Comprobamos que recibimos los datos y que no hay errores
+        if ($_POST) { // Comprobamos que recibimos los datos y que no hay errores
+            $user = $this->model->comprobarUser($_POST['user'], $_POST['password']);
 
             if ($user) { //si no hay errores comprobamos si el usuario existe
-                $usuariook = strtolower($user->user);
-                $passok =  strtolower($user->password);
+                // $usuariook = strtolower($user->user);
+                // $passok =  strtolower($user->passwords);
 
                 //comprobamos que tipo de trabajador es el usuario
-                if ($user->type == "Administrador") {
-                    setcookie("type", "admin");
-                } elseif ($user->type == "Operario") {
-                    setcookie("type", "operator");
-                }
+                    $_SESSION['logueado'] = $user->user;
+                    $_SESSION['names'] = $user->names;
+                    $_SESSION['type'] = $user->types;
+      
+                // //Creamos un par de cookies para recordar el user/pass. Tcaducidad=15días
+                // if (isset($_POST['recuerdo']) && ($_POST['recuerdo'] == "on")) // Si está seleccioniado el checkbox...
+                // { // Creamos las cookies para ambas variables 
+                //     setcookie('user', $usuariook, time() + (15 * 24 * 60 * 60));
+                //     setcookie('password', $passok, time() + (15 * 24 * 60 * 60));
+                //     setcookie('recuerdo', $_POST['recuerdo'], time() + (15 * 24 * 60 * 60));
+                // } else {  //Si no está seleccionado el checkbox..
+                //     // Eliminamos las cookies
+                //     if (isset($_COOKIE['user'])) {
+                //         setcookie('usuario', "");
+                //     }
+                //     if (isset($_COOKIE['password'])) {
+                //         setcookie('password', "");
+                //     }
+                //     if (isset($_COOKIE['recuerdo'])) {
+                //         setcookie('recuerdo', "");
+                //     }
+                // }
 
-                session_start();
-                $_SESSION['logueado'] = $usuariook;
-                $_SESSION['user'] = $usuariook;
-
-                //Creamos un par de cookies para recordar el user/pass. Tcaducidad=15días
-                if (isset($_POST['recuerdo']) && ($_POST['recuerdo'] == "on")) // Si está seleccioniado el checkbox...
-                { // Creamos las cookies para ambas variables 
-                    setcookie('user', $usuariook, time() + (15 * 24 * 60 * 60));
-                    setcookie('password', $passok, time() + (15 * 24 * 60 * 60));
-                    setcookie('recuerdo', $_POST['recuerdo'], time() + (15 * 24 * 60 * 60));
-                } else {  //Si no está seleccionado el checkbox..
-                    // Eliminamos las cookies
-                    if (isset($_COOKIE['user'])) {
-                        setcookie('usuario', "");
-                    }
-                    if (isset($_COOKIE['password'])) {
-                        setcookie('password', "");
-                    }
-                    if (isset($_COOKIE['recuerdo'])) {
-                        setcookie('recuerdo', "");
-                    }
-                }
-
-                // Lógica asociada a mantener la sesión abierta 
-                if (isset($_POST['abierta']) && ($_POST['abierta'] == "on")) // Si está seleccionado el checkbox...
-                { // Creamos una cookie para la sesión 
-                    setcookie('abierta', $_POST['user'], time() + (15 * 24 * 60 * 60));
-                } else {  //Si no está seleccionado el checkbox..
-                    // Eliminamos la cookie
-                    if (isset($_COOKIE['abierta'])) {
-                        setcookie('abierta', "");
-                    }
-                }
+                // // Lógica asociada a mantener la sesión abierta 
+                // if (isset($_POST['abierta']) && ($_POST['abierta'] == "on")) // Si está seleccionado el checkbox...
+                // { // Creamos una cookie para la sesión 
+                //     setcookie('abierta', $_POST['user'], time() + (15 * 24 * 60 * 60));
+                // } else {  //Si no está seleccionado el checkbox..
+                //     // Eliminamos la cookie
+                //     if (isset($_COOKIE['abierta'])) {
+                //         setcookie('abierta', "");
+                //     }
+                // }
 
                 // Redirigimos a la página de inicio de nuestro sitio  
-                header("Location:" . BASE_URL . "listU?pagU=1");
+                header("Location:" . BASE_URL . "list?pag=1");
                 exit;
-
             } else {
                 header("Location:" . BASE_URL . "login");
                 exit;
@@ -96,12 +85,17 @@ class UserController
         }
     }
 
+    public function profile()
+    {
+        return $this->blade->render('user/profile',['type' => $_SESSION['type'],
+        'nombre' => $_SESSION['names'],
+        'usuario' => $_SESSION['logueado']]);
+    }
+
     public function logout()
     {
         session_start();
-        session_unset();
         session_destroy();
-        setcookie('type', "");
         header("Location:" . BASE_URL);
         exit;
     }
@@ -113,7 +107,7 @@ class UserController
     }
 
     public function FormularioU()
-    {     
+    {
         $u = new Employer($this->pag);
 
         if (isset($_REQUEST['idU'])) {
@@ -125,7 +119,7 @@ class UserController
             'user' => $u->user,
             'password' => $u->passwords,
             'type' => $u->types,
-            'name' => $u->name,
+            'name' => $u->names,
             'error' => ''
         ]);
     }

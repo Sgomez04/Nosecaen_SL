@@ -1,77 +1,81 @@
+<?php 
+  if(!isset($_SESSION['logueado']))  // Si no existe la sesión…
+    { 
+      //MOSTRAMOS a la página de login con el tipo de error ‘fuera’: que indica que
+      // se trató de acceder directamente a una página sin loguearse previamente
+      header("Location:". BASE_URL. "login");
+      // No hay nada más que hacer
+      exit;
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <title>NoSeCaen S.L</title>
+    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/bootstrap/bootstrap-theme.css.map" />
+    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/bootstrap/bootstrap.css.map" />
+    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/bootstrap/bootstrap-theme.min.css" />
 
-    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/bootstrap.min.css" />
-    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/bootstrap-theme.min.css" />
-    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/pagination.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,700" rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/header-menu/style.css">
+    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/navbar.css" />
+
+    @yield('link')
 </head>
-<body>
-    <div class="container-fluid px-md-5">
-        <div class="row justify-content-between">
-            <div class="col-md-8 order-md-last">
-                <div class="row">
-                    <div class="col-md-6 text-center">
-                        <a class="navbar-brand" href="<?= BASE_URL . '?pag=1' ?>">NoSeCaen S.L <span>Instalacion de
-                                Ascensores</span></a>
-                    </div>
-                    <!-- <div class="col-md-6 d-md-flex justify-content-end mb-md-0 mb-3">
-                        <form action="#" class="searchform order-lg-last">
-                            <div class="form-group d-flex">
-                                <input type="text" class="form-control pl-3" placeholder="Search">
-                                <button type="submit" placeholder="" class="form-control search"><span class="fa fa-search"></span></button>
-                            </div>
-                        </form>
-                    </div> -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-        <div class="container-fluid">
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
-                aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="fa fa-bars"></span> Menu
-            </button>
-            <div class="collapse navbar-collapse" id="ftco-nav">
-                <ul class="navbar-nav m-auto">
-                    <li class="nav-item active"><a href="#" class="nav-link">Inicio</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Usuarios</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Tareas</a></li>
-                    <!-- <li class="nav-item"><a href="#" class="nav-link">Contact</a></li> -->
-                </ul>
+<body>
+    <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
+        <a href="#" class="navbar-brand"><i class="fa fa-cube"></i><b>NoSeCaen</b> S.L</a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Collection of nav links, forms, and other content for toggling -->
+        <div id="navbarCollapse" class=" navbar-collapse justify-content-start">
+            <div class="navbar-nav ml-auto">
+                @yield('nav')
+                <div class="nav-item dropdown">
+                    <a href="#" data-toggle="dropdown" class="nav-item nav-link  user-action"><img
+                            src="https://www.tutorialrepublic.com/examples/images/avatar/3.jpg" class="avatar"
+                            alt="Avatar"> <?php echo $_SESSION['names'] ?> <b class="caret"></b></a>
+                    <div class="dropdown-menu">
+                        <a href="<?= BASE_URL ?>profile" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
+                        <a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a>
+                        <div class="divider dropdown-divider"></div>
+                        <a href="<?= BASE_URL ?>logout" class="dropdown-item"><i class="material-icons">&#xE8AC;</i>
+                            Logout</a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
-    <div class="container">
-        @yield('cuerpo')
+    @yield('cuerpo')
+
+    <div class="col-xs-12">
+        <hr />
+        <footer class="text-center well">
+            <p>Copyright (c) 2021 NoSeCaen S.L
+                All Rights Reserved
+
+                This product is protected by copyright and distributed under
+                licenses restricting copying, distribution, and decompilation. </p>
+        </footer>
     </div>
 
-    <div class="row">
-        <div class="col-xs-12">
-            <hr />
-            <footer class="text-center well">
-                <p>Copyright (c) 2021 NoSeCaen S.L
-                    All Rights Reserved
 
-                    This product is protected by copyright and distributed under
-                    licenses restricting copying, distribution, and decompilation. </p>
-            </footer>
-        </div>
-    </div>
-
-    {{-- <script src="<?= ASSETS_URL ?>js/jquery.min.js"></script>
+    <script src="<?= ASSETS_URL ?>js/jquery.min.js"></script>
     <script src="<?= ASSETS_URL ?>js/popper.js"></script>
     <script src="<?= ASSETS_URL ?>js/bootstrap.min.js"></script>
-    <script src="<?= ASSETS_URL ?>js/main.js"></script> --}}
+    
+    @yield('script')
+
 </body>
 
 </html>
