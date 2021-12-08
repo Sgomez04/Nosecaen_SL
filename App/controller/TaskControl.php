@@ -7,7 +7,7 @@ include(HELPERS_PATH . 'form.php');
 
 class TaskController
 {
-    private $pag = 5;
+    private $pag = PAGINATOR;
     private $model;
     private $blade;
     private $user;
@@ -19,23 +19,13 @@ class TaskController
         $this->model = new Task($this->pag);
         $this->blade = TemplateBlade::GetInstance();
         $this->user = new Employer($this->pag);
-        $this->fileDir = $_SERVER['DOCUMENT_ROOT'] . "/PHP/NoSeCaenSL/Assets/files/";
+        $this->fileDir = __DIR__ . "/../Assets/files/";
     }
 
     public static function getInstance()
     {
         return new self;
     }
-
-    /**
-     * Indice de la aplicacion
-     *
-     * @return void
-     */
-    public function Index()
-    {
-        return $this->blade->render('index');    }
-
 
     public function ListaTarea()
     {
@@ -83,7 +73,7 @@ class TaskController
             'frealizacion' => $t->fecha_realizacion,
             'aa' => $t->anot_anterior,
             'ap' => $t->anot_posterior,
-            'fichero' =>"http://localhost/PHP/NoSeCaenSL/Assets/files/Sumario.odt",
+            'fichero' =>$t->fichero,
             'type' => $_SESSION['type'],
             'hide1' => $hide1,
             'hide2' => $hide2,
@@ -181,8 +171,7 @@ class TaskController
      */
     public function cEliminar()
     {
-        $this->pag = $this->model->mostrarPag();
-        return $this->blade->render('task/delete', ['id' => $_REQUEST['id']]);
+        return $this->blade->render('task/delete', ['id' => $_REQUEST['id'],'type' => $_SESSION['type']]);
     }
 
     /**

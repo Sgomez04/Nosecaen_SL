@@ -2,18 +2,17 @@
 
 @section('link')
 
-    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/listU.css" />
+<link rel="stylesheet" href="<?= ASSETS_URL ?>css/theme1/listU.css" />
 
 @endsection
 
 @section('nav')
-<a href="#" class="nav-item nav-link"><i
-    class="fa fa-users"></i><span>Inicio</span></a>
 <a href="<?= BASE_URL ?>list?pag=1" class="nav-item nav-link"><i
         class="fa fa-gears"></i><span>Tareas</span></a>
 <a href="<?= BASE_URL ?>listU?pagU=1" class="nav-item nav-link active"><i
         class="fa fa-users"></i><span>Empleados</span></a>
 <a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
+<a href="<?= BASE_URL ?>profile?idU={{$_SESSION['id']}}" class="nav-item nav-link"><i class="fa fa-user"></i><span> Perfil</span></a>
 @endsection
 
 
@@ -45,11 +44,11 @@
                     @foreach (UserController::getInstance()->listarUsuarios() as $u)
                         <tr class="list">
                             <td>
-                                <a href="<?= BASE_URL ?>formU?idU={{ $u['id_employer'] }}" class="edit"><i
+                                <a href="{{BASE_URL}}formU?idU={{ $u['id_employer'] }}" class="edit"><i
                                         class="material-icons" title="Editar Tarea">&#xE254;</i></a>
                                 <br>
                                 <br>
-                                <a href="<?= BASE_URL ?>cdelU?idU={{ $u['id_employer'] }}" class="delete"><i
+                                <a href="{{BASE_URL}}cdelU?idU={{ $u['id_employer'] }}" class="delete"><i
                                         class="material-icons" title="Eliminar Tarea">&#xE872;</i></a>
                             </td>
                             <td><b>{{ $u['id_employer'] }}</b></td>
@@ -63,7 +62,7 @@
             </table>
         </div>
         <div class="clearfix">
-            <div class="hint-text">Mostrando <b>5</b> de
+            <div class="hint-text">Mostrando <b>{{PAGINATOR}}</b> de
                 <b>{{ UserController::getInstance()->tResultadosU() }}</b> registros
             </div>
             <b class="pagination"> {{ UserController::getInstance()->paginacionU() }}</b>

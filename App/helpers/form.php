@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Funciones de ayuda que nos permitirán trabajar con formularios
  * 
@@ -12,22 +13,20 @@
  * @param string $default   Valor por defecto en caso de no existir
  * @return string
  */
-function ValorPost($campo, $default='')
+function ValorPost($campo, $default = '')
 {
-    if (isset($_POST[$campo]))
-    {
+    if (isset($_POST[$campo])) {
         return $_POST[$campo];
-    }
-    else
-    {
+    } else {
         return $default;
     }
 }
 
-function ErrorShow($campo,$error){
-    if($_POST){
+function ErrorShow($campo, $error)
+{
+    if ($_POST) {
         return $error->ErrorFormateado($campo);
-    }else{
+    } else {
         return "";
     }
 }

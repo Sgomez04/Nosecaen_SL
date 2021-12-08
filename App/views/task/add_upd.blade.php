@@ -5,20 +5,23 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/form.css" />
+    <link rel="stylesheet" href="{{ ASSETS_URL }}css/theme1/form.css" />
 
 @endsection
 
 @section('nav')
-    <a href="#" class="nav-item nav-link"><i class="fa fa-users"></i><span>Inicio</span></a>
-    <a href="<?= BASE_URL ?>list?pag=1" class="nav-item nav-link active"><i class="fa fa-gears"></i><span>Tareas</span></a>
-    @if ($type == 'admin')
-        <a href="<?= BASE_URL ?>listU?pagU=1" class="nav-item nav-link"><i
-                class="fa fa-users"></i><span>Empleados</span></a>
-    @else
-        <a href="#" class="nav-item nav-link"><i class="fa fa-users"></i><span>Empleados</span></a>
-    @endif
-    <a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
+<a href="{{BASE_URL}}list?pag=1" class="nav-item nav-link active"><i
+        class="fa fa-gears"></i><span>Tareas</span></a>
+@if($type =='admin')
+        <a href="{{BASE_URL}}listU?pagU=1" class="nav-item nav-link"><i
+        class="fa fa-users"></i><span>Empleados</span></a>
+@else
+        <a href="#" class="nav-item nav-link"><i
+        class="fa fa-users"></i><span>Empleados</span></a>
+@endif
+<a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
+<a href="{{BASE_URL}}profile?idU={{$_SESSION['id']}}" class="nav-item nav-link"><i class="fa fa-user"></i><span> Perfil</span></a>
+
 @endsection
 
 @section('cuerpo')
@@ -48,7 +51,7 @@
                 <label class="col-md-4 control-label" for="persona">ID Tarea:</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                        <span class="input-group-addon "><i class="glyphicon glyphicon-info-sign"></i></span>
                         @if (!$_POST)
                             <input type="text" name="id_task" class="form-control" value="{{ $id }}"
                                 placeholder="Campo cargado por el sistema" readonly /> </p>
@@ -106,14 +109,14 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
                         @if (!$_POST)
-                            <input type="text" name="descripcion" class="form-control" value="{{ $desc }}"
-                                placeholder="Descripcion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="descripcion" class="form-control"
+                                placeholder="Descripcion de la tarea">{{ $desc }}</textarea>
                         @elseif(ErrorShow('descripcion', $error) == '')
-                            <input type="text" name="descripcion" class="form-control is-valid" value="{{ $desc }}"
-                                placeholder="Descripcion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="descripcion" class="form-control is-valid"
+                                placeholder="Descripcion de la tarea">{{ $desc }}</textarea>
                         @else
-                            <input type="text" name="descripcion" class="form-control is-invalid"
-                                value="{{ $desc }}" placeholder="Descripcion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="descripcion" class="form-control is-invalid"
+                                placeholder="Descripcion de la tarea">{{ $desc }}</textarea>
                         @endif
                     </div>
                     {!! ErrorShow('descripcion', $error) !!}
@@ -234,17 +237,17 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-question-sign"></i></span>
                         @if ($estado == 'P')
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="P" checked> Pendiente</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="R"> Realizada</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="C"> Cancelada</label>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P" checked> Pendiente</label><br>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="R"> Realizada</label><br>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C"> Cancelada</label>
                         @elseif($estado == "R")
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="P"> Pendiente</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="R" checked> Realizada</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="C"> Cancelada</label>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P"> Pendiente</label><br>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="R" checked> Realizada</label><br>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C"> Cancelada</label>
                         @else
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="P"> Pendiente</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="R"> Realizada</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="C" checked> Cancelada</label>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P"> Pendiente</label><br>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="R"> Realizada</label><br>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C" checked> Cancelada</label>
                         @endif
                     </div>
                 </div>
@@ -323,14 +326,14 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
                         @if (!$_POST)
-                            <input type="text" name="aa" class="form-control" value="{{ $aa }}"
-                                placeholder="Anotacion anterior a la realizacion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="aa" class="form-control"
+                                placeholder="Anotacion anterior a la realizacion de la tarea">{{ $aa }}</textarea>
                         @elseif(ErrorShow('aa', $error) == '')
-                            <input type="text" name="aa" class="form-control is-valid" value="{{ $aa }}"
-                                placeholder="Anotacion anterior a la realizacion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="aa" class="form-control is-valid"
+                                placeholder="Anotacion anterior a la realizacion de la tarea">{{ $aa }}</textarea>
                         @else
-                            <input type="text" name="aa" class="form-control is-invalid" value="{{ $aa }}"
-                                placeholder="Anotacion anterior a la realizacion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="aa" class="form-control is-invalid"
+                                placeholder="Anotacion anterior a la realizacion de la tarea">{{ $aa }}</textarea>
                         @endif
                     </div>
                     {!! ErrorShow('aa', $error) !!}
@@ -343,14 +346,14 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
                         @if (!$_POST)
-                            <input type="text" name="ap" class="form-control" value="{{ $ap }}"
-                                placeholder="Anotacion anterior a la realizacion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="ap" class="form-control"
+                                placeholder="Anotacion posterior a la realizacion de la tarea">{{ $ap }}</textarea>
                         @elseif(ErrorShow('ap', $error) == '')
-                            <input type="text" name="ap" class="form-control is-valid" value="{{ $ap }}"
-                                placeholder="Anotacion anterior a la realizacion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="ap" class="form-control is-valid"
+                                placeholder="Anotacion posterior a la realizacion de la tarea">{{ $ap }}</textarea>
                         @else
-                            <input type="text" name="ap" class="form-control is-invalid" value="{{ $ap }}"
-                                placeholder="Anotacion anterior a la realizacion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="ap" class="form-control is-invalid"
+                                placeholder="Anotacion posterior a la realizacion de la tarea">{{ $ap }}</textarea>
                         @endif
                     </div>
                     {!! ErrorShow('ap', $error) !!}
@@ -360,16 +363,6 @@
             <div class="form-group" {{ $hide2 }}>
                 <label class="col-md-4 control-label" for="fichero"> Fichero:</label>
                 <div class="col-md-4 inputGroupContainer">
-                    {{-- <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-import"></i></span>
-                        @if (!$_POST)
-                            <input type="file" name="fichero" class="form-control" accept=".pdf, .doc, .docx" />
-                        @elseif(ErrorShow('fichero', $error) == '')
-                            <input type="file" name="fichero" class="form-control" accept=".pdf, .doc, .docx" />
-                        @else
-                            <input type="file" name="fichero" class="form-control" accept=".pdf, .doc, .docx" />
-                        @endif
-                    </div> --}}
                     <div class="input-group file">
                         <div>
                             <label for="image_uploads" id="labelFile">Selecciona un archivo (DOC, DOCX, PDF..)</label>
@@ -377,13 +370,17 @@
                                 class="form-control">
                         </div>
                         <div class="preview">
-                            <p id="pfile">No hay ningun archivo seleccionado</p>
+                            @if (isset($fichero))
+                                <p id="pfile">ARCHIVO: {{ $fichero }}</p>
+                            @else
+                                <p id="pfile">No hay ningun archivo seleccionado</p>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="text-right">
+            <div class="text-center bton">
                 <input type="submit" class="btn btn-success" value="Guardar">
             </div>
         </fieldset>

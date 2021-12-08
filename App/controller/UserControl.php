@@ -8,9 +8,10 @@ include(MODEL_PATH . '/class/Employer.php');
 class UserController
 {
 
-    private $pag = 1;
+    private $pag = PAGINATOR;
     private $model;
     private $blade;
+    private $e_profile = "";
 
     public function __construct()
     {
@@ -37,10 +38,11 @@ class UserController
                 // $usuariook = strtolower($user->user);
                 // $passok =  strtolower($user->passwords);
 
-                //comprobamos que tipo de trabajador es el usuario
                     $_SESSION['logueado'] = $user->user;
                     $_SESSION['names'] = $user->names;
                     $_SESSION['type'] = $user->types;
+                    $_SESSION['id'] = $user->id_employer;
+                    $_SESSION['ulogo'] = mt_rand(1,8);
       
                 // //Creamos un par de cookies para recordar el user/pass. Tcaducidad=15días
                 // if (isset($_POST['recuerdo']) && ($_POST['recuerdo'] == "on")) // Si está seleccioniado el checkbox...
@@ -109,6 +111,11 @@ class UserController
     public function FormularioU()
     {
         $u = new Employer($this->pag);
+        if(isset($_REQUEST['eprofile'])){
+            $this->e_profile = "hidden";
+        } else{
+            $this->e_profile = "";
+        }
 
         if (isset($_REQUEST['idU'])) {
             $u = $this->model->verUser($_REQUEST['idU']);
@@ -120,6 +127,7 @@ class UserController
             'password' => $u->passwords,
             'type' => $u->types,
             'name' => $u->names,
+            'eprofile' => $this->e_profile,
             'error' => ''
         ]);
     }
@@ -139,6 +147,7 @@ class UserController
                     'password' => ValorPost("password"),
                     'name' => ValorPost("name"),
                     'type' =>  ValorPost("type"),
+                    'eprofile' => $this->e_profile,
                     'error' => $error
                 ]
             );
@@ -165,8 +174,7 @@ class UserController
 
     public function cEliminarU()
     {
-        $this->pag = $this->model->mostrarPag();
-        return $this->blade->render('user/deleteU', ['id' => $_REQUEST['idU']]);
+        return $this->blade->render('user/deleteU', ['id' => $_REQUEST['idU'],'type' => $_SESSION['type']]);
     }
 
     public function EliminarU()
@@ -176,10 +184,11 @@ class UserController
         exit;
     }
 
+
     //VISTA
     public function listarUsuarios()
     {
-        return $this->model->todosTrabajadores();
+        return $this->model->listaUsuarios();
     }
 
     /**

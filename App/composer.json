@@ -6,6 +6,9 @@
     
     "require-dev": {
         "jenssegers/blade": "dev-master"
-    }
+    },
 
+    "requires": {
+        "twbs/bootstrap": "4.0.0"
+    }
 }

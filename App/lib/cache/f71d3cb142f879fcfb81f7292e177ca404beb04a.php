@@ -2,18 +2,17 @@
 
 <?php $__env->startSection('link'); ?>
 
-    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/listU.css" />
+<link rel="stylesheet" href="<?= ASSETS_URL ?>css/theme1/listU.css" />
 
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('nav'); ?>
-<a href="#" class="nav-item nav-link"><i
-    class="fa fa-users"></i><span>Inicio</span></a>
 <a href="<?= BASE_URL ?>list?pag=1" class="nav-item nav-link"><i
         class="fa fa-gears"></i><span>Tareas</span></a>
 <a href="<?= BASE_URL ?>listU?pagU=1" class="nav-item nav-link active"><i
         class="fa fa-users"></i><span>Empleados</span></a>
 <a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
+<a href="<?= BASE_URL ?>profile?idU=<?php echo e($_SESSION['id']); ?>" class="nav-item nav-link"><i class="fa fa-user"></i><span> Perfil</span></a>
 <?php $__env->stopSection(); ?>
 
 
@@ -45,11 +44,11 @@
                     <?php $__currentLoopData = UserController::getInstance()->listarUsuarios(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $u): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr class="list">
                             <td>
-                                <a href="<?= BASE_URL ?>formU?idU=<?php echo e($u['id_employer']); ?>" class="edit"><i
+                                <a href="<?php echo e(BASE_URL); ?>formU?idU=<?php echo e($u['id_employer']); ?>" class="edit"><i
                                         class="material-icons" title="Editar Tarea">&#xE254;</i></a>
                                 <br>
                                 <br>
-                                <a href="<?= BASE_URL ?>cdelU?idU=<?php echo e($u['id_employer']); ?>" class="delete"><i
+                                <a href="<?php echo e(BASE_URL); ?>cdelU?idU=<?php echo e($u['id_employer']); ?>" class="delete"><i
                                         class="material-icons" title="Eliminar Tarea">&#xE872;</i></a>
                             </td>
                             <td><b><?php echo e($u['id_employer']); ?></b></td>
@@ -63,7 +62,7 @@
             </table>
         </div>
         <div class="clearfix">
-            <div class="hint-text">Mostrando <b>5</b> de
+            <div class="hint-text">Mostrando <b><?php echo e(PAGINATOR); ?></b> de
                 <b><?php echo e(UserController::getInstance()->tResultadosU()); ?></b> registros
             </div>
             <b class="pagination"> <?php echo e(UserController::getInstance()->paginacionU()); ?></b>
@@ -71,4 +70,7 @@
     </div>
 <?php $__env->stopSection(); ?>
 
+<?php $__env->startSection('script'); ?>
+<script src="<?= ASSETS_URL ?>js/orderby.js"></script>
+<?php $__env->stopSection(); ?>
 <?php echo $__env->make('plantilla', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Programas\DB\htdocs\PHP\NoSeCaenSL\App\views/user/listU.blade.php ENDPATH**/ ?>

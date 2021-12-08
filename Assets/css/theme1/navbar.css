@@ -1,18 +1,33 @@
 .navbar {
 	color: #fff;
-	background-color: #1e0055 !important;
+	background-color: #663183 !important;
 	padding: 28px;
 	border-radius: 0;
 	border: none;
 	box-shadow: 0 0 4px rgba(0,0,0,.1);
+	border: 5px solid #27013b;
+	border-left: none;
+	border-right: none;
+	border-top: none;
 }
-.navbar img {
+.navbar .imgUser {
 	border-radius: 50%;
 	width: 36px;
 	height: 36px;
 	margin-right: 10px;
 }
-.navbar .navbar-brand {
+
+.logoN{
+	font-size: 24px;
+}
+
+.logoI{
+	width: 50px;
+	height: 50px;
+	margin-right: 10px;
+}
+
+.navbar .navbar-brand .logoN {
 	color: #efe5ff;
 	padding-left: 0;
 	padding-right: 50px;
@@ -21,8 +36,9 @@
 .navbar .navbar-brand:hover, .navbar .navbar-brand:focus {
 	color: #fff;
 }
-.navbar .navbar-brand i {
-	font-size: 25px;
+.navbar .navbar-brand img {
+	width: 60px;
+	height: 60px;
 	margin-right: 5px;
 }
 .search-box {
@@ -99,8 +115,10 @@
 	font-size: 15px;
 }
 .navbar .dropdown-menu a:hover, .navbar .dropdown-menu a:focus {
-	color: #333 !important;
+	color: rgb(67, 2, 83) !important;
+	font-weight: bold;
 	background: transparent !important;
+	
 }
 .navbar .navbar-nav .active a, .navbar .navbar-nav .active a:hover, .navbar .navbar-nav .active a:focus {
 	color: #fff;
@@ -163,4 +181,29 @@
 	.input-group {
 		width: 100%;
 	}
+}
+
+body::-webkit-scrollbar {
+	width: 20px;               /* width of the entire scrollbar */
+  }
+  
+  body::-webkit-scrollbar-track {
+	background: rgb(26, 0, 29); /* color of the tracking area */
+	border: 3px solid #3b1853;  /* creates padding around scroll thumb */
+
+  }
+  
+  body::-webkit-scrollbar-thumb {
+	background-color: #31024b;    /* color of the scroll thumb */
+	border-radius: 15px;       /* roundness of the scroll thumb */
+	border: 3px solid #cb8af7;  /* creates padding around scroll thumb */
+  }
+
+.well{
+	background-image: linear-gradient(to bottom,#ffffff 0,#16001d 100%) !important;
+	border:none !important;
+}
+
+.foot{
+	width: 200%;
 }

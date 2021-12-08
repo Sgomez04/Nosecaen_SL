@@ -3,8 +3,9 @@
  * 
  * 
  */
-class Employer extends Connection
+class Employer
 {
+    //conexion
     public $user;
     public $passwords;
     public $names;
@@ -24,12 +25,11 @@ class Employer extends Connection
     {
         try {
            
-            parent::__construct();
             $this->resultadosPorPagina = $nPorPagina;
             $this->indice = 0;
             $this->paginaActual = 1;
 
-
+            $this->calcularPaginas();
         } catch (Exception $e) {
             die($e->getMessage());
         }
@@ -38,7 +38,7 @@ class Employer extends Connection
     function listaUsuarios()
     {
         try {
-            $query = $this->connect()->prepare('SELECT * FROM employer LIMIT :pos, :n');
+            $query =  Connection::Conex()->prepare('SELECT * FROM employer LIMIT :pos, :n');
             $query->execute(['pos' => $this->indice, 'n' => $this->resultadosPorPagina]);
 
             return $query->fetchAll(PDO::FETCH_ASSOC);
@@ -59,7 +59,7 @@ class Employer extends Connection
             $sql = "UPDATE task SET user= " . $user . ", passwords= " . $password . ",
             types= " . $tipo . ", names= " . $nombre . " WHERE id_employer =  " . $id . "";
 
-            $sentencia = $this->connect()->prepare($sql);
+            $sentencia =  Connection::Conex()->prepare($sql);
 
             $sentencia->execute();
         } catch (Exception $e) {
@@ -75,7 +75,7 @@ class Employer extends Connection
     function borrarUser($id_employer)
     {
         try {
-            $query = $this->connect()->prepare('DELETE FROM employer WHERE id_employer = :id');
+            $query = Connection::Conex()->prepare('DELETE FROM employer WHERE id_employer = :id');
 
             $query->bindParam(':id', $id_employer);
             $query->execute();
@@ -95,7 +95,7 @@ class Employer extends Connection
             $sql = "INSERT INTO employer(id_employer, user, passwords, types,
             names) VALUES ('',:user,:passwords,:types,:names);";
 
-            $sentencia = $this->connect()->prepare($sql);
+            $sentencia = Connection::Conex()->prepare($sql);
 
             $sentencia->bindParam(':user', $data->user);
             $sentencia->bindParam(':passwords', $data->passwords);
@@ -108,21 +108,10 @@ class Employer extends Connection
         }
     }
 
-    function todosTrabajadores(){
-        try {
-            $query = $this->connect()->prepare('SELECT * FROM employer');
-            $query->execute();
-
-            return $query->fetchAll(PDO::FETCH_ASSOC);
-        } catch (Exception $e) {
-            die($e->getMessage());
-        }
-    }
-
     public function comprobarUser($user,$password)
     {
         try {
-            $sentencia = $this->connect()->prepare("SELECT * FROM employer WHERE user = :user AND passwords = :passwords");
+            $sentencia = Connection::Conex()->prepare("SELECT * FROM employer WHERE user = :user AND passwords = :passwords");
             $sentencia->bindParam(':user', $user);
             $sentencia->bindParam(':passwords', $password);
 
@@ -136,7 +125,7 @@ class Employer extends Connection
     public function verUser($id_employer)
     {
         try {
-            $sentencia = $this->connect()->prepare("SELECT * FROM employer WHERE id_employer = :id_employer");
+            $sentencia =  Connection::Conex()->prepare("SELECT * FROM employer WHERE id_employer = :id_employer");
             $sentencia->bindParam(':id_employer', $id_employer);
 
             $sentencia->execute();
@@ -146,7 +135,8 @@ class Employer extends Connection
         }
     }
 
-     //PAGINACION    
+    
+    //PAGINACION    
     /**
      * Calcula el numero de paginas que tiene que montar
      *
@@ -154,9 +144,9 @@ class Employer extends Connection
      */
     function calcularPaginas()
     {
-        $queryTotalResultados = $this->connect()->query('SELECT COUNT(*) AS total FROM employer');
+        $queryTotalResultados = Connection::Conex()->query('SELECT COUNT(*) AS total FROM employer');
         $this->nResultados = $queryTotalResultados->fetch(PDO::FETCH_OBJ)->total;
-        $this->totalPaginas = $this->nResultados / $this->resultadosPorPagina;
+        $this->totalPaginas = ceil($this->nResultados / $this->resultadosPorPagina);
 
         if (isset($_GET['pagU'])) {
             $this->paginaActual = $_GET['pagU'];
@@ -172,32 +162,36 @@ class Employer extends Connection
     function mostrarPaginas()
     {
         $actual = '';
-        echo "<ul>";
+
+        echo "<ul class='pagination'>";
+            if($this->paginaActual == 1){
+                echo '<li><a href="?pagU='  . ($this->paginaActual) . '" class="page-link" hidden> << Anterior </a></li>';
+            }else{
+                echo '<li><a href="?pagU='  . ($this->paginaActual - 1) . '" class="page-link">' . "<< Anterior" . '</a></li>';
+            }
 
         for ($i = 0; $i < $this->totalPaginas; $i++) {
             if (($i + 1) == $this->paginaActual) {
-                $actual = ' class="actual" ';
+                $actual = 'class="actual"';
                 $this->pag == $this->paginaActual;
             } else {
                 $actual = '';
             }
-            echo '<li><a ' . $actual . 'href="?pagU=' . ($i + 1) . '">' . ($i + 1) . '</a></li>';
+            echo '<li><a ' . $actual . ' href="?pagU='  . ($i + 1) . '" class="page-link">' . ($i + 1) . '</a></li>';
+        }
+        
+        if($this->paginaActual == $this->totalPaginas){
+            echo '<li><a href="?pagU='  . ($this->paginaActual) . '" class="page-link" hidden> Siguiente >> </a></li>';
+        }else{
+            echo '<li><a href="?pagU=' . ($this->paginaActual + 1) .' " class="page-link"> Siguiente >> </a></li>';
         }
         echo "</ul>";
     }
 
-    /**
-     * Muestra el numero total de resultados encontrados
-     *
-     * @return void
-     */
+
     function mostrarTotalResultados()
     {
         return $this->nResultados;
-    }
-
-    function mostrarPag(){
-        return $this->pag;
     }
 
 }

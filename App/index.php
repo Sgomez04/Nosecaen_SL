@@ -8,7 +8,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 // definimos constantes que facilitan el trabajo
 require __DIR__ . '/ctes.php';
-
+require  __DIR__ . '/config.php';
 
 // URL en la que se encuentra la aplicación. Se precisa para crear los enlaces
 // BASE_URL si utilizáis XAMMP será 
@@ -30,7 +30,6 @@ session_start();
 
 //Incluimos la conexion a la DB y el controlador de la tarea
 include(MODEL_PATH . 'class/Connection_db.php');
-
 include(CTRL_PATH . 'TaskControl.php');
 include(CTRL_PATH . 'UserControl.php');
 
@@ -42,7 +41,7 @@ $app = new \Slim\App($configuration);
 
 
 $app->any('/', function (Request $request, Response $response, $args) {
-    $response->getBody()->write(TaskController::getInstance()->Index());
+    $response->getBody()->write(UserController::getInstance()->Login());
     return $response;
 });
 
@@ -65,6 +64,11 @@ $app->any('/logout', function (Request $request, Response $response, $args) {
 
 $app->any('/profile', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserController::getInstance()->profile());
+    return $response;
+});
+
+$app->any('/edit-profile', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(UserController::getInstance()->FormularioU());
     return $response;
 });
 

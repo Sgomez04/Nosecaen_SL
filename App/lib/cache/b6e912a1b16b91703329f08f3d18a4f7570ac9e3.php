@@ -5,20 +5,23 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/form.css" />
+    <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/theme1/form.css" />
 
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('nav'); ?>
-    <a href="#" class="nav-item nav-link"><i class="fa fa-users"></i><span>Inicio</span></a>
-    <a href="<?= BASE_URL ?>list?pag=1" class="nav-item nav-link active"><i class="fa fa-gears"></i><span>Tareas</span></a>
-    <?php if($type == 'admin'): ?>
-        <a href="<?= BASE_URL ?>listU?pagU=1" class="nav-item nav-link"><i
-                class="fa fa-users"></i><span>Empleados</span></a>
-    <?php else: ?>
-        <a href="#" class="nav-item nav-link"><i class="fa fa-users"></i><span>Empleados</span></a>
-    <?php endif; ?>
-    <a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
+<a href="<?php echo e(BASE_URL); ?>list?pag=1" class="nav-item nav-link active"><i
+        class="fa fa-gears"></i><span>Tareas</span></a>
+<?php if($type =='admin'): ?>
+        <a href="<?php echo e(BASE_URL); ?>listU?pagU=1" class="nav-item nav-link"><i
+        class="fa fa-users"></i><span>Empleados</span></a>
+<?php else: ?>
+        <a href="#" class="nav-item nav-link"><i
+        class="fa fa-users"></i><span>Empleados</span></a>
+<?php endif; ?>
+<a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
+<a href="<?php echo e(BASE_URL); ?>profile?idU=<?php echo e($_SESSION['id']); ?>" class="nav-item nav-link"><i class="fa fa-user"></i><span> Perfil</span></a>
+
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('cuerpo'); ?>
@@ -50,7 +53,7 @@
                 <label class="col-md-4 control-label" for="persona">ID Tarea:</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                        <span class="input-group-addon "><i class="glyphicon glyphicon-info-sign"></i></span>
                         <?php if(!$_POST): ?>
                             <input type="text" name="id_task" class="form-control" value="<?php echo e($id); ?>"
                                 placeholder="Campo cargado por el sistema" readonly /> </p>
@@ -110,14 +113,14 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
                         <?php if(!$_POST): ?>
-                            <input type="text" name="descripcion" class="form-control" value="<?php echo e($desc); ?>"
-                                placeholder="Descripcion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="descripcion" class="form-control"
+                                placeholder="Descripcion de la tarea"><?php echo e($desc); ?></textarea>
                         <?php elseif(ErrorShow('descripcion', $error) == ''): ?>
-                            <input type="text" name="descripcion" class="form-control is-valid" value="<?php echo e($desc); ?>"
-                                placeholder="Descripcion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="descripcion" class="form-control is-valid"
+                                placeholder="Descripcion de la tarea"><?php echo e($desc); ?></textarea>
                         <?php else: ?>
-                            <input type="text" name="descripcion" class="form-control is-invalid"
-                                value="<?php echo e($desc); ?>" placeholder="Descripcion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="descripcion" class="form-control is-invalid"
+                                placeholder="Descripcion de la tarea"><?php echo e($desc); ?></textarea>
                         <?php endif; ?>
                     </div>
                     <?php echo ErrorShow('descripcion', $error); ?>
@@ -244,17 +247,17 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-question-sign"></i></span>
                         <?php if($estado == 'P'): ?>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="P" checked> Pendiente</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="R"> Realizada</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="C"> Cancelada</label>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P" checked> Pendiente</label><br>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="R"> Realizada</label><br>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C"> Cancelada</label>
                         <?php elseif($estado == "R"): ?>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="P"> Pendiente</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="R" checked> Realizada</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="C"> Cancelada</label>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P"> Pendiente</label><br>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="R" checked> Realizada</label><br>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C"> Cancelada</label>
                         <?php else: ?>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="P"> Pendiente</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="R"> Realizada</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" name="estado" VALUE="C" checked> Cancelada</label>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P"> Pendiente</label><br>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="R"> Realizada</label><br>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C" checked> Cancelada</label>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -336,14 +339,14 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
                         <?php if(!$_POST): ?>
-                            <input type="text" name="aa" class="form-control" value="<?php echo e($aa); ?>"
-                                placeholder="Anotacion anterior a la realizacion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="aa" class="form-control"
+                                placeholder="Anotacion anterior a la realizacion de la tarea"><?php echo e($aa); ?></textarea>
                         <?php elseif(ErrorShow('aa', $error) == ''): ?>
-                            <input type="text" name="aa" class="form-control is-valid" value="<?php echo e($aa); ?>"
-                                placeholder="Anotacion anterior a la realizacion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="aa" class="form-control is-valid"
+                                placeholder="Anotacion anterior a la realizacion de la tarea"><?php echo e($aa); ?></textarea>
                         <?php else: ?>
-                            <input type="text" name="aa" class="form-control is-invalid" value="<?php echo e($aa); ?>"
-                                placeholder="Anotacion anterior a la realizacion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="aa" class="form-control is-invalid"
+                                placeholder="Anotacion anterior a la realizacion de la tarea"><?php echo e($aa); ?></textarea>
                         <?php endif; ?>
                     </div>
                     <?php echo ErrorShow('aa', $error); ?>
@@ -357,14 +360,14 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
                         <?php if(!$_POST): ?>
-                            <input type="text" name="ap" class="form-control" value="<?php echo e($ap); ?>"
-                                placeholder="Anotacion anterior a la realizacion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="ap" class="form-control"
+                                placeholder="Anotacion posterior a la realizacion de la tarea"><?php echo e($ap); ?></textarea>
                         <?php elseif(ErrorShow('ap', $error) == ''): ?>
-                            <input type="text" name="ap" class="form-control is-valid" value="<?php echo e($ap); ?>"
-                                placeholder="Anotacion anterior a la realizacion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="ap" class="form-control is-valid"
+                                placeholder="Anotacion posterior a la realizacion de la tarea"><?php echo e($ap); ?></textarea>
                         <?php else: ?>
-                            <input type="text" name="ap" class="form-control is-invalid" value="<?php echo e($ap); ?>"
-                                placeholder="Anotacion anterior a la realizacion de la tarea" />
+                            <textarea type="text" cols="20" rows="4" name="ap" class="form-control is-invalid"
+                                placeholder="Anotacion posterior a la realizacion de la tarea"><?php echo e($ap); ?></textarea>
                         <?php endif; ?>
                     </div>
                     <?php echo ErrorShow('ap', $error); ?>
@@ -375,7 +378,6 @@
             <div class="form-group" <?php echo e($hide2); ?>>
                 <label class="col-md-4 control-label" for="fichero"> Fichero:</label>
                 <div class="col-md-4 inputGroupContainer">
-                    
                     <div class="input-group file">
                         <div>
                             <label for="image_uploads" id="labelFile">Selecciona un archivo (DOC, DOCX, PDF..)</label>
@@ -383,13 +385,17 @@
                                 class="form-control">
                         </div>
                         <div class="preview">
-                            <p id="pfile">No hay ningun archivo seleccionado</p>
+                            <?php if(isset($fichero)): ?>
+                                <p id="pfile">ARCHIVO: <?php echo e($fichero); ?></p>
+                            <?php else: ?>
+                                <p id="pfile">No hay ningun archivo seleccionado</p>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="text-right">
+            <div class="text-center bton">
                 <input type="submit" class="btn btn-success" value="Guardar">
             </div>
         </fieldset>

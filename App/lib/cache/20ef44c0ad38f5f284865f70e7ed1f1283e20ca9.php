@@ -1,22 +1,26 @@
 
 
 <?php $__env->startSection('link'); ?>
-    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/list.css" />
+    <!-- Modal library -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/theme1/list.css" />
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('nav'); ?>
-<a href="#" class="nav-item nav-link"><i
-    class="fa fa-users"></i><span>Inicio</span></a>
-<a href="<?= BASE_URL ?>list?pag=1" class="nav-item nav-link active"><i
-        class="fa fa-gears"></i><span>Tareas</span></a>
-<?php if($type=='admin'): ?>
-        <a href="<?= BASE_URL ?>listU?pagU=1" class="nav-item nav-link"><i
-        class="fa fa-users"></i><span>Empleados</span></a>
-<?php else: ?>
-        <a href="#" class="nav-item nav-link"><i
-        class="fa fa-users"></i><span>Empleados</span></a>
-<?php endif; ?>
-<a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
+    <a href="<?php echo e(BASE_URL); ?>list?pag=1" class="nav-item nav-link active"><i
+            class="fa fa-gears"></i><span>Tareas</span></a>
+    <?php if($type == 'admin'): ?>
+        <a href="<?php echo e(BASE_URL); ?>listU?pagU=1" class="nav-item nav-link"><i
+                class="fa fa-users"></i><span>Empleados</span></a>
+    <?php else: ?>
+        <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-users"></i><span>Empleados</span></a>
+    <?php endif; ?>
+    <a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
+    <a href="<?php echo e(BASE_URL); ?>profile?idU=<?php echo e($_SESSION['id']); ?>" class="nav-item nav-link"><i
+            class="fa fa-user"></i><span> Perfil</span></a>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('cuerpo'); ?>
@@ -83,10 +87,10 @@
                             <td><?php echo e($t['fecha_realizacion']); ?></td>
                             <td><textarea cols="20" rows="5" readonly><?php echo e($t['anot_anterior']); ?></textarea></td>
                             <td><textarea cols="20" rows="5" readonly><?php echo e($t['anot_posterior']); ?></textarea></td>
-                            <?php if($t['fichero'] != ""): ?>
-                            <td><a href="#">Ver archivo</a></td>
-                            <?php else: ?> 
-                            <td>Sin archivo</td>
+                            <?php if($t['fichero'] != ''): ?>
+                                <td><a href="#">Ver archivo</a></td>
+                            <?php else: ?>
+                                <td>Sin archivo</td>
                             <?php endif; ?>
                         </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -94,17 +98,40 @@
             </table>
         </div>
         <div class="clearfix">
-            <div class="hint-text">Mostrando <b>5</b> de
+            <div class="hint-text">Mostrando <b><?php echo e(PAGINATOR); ?></b> de
                 <b><?php echo e(TaskController::getInstance()->tResultados()); ?></b> registros
             </div>
 
             <b class="pagination"> <?php echo e(TaskController::getInstance()->paginacion()); ?></b>
         </div>
     </div>
+
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-confirm">
+        <div class="modal-header flex-column">
+            <div class="icon-box">
+                <i class="material-icons">&#xE5CD;</i>
+            </div>
+            <h4 class="modal-title w-100">Acceso Denegado</h4>
+        </div>
+        <div class="modal-body">
+            <br>
+            <p>No tienes los permisos suficientes para visualizar esta seccion</p>
+        </div>
+        <div class="modal-footer justify-content-center">
+            <a href="#" class="bton btn-danger" data-dismiss="modal">Cerrar</a>
+        </div>
+    </div>
+</div>
+</div>
+
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('script'); ?>
-<script src="<?= ASSETS_URL ?>js/orderby.js"></script>
+    <script src="<?= ASSETS_URL ?>js/orderby.js"></script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('plantilla', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Programas\DB\htdocs\PHP\NoSeCaenSL\App\views/task/list.blade.php ENDPATH**/ ?>

@@ -1,11 +1,6 @@
 <?php
 
-
-/**Clase tarea que extiende de la clase conexion
- * 
- * 
- */
-class Task extends Connection
+class Task
 {
 
     //Propiedades de la Tarea
@@ -43,8 +38,6 @@ class Task extends Connection
     function __construct($nPorPagina)
     {
         try {
-            parent::__construct();
-
             $this->resultadosPorPagina = $nPorPagina;
             $this->indice = 0;
             $this->paginaActual = 1;
@@ -64,7 +57,7 @@ class Task extends Connection
     function listaTareas()
     {
         try {
-            $query = $this->connect()->prepare('SELECT * FROM task LIMIT :pos, :n');
+            $query = Connection::Conex()->prepare('SELECT * FROM task LIMIT :pos, :n');
             $query->execute(['pos' => $this->indice, 'n' => $this->resultadosPorPagina]);
 
             return $query->fetchAll(PDO::FETCH_ASSOC);
@@ -81,7 +74,7 @@ class Task extends Connection
     function listaProvincias()
     {
         try {
-            $query = $this->connect()->prepare('SELECT nombre FROM provincias');
+            $query = Connection::Conex()->prepare('SELECT nombre FROM provincias');
             $query->execute();
 
             return $query->fetchAll(PDO::FETCH_ASSOC);
@@ -116,10 +109,10 @@ class Task extends Connection
 
             $sql = "UPDATE task SET persona= " . $persona . ", telefono= " . $telefono . ",
             descripcion= " . $desc . ", correo= " . $correo . ", direccion= " . $direc . ", poblacion= " . $poblacion . ",
-            cp= " . $cp . ", provincia=" . $provincia. ", estado= " . $estado . ", operario= " . $operario . ",
+            cp= " . $cp . ", provincia=" . $provincia . ", estado= " . $estado . ", operario= " . $operario . ",
             fecha_realizacion= " . $fr . ", anot_anterior= " . $aa . ", anot_posterior= " . $ap . ", fichero= " . $fichero . " WHERE id_task =  " . $id . "";
 
-            $sentencia = $this->connect()->prepare($sql);
+            $sentencia = Connection::Conex()->prepare($sql);
 
             $sentencia->execute();
         } catch (Exception $e) {
@@ -135,7 +128,7 @@ class Task extends Connection
     function borrarTarea($id_task)
     {
         try {
-            $query = $this->connect()->prepare('DELETE FROM task WHERE id_task = :id');
+            $query = Connection::Conex()->prepare('DELETE FROM task WHERE id_task = :id');
 
             $query->bindParam(':id', $id_task);
             $query->execute();
@@ -157,7 +150,7 @@ class Task extends Connection
             fecha_realizacion, anot_anterior, anot_posterior)VALUES ('',:persona,:phone,:descripcion,:correo,
             :direccion,:poblacion,:cp,:provincia,:estado,CURDATE(),:operario,:fechaR,:aa,:ap,:fichero);";
 
-            $sentencia = $this->connect()->prepare($sql);
+            $sentencia = Connection::Conex()->prepare($sql);
 
             $sentencia->bindParam(':persona', $data->persona);
             $sentencia->bindParam(':phone', $data->telefono);
@@ -188,7 +181,7 @@ class Task extends Connection
     public function verTarea($id_task)
     {
         try {
-            $sentencia = $this->connect()->prepare("SELECT * FROM task WHERE id_task = :id_task");
+            $sentencia = Connection::Conex()->prepare("SELECT * FROM task WHERE id_task = :id_task");
             $sentencia->bindParam(':id_task', $id_task);
 
             $sentencia->execute();
@@ -206,9 +199,9 @@ class Task extends Connection
      */
     function calcularPaginas()
     {
-        $queryTotalResultados = $this->connect()->query('SELECT COUNT(*) AS total FROM task');
+        $queryTotalResultados = Connection::Conex()->query('SELECT COUNT(*) AS total FROM task');
         $this->nResultados = $queryTotalResultados->fetch(PDO::FETCH_OBJ)->total;
-        $this->totalPaginas = $this->nResultados / $this->resultadosPorPagina;
+        $this->totalPaginas = ceil($this->nResultados / $this->resultadosPorPagina);
 
         if (isset($_GET['pag'])) {
             $this->paginaActual = $_GET['pag'];
@@ -224,7 +217,13 @@ class Task extends Connection
     function mostrarPaginas()
     {
         $actual = '';
+
         echo "<ul class='pagination'>";
+            if($this->paginaActual == 1){
+                echo '<li><a href="?pag='  . ($this->paginaActual) . '" class="page-link" hidden> << Anterior </a></li>';
+            }else{
+                echo '<li><a href="?pag='  . ($this->paginaActual - 1) . '" class="page-link">' . "<< Anterior" . '</a></li>';
+            }
 
         for ($i = 0; $i < $this->totalPaginas; $i++) {
             if (($i + 1) == $this->paginaActual) {
@@ -235,21 +234,19 @@ class Task extends Connection
             }
             echo '<li><a ' . $actual . ' href="?pag='  . ($i + 1) . '" class="page-link">' . ($i + 1) . '</a></li>';
         }
+        
+        if($this->paginaActual == $this->totalPaginas){
+            echo '<li><a href="?pag='  . ($this->paginaActual) . '" class="page-link" hidden> Siguiente >> </a></li>';
+        }else{
+            echo '<li><a href="?pag=' . ($this->paginaActual + 1) .' " class="page-link"> Siguiente >> </a></li>';
+        }
         echo "</ul>";
     }
 
-    /**
-     * Muestra el numero total de resultados encontrados
-     *
-     * @return void
-     */
+
     function mostrarTotalResultados()
     {
         return $this->nResultados;
-    }
-
-    function mostrarPag(){
-        return $this->pag;
     }
 
 }

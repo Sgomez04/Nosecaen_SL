@@ -1,26 +1,26 @@
-@extends ('plantilla')
 
-@section('link')
+
+<?php $__env->startSection('link'); ?>
 <link rel="stylesheet" href="<?= ASSETS_URL ?>css/confirm-delete.css"/>
-@endsection
+<?php $__env->stopSection(); ?>
 
 
-@section('nav')
-<a href="{{BASE_URL}}list?pag=1" class="nav-item nav-link active"><i
+<?php $__env->startSection('nav'); ?>
+<a href="<?php echo e(BASE_URL); ?>list?pag=1" class="nav-item nav-link active"><i
         class="fa fa-gears"></i><span>Tareas</span></a>
-@if($type =='admin')
-        <a href="{{BASE_URL}}listU?pagU=1" class="nav-item nav-link"><i
+<?php if($type =='admin'): ?>
+        <a href="<?php echo e(BASE_URL); ?>listU?pagU=1" class="nav-item nav-link"><i
         class="fa fa-users"></i><span>Empleados</span></a>
-@else
+<?php else: ?>
         <a href="#" class="nav-item nav-link"><i
         class="fa fa-users"></i><span>Empleados</span></a>
-@endif
+<?php endif; ?>
 <a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
-<a href="{{BASE_URL}}profile?idU={{$_SESSION['id']}}" class="nav-item nav-link"><i class="fa fa-user"></i><span> Perfil</span></a>
+<a href="<?php echo e(BASE_URL); ?>profile?idU=<?php echo e($_SESSION['id']); ?>" class="nav-item nav-link"><i class="fa fa-user"></i><span> Perfil</span></a>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('cuerpo')
+<?php $__env->startSection('cuerpo'); ?>
 
     <div class="modal-dialog modal-confirm">
         <div class="modal-content">
@@ -36,9 +36,11 @@
             </div>
             <div class="modal-footer justify-content-center">
                 <a href="<?= BASE_URL ?>listU?pagU=1" class="bton btn-secondary" data-dismiss="modal">Cancelar</a>
-                <a href="<?= BASE_URL ?>delU?id={{ $id }}" class="bton btn-danger">Eliminar</a>
+                <a href="<?= BASE_URL ?>delU?id=<?php echo e($id); ?>" class="bton btn-danger">Eliminar</a>
             </div>
         </div>
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('plantilla', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Programas\DB\htdocs\PHP\NoSeCaenSL\App\views/user/deleteU.blade.php ENDPATH**/ ?>

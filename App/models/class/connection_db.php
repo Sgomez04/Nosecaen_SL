@@ -1,41 +1,57 @@
 <?php
 
-class Connection{
-    private $host;
-    private $db;
-    private $user;
-    private $password;
-    private $charset;
+class Connection
+{
+    private static $_instancia;
+    private $_db;
 
-    public function __construct()
+    public static function getInstance()
     {
-        $this->host     = 'localhost';
-        $this->db       = 'nosecaensl';
-        $this->user     = 'root';
-        $this->password = '';
-        $this->charset  = 'utf8mb4';
+        if (!self::$_instancia) {
+            self::$_instancia = new self();
+        }
+        return self::$_instancia;
     }
-    
-    /**
-     * Conexion con la base de datos
-     *
-     * @return void
-     */
-    function connect()
+
+
+    private function __construct()
     {
         try {
-
-            $connection = "mysql:host=" . $this->host . ";dbname=" . $this->db . ";charset=" . $this->charset;
-            $options = [
-                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_EMULATE_PREPARES   => false,
-            ];
-            $pdo = new PDO($connection, $this->user, $this->password, $options);
-
-            return $pdo;
+            $this->db = new PDO(DB_MOTOR . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $this->db->setAttribute(PDO::ATTR_PERSISTENT, true);
+            $this->db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES 'utf8'");
         } catch (PDOException $e) {
-            print_r('Error connection: ' . $e->getMessage());
+            echo 'Ha surgido un error y no se puede conectar a la base de datos' . E_USER_ERROR . PHP_EOL;
+            echo "";
+            echo "Detalle: " . $e->getMessage();
+            exit;
         }
     }
+
+    public function getConnection()
+    {
+        return $this->db;
+    }
     
+    public static function Conex()
+    {
+        return self::getInstance()->getConnection();
+    }
+
+    public function CloseConnection()
+    {
+        return $this->db = null;
+    }
+
+    public function __clone()
+    {
+        trigger_error('No esta permitido clonar esta clase', E_USER_ERROR);
+    }
+
+    public function __wakeup()
+    {
+        trigger_error("No puede deserializar una instancia de " . get_class($this) . " class.", E_USER_ERROR);
+    }
 }
