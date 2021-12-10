@@ -5,7 +5,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/theme1/form.css" />
+    <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/<?php echo e($_SESSION['theme']); ?>/form.css" />
 
 <?php $__env->stopSection(); ?>
 
@@ -141,11 +141,11 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-briefcase"></i></span>
                         <?php if($type == 'admin'): ?>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="estado" VALUE="Admin" checked> Administrador</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="estado" VALUE="Operario"> Operario</label>
+                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="type" VALUE="admin" checked> Administrador</label>
+                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="type" VALUE="operario"> Operario</label>
                         <?php else: ?>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="estado" VALUE="Admin"> Administrador</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="estado" VALUE="Operario" checked> Operario</label>
+                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="type" VALUE="admin"> Administrador</label>
+                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="type" VALUE="operario" checked> Operario</label>
                         <?php endif; ?>
                     </div>
                 </div>

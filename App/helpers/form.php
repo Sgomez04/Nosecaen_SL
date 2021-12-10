@@ -1,11 +1,6 @@
 <?php
 
 /**
- * Funciones de ayuda que nos permitirán trabajar con formularios
- * 
- */
-
-/**
  * Devuelve el valor de una variable enviada por POST. Devolverá el valor
  * por defecto en caso de no existir.
  * 
@@ -22,6 +17,14 @@ function ValorPost($campo, $default = '')
     }
 }
 
+
+/**
+*Devuelve el valor de un error, si existe, segun se campo
+ * 
+ * @param string $campo
+ * @param objet $error   
+ * @return string
+ */
 function ErrorShow($campo, $error)
 {
     if ($_POST) {

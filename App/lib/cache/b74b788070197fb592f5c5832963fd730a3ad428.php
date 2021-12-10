@@ -23,8 +23,10 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/theme1/navbar.css" />
+        <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/<?php echo e($_SESSION['theme']); ?>/navbar.css" />
         <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/theme1/footer.css" />
+        <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/settings.css" />
+
 
 
         <?php echo $__env->yieldContent('link'); ?>
@@ -46,7 +48,8 @@
                                 src="<?php echo e(ASSETS_URL); ?>img/user/<?php echo e($_SESSION['ulogo']); ?>.jpg" class="imgUser"
                                 alt="Avatar"> <?php echo e($_SESSION['names']); ?><b class="caret"></b></a>
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Ajustes</a>
+                            <a href="<?php echo e(BASE_URL); ?>form_setting" class="dropdown-item"><i
+                                    class="fa fa-sliders"></i> Ajustes</a>
                             <div class="divider dropdown-divider"></div>
                             <a href="<?php echo e(BASE_URL); ?>logout" class="dropdown-item"><i
                                     class="material-icons">&#xE8AC;</i>
@@ -94,7 +97,6 @@
         <script src="<?php echo e(ASSETS_URL); ?>js/bootstrap.min.js"></script>
 
         <?php echo $__env->yieldContent('script'); ?>
-
     </body>
 
     </html>

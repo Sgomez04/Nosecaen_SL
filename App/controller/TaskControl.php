@@ -13,29 +13,40 @@ class TaskController
     private $user;
     private $fileDir;
 
-
     public function __construct()
     {
+        $this->pag = $_SESSION['listT'];
         $this->model = new Task($this->pag);
         $this->blade = TemplateBlade::GetInstance();
         $this->user = new Employer($this->pag);
         $this->fileDir = __DIR__ . "/../Assets/files/";
     }
-
+    
+    /**
+     * Metedo que devuelve un objeto de la misma clase TaskController
+     *
+     * @return void
+     */
     public static function getInstance()
     {
         return new self;
     }
 
+
+    //FUNCIONALIDAD 
+    /**
+     * Metodo que renderiza la vista lista de tareas
+     *
+     * @return void
+     */
     public function ListaTarea()
     {
         setcookie('pag', $_REQUEST['pag']);
-        return $this->blade->render('task/list', ['type' => $_SESSION['type'],'fileDir'=>$this->fileDir]);
+        return $this->blade->render('task/list', ['type' => $_SESSION['type'], 'fileDir' => $this->fileDir]);
     }
 
-
     /**
-     * Muestra el formulario de relleno/modificacion de una tarea
+     * Metodo que comprueba que rol tiene el usuario logeado y carga la vista del formulario de tareas
      *
      * @return void
      */
@@ -44,11 +55,10 @@ class TaskController
         $t = new Task($this->pag);
         $u = new Employer($this->pag);
 
-        if($_SESSION['type'] == "admin"){
-        $hide1 = "";
-        $hide2 = "hidden";
-        }
-        elseif($_SESSION['type'] == "operario"){
+        if ($_SESSION['type'] == "admin") {
+            $hide1 = "";
+            $hide2 = "hidden";
+        } elseif ($_SESSION['type'] == "operario") {
             $hide1 = "hidden";
             $hide2 = "";
         }
@@ -73,7 +83,7 @@ class TaskController
             'frealizacion' => $t->fecha_realizacion,
             'aa' => $t->anot_anterior,
             'ap' => $t->anot_posterior,
-            'fichero' =>$t->fichero,
+            'fichero' => $t->fichero,
             'type' => $_SESSION['type'],
             'hide1' => $hide1,
             'hide2' => $hide2,
@@ -82,7 +92,8 @@ class TaskController
     }
 
     /**
-     * Realiza el guardado de una tarea ya sea nueva o modificada
+     * Metodo que recoge los datos del formulario de tareas y comprueba si tiene errores. Si no los tiene 
+     * añade o modifica la tarea incluida en el formulario en la base de datos.
      *
      * @return void
      */
@@ -95,14 +106,13 @@ class TaskController
 
         if ($error->HayErrores()) {
 
-            if($_SESSION['type'] == "admin"){
+            if ($_SESSION['type'] == "admin") {
                 $hide1 = "";
                 $hide2 = "hidden";
-                }
-                elseif($_SESSION['type'] == "operario"){
-                    $hide1 = "hidden";
-                    $hide2 = "";
-                }
+            } elseif ($_SESSION['type'] == "operario") {
+                $hide1 = "hidden";
+                $hide2 = "";
+            }
 
             return $this->blade->render(
                 'task/add_upd',
@@ -165,32 +175,30 @@ class TaskController
     }
 
     /**
-     * Peticion de confirmacion de eliminado de una tarea al usuario
+     * Metodo que elimina una tarea segun su ID
+     *
+     * @return void
+     */
+    public function Eliminar()
+    {
+        $this->model->borrarTarea($_REQUEST['id']);
+        header("Location: " . BASE_URL . "list?pag=1");
+        exit;
+    }
+
+    // VISTAS
+    /**
+     * Metodo que carga la vista de confirmacion para eliminacion de una tarea
      *
      * @return void
      */
     public function cEliminar()
     {
-        return $this->blade->render('task/delete', ['id' => $_REQUEST['id'],'type' => $_SESSION['type']]);
+        return $this->blade->render('task/delete', ['id' => $_REQUEST['id'], 'type' => $_SESSION['type']]);
     }
-
+  
     /**
-     * Elimina una tarea tras confirmar su eliminacion
-     *
-     * @return void
-     */
-    public function Eliminar()
-    {   
-        $this->model->borrarTarea($_REQUEST['id']);
-        header("Location: " . BASE_URL . "list?pag=" . $_COOKIE["pag"]);
-        exit;
-    }
-
-
-    //VISTAS
-
-    /**
-     * Realiza una lista de las tareas
+     * Metodo que recoge los datos de la lista de tareas desde la base de datos
      *
      * @return void
      */
@@ -199,8 +207,9 @@ class TaskController
         return $this->model->listaTareas();
     }
 
+    
     /**
-     * Realiza una lista de las provincias que pueden introducirse en una terea
+     * Metodo que recoge los datos de la lista de provincias desde la base de datos
      *
      * @return void
      */
@@ -209,9 +218,9 @@ class TaskController
         return $this->model->listaProvincias();
     }
 
-
+    
     /**
-     * Muestra el total de tareas encontradas
+     * Metodo que recoge el total de registros que contiene la tabla de tareas desde la base de datos
      *
      * @return void
      */
@@ -220,8 +229,9 @@ class TaskController
         return $this->model->mostrarTotalResultados();
     }
 
+        
     /**
-     * Muestra la paginacion de las tareas
+     * Metodo que muestra la paginacion de la lista de tareas
      *
      * @return void
      */

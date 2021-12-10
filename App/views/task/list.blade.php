@@ -6,7 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/theme1/list.css" />
+    <link rel="stylesheet" href="{{ASSETS_URL}}css/{{$_SESSION['theme']}}/list.css" />
 @endsection
 
 @section('nav')
@@ -16,7 +16,7 @@
         <a href="{{ BASE_URL }}listU?pagU=1" class="nav-item nav-link"><i
                 class="fa fa-users"></i><span>Empleados</span></a>
     @else
-        <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-users"></i><span>Empleados</span></a>
+        <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#notEmployers"><i class="fa fa-users"></i><span>Empleados</span></a>
     @endif
     <a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
     <a href="{{ BASE_URL }}profile?idU={{ $_SESSION['id'] }}" class="nav-item nav-link"><i
@@ -31,7 +31,7 @@
             </div>
             <div class="col-sm-6">
                 @if ($type == 'admin')
-                    <a href="<?= BASE_URL ?>form" class="btn btn-success"><i class="material-icons">&#xE147;</i>
+                    <a href="{{BASE_URL}}form" class="btn btn-success"><i class="material-icons">&#xE147;</i>
                         <span>Añadir nueva Tarea</span></a>
                 @endif
             </div>
@@ -63,12 +63,12 @@
                     @foreach (TaskController::getInstance()->listar() as $t)
                         <tr class="list">
                             <td>
-                                <a href="<?= BASE_URL ?>form?id={{ $t['id_task'] }}" class="edit"><i
+                                <a href="{{BASE_URL}}form?id={{ $t['id_task'] }}" class="edit"><i
                                         class="material-icons" title="Editar Tarea">&#xE254;</i></a>
                                 <br>
                                 <br>
                                 @if ($type == 'admin')
-                                    <a href="<?= BASE_URL ?>cdel?id={{ $t['id_task'] }}" class="delete"><i
+                                    <a href="{{BASE_URL}}cdel?id={{ $t['id_task'] }}" class="delete"><i
                                             class="material-icons" title="Eliminar Tarea">&#xE872;</i></a>
                                 @endif
                             </td>
@@ -88,7 +88,7 @@
                             <td><textarea cols="20" rows="5" readonly>{{ $t['anot_anterior'] }}</textarea></td>
                             <td><textarea cols="20" rows="5" readonly>{{ $t['anot_posterior'] }}</textarea></td>
                             @if ($t['fichero'] != '')
-                                <td><a href="#">Ver archivo</a></td>
+                                <td><a href="{{ASSETS_URL}}files/{{ $t['fichero'] }}">Ver archivo</a></td>
                             @else
                                 <td>Sin archivo</td>
                             @endif
@@ -98,7 +98,7 @@
             </table>
         </div>
         <div class="clearfix">
-            <div class="hint-text">Mostrando <b>{{PAGINATOR}}</b> de
+            <div class="hint-text">Mostrando <b>{{$_SESSION['listT']}}</b> de
                 <b>{{ TaskController::getInstance()->tResultados() }}</b> registros
             </div>
 
@@ -107,7 +107,7 @@
     </div>
 
 {{-- MODAL --}}
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+<div class="modal fade" id="notEmployers" tabindex="-1" role="dialog"
 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-confirm">
@@ -127,9 +127,8 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
 </div>
 </div>
-
 @endsection
 
 @section('script')
-    <script src="<?= ASSETS_URL ?>js/orderby.js"></script>
+    <script src="{{ASSETS_URL}}js/orderby.js"></script>
 @endsection

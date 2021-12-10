@@ -1,14 +1,14 @@
 .navbar {
 	color: #fff;
-	background-color: #663183 !important;
+	background-color: #1a1212 !important;
 	padding: 28px;
 	border-radius: 0;
 	border: none;
-	box-shadow: 0 0 4px rgba(0,0,0,.1);
-	border: 5px solid #27013b;
-	border-left: none;
-	border-right: none;
-	border-top: none;
+	box-shadow: 0 0 4px #0000001a;
+	border: 5px solid #c24513 !important;
+	border-left: none !important;
+	border-right: none !important;
+	border-top: none !important;
 }
 .navbar .imgUser {
 	border-radius: 50%;
@@ -19,6 +19,8 @@
 
 .logoN{
 	font-size: 24px;
+	color: rgb(240, 145, 90) !important;
+
 }
 
 .logoI{
@@ -28,7 +30,7 @@
 }
 
 .navbar .navbar-brand .logoN {
-	color: #efe5ff;
+	color: #251400 !important;
 	padding-left: 0;
 	padding-right: 50px;
 	font-size: 24px;		
@@ -66,7 +68,7 @@
 	height: 100%;
 }
 .search-box i {
-	color: #a0a5b1;
+	color: #b1a8a0;
 	font-size: 19px;
 }
 .navbar .nav-item i {
@@ -115,7 +117,7 @@
 	font-size: 15px;
 }
 .navbar .dropdown-menu a:hover, .navbar .dropdown-menu a:focus {
-	color: rgb(67, 2, 83) !important;
+	color: #533002 !important;
 	font-weight: bold;
 	background: transparent !important;
 	
@@ -188,15 +190,15 @@ body::-webkit-scrollbar {
   }
   
   body::-webkit-scrollbar-track {
-	background: rgb(26, 0, 29); /* color of the tracking area */
-	border: 3px solid #3b1853;  /* creates padding around scroll thumb */
+	background: #111111; /* color of the tracking area */
+	border: 3px solid #2e1c0100;  /* creates padding around scroll thumb */
 
   }
   
   body::-webkit-scrollbar-thumb {
-	background-color: #31024b;    /* color of the scroll thumb */
+	background-color: #211717;    /* color of the scroll thumb */
 	border-radius: 15px;       /* roundness of the scroll thumb */
-	border: 3px solid #cb8af7;  /* creates padding around scroll thumb */
+	border: 3px solid #c55528;  /* creates padding around scroll thumb */
   }
 
 .well{

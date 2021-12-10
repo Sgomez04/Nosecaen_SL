@@ -1,0 +1,122 @@
+body {
+    background-image : url("../../img/theme3/form.jpg");
+    background-repeat: no-repeat;
+    background-size  : cover;
+}
+
+ol{
+    margin-left: 40px;
+    margin-right: 20px;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.842) !important;
+}
+
+ol a{
+color: purple;
+font-weight: bold;
+text-decoration: orange;
+}
+
+ol a:hover{
+    color: rgb(201, 4, 201);
+    font-weight: bold;
+    text-decoration: orange;
+    }
+
+.page-header {
+    border-bottom: 0px solid;
+    color        : white;
+    font-weight  : bold;
+}
+
+fieldset {
+    width           : auto;
+    padding-top     : 20px;
+    margin-left     : 200px;
+    margin-right    : 200px;
+    background-color: rgba(255, 255, 255, 0.644);
+}
+
+label {
+    font-weight: bold;
+    color      : rgb(0, 0, 0);
+}
+
+.glyphicon {
+    color: rgb(57, 0, 83);
+}
+
+.file {
+    background: #ccc;
+    margin    : 0 auto;
+    padding   : 20px;
+    border    : 1px solid;
+}
+
+.input-group {
+    border       : solid 1px rgba(44, 2, 53, 0.699);
+    border-radius: 5px;
+}
+
+#pfile {
+    line-height        : 32px;
+    padding-left       : 10px;
+    background         : #eee;
+    display            : flex;
+    justify-content    : space-between;
+    margin-bottom      : 10px;
+    list-style-type    : none;
+    border             : 1px solid black;
+    margin-block-start : 1em;
+    margin-block-end   : 1em;
+    margin-inline-start: 0px;
+    margin-inline-end  : 0px;
+}
+
+#image_uploads {
+    appearance: none;
+    width     : 1px;
+    height    : 1px;
+}
+
+#labelFile {
+    background-color: #9a919e;
+    padding         : 5px 10px;
+    border-radius   : 5px;
+    border          : 1px ridge black;
+    font-size       : 8;
+    height          : auto;
+    margin-left     : 10px;
+    margin-bottom   : 10px;
+}
+
+#labelFile:hover {
+    background-color: rgb(73, 19, 95);
+    color           : white;
+}
+
+.liFile {
+    background     : rgba(238, 238, 238, 0);
+    display        : flex;
+    justify-content: space-between;
+    margin-bottom  : 10px;
+    list-style-type: none;
+    border         : 1px solid black;
+    margin-right   : 50px;
+}
+
+.liFile p {
+    margin-left  : 40px;
+    margin-top   : 15px;
+    margin-bottom: 15px;
+    text-align   : center;
+    color        : rgb(0, 0, 0);
+    font-weight  : bold;
+}
+
+/*BOTON ENVIAR*/
+
+.bton{
+    margin-top: 30px;
+    margin-bottom: 25px;
+}

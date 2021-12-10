@@ -1,7 +1,7 @@
 @extends ('plantilla')
 
 @section('link')
-    <link rel="stylesheet" href="{{ ASSETS_URL }}css/confirm-delete.css" />
+    <link rel="stylesheet" href="{{ ASSETS_URL }}css/{{$_SESSION['theme']}}/confirm-delete.css" />
 
     <!-- Latest minified bootstrap css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -39,40 +39,14 @@
                     <i class="material-icons">&#xE5CD;</i>
                 </div>
                 <h4 class="modal-title w-100">Eliminacion de la tarea</h4>
-                <a href="list" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
             </div>
             <div class="modal-body">
                 <p>¿Esta segur@ de que desea eliminar la tarea? Esta accion no puede deshacerse</p>
             </div>
             <div class="modal-footer justify-content-center">
                 <a href="{{ BASE_URL }}list" class="bton btn-secondary" data-dismiss="modal">Cancelar</a>
-                {{-- <a href="{{BASE_URL}}del?id={{ $id }}" class="bton btn-danger">Eliminar</a> --}}
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                    Launch demo modal
-                </button>
+                <a href="{{BASE_URL}}del?id={{ $id }}" class="bton btn-danger">Eliminar</a>
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header flex-column">
-                    <div class="icon-box">
-                        <i class="material-icons">&#xE5CD;</i>
-                    </div>
-                    <h4 class="modal-title w-100">Acceso Denegado</h4>
-                    <a href="list" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
-                </div>
-                <div class="modal-body">
-                    <p>No puedes acceder a este apartado hasta que te hayas accedido con tu cuenta de empleado</p>
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <a href="{{ BASE_URL }}list" class="bton btn-secondary" data-dismiss="modal">Cerrar</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
 @endsection

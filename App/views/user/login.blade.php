@@ -20,7 +20,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    {{-- Css  --}}
+    {{-- Css --}}
     <link rel="stylesheet" href="{{ ASSETS_URL }}css/theme1/navbar.css" />
     <link rel="stylesheet" href="{{ ASSETS_URL }}css/login.css" />
     <link rel="stylesheet" href="{{ ASSETS_URL }}css/theme1/footer.css" />
@@ -38,9 +38,12 @@
             <div class="navbar-nav ml-auto">
                 <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#exampleModalCenter"><i
                         class="fa fa-gears"></i><span>Tareas</span></a>
-                <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-users"></i><span>Empleados</span></a>
-                <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-search"></i><span>Busqueda</span></a>
-                <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-user"></i><span> Perfil</span></a>
+                <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#exampleModalCenter"><i
+                        class="fa fa-users"></i><span>Empleados</span></a>
+                <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#exampleModalCenter"><i
+                        class="fa fa-search"></i><span>Busqueda</span></a>
+                <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#exampleModalCenter"><i
+                        class="fa fa-user"></i><span> Perfil</span></a>
             </div>
         </div>
     </nav>
@@ -53,14 +56,17 @@
                 </div>
                 <h4 class="modal-title">Login Empleado</h4>
             </div>
+            <br>
+            <center> {!! ErrorShow('login', $error) !!}</center>
+            <br>
             <div class="modal-body">
-                <form action="{{BASE_URL}}check" method="POST">
+                <form action="{{ BASE_URL }}check" method="POST">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="user" placeholder="Usuario" required="required">
+                        <input type="text" class="form-control" name="user" placeholder="Usuario" required="required" value="{{ $user }}">
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" name="password" placeholder="Contraseña"
-                            required="required">
+                            required="required" value="{{ $password }}">
                     </div>
                     <div class="form-group">
                         <button type="submit" name="submit"
@@ -113,27 +119,27 @@
 
     @yield('script')
 
-{{-- MODAL --}}
+    {{-- MODAL --}}
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-confirm">
-            <div class="modal-header flex-column">
-                <div class="icon-box">
-                    <i class="material-icons">&#xE5CD;</i>
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-confirm">
+                <div class="modal-header flex-column">
+                    <div class="icon-box">
+                        <i class="material-icons">&#xE5CD;</i>
+                    </div>
+                    <h4 class="modal-title w-100">Acceso Denegado</h4>
                 </div>
-                <h4 class="modal-title w-100">Acceso Denegado</h4>
-            </div>
-            <div class="modal-body">
-                <br>
-                <p>Por favor, accede con tu cuenta de empleado</p>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <a href="#" class="bton btn-danger" data-dismiss="modal">Cerrar</a>
+                <div class="modal-body">
+                    <br>
+                    <p>Por favor, accede con tu cuenta de empleado</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <a href="#" class="bton btn-danger" data-dismiss="modal">Cerrar</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 </body>
 

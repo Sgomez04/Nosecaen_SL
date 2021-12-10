@@ -2,17 +2,17 @@
 
 @section('link')
 
-<link rel="stylesheet" href="<?= ASSETS_URL ?>css/theme1/listU.css" />
+<link rel="stylesheet" href="{{ASSETS_URL}}css/{{$_SESSION['theme']}}/listU.css" />
 
 @endsection
 
 @section('nav')
-<a href="<?= BASE_URL ?>list?pag=1" class="nav-item nav-link"><i
+<a href="{{BASE_URL}}list?pag=1" class="nav-item nav-link"><i
         class="fa fa-gears"></i><span>Tareas</span></a>
-<a href="<?= BASE_URL ?>listU?pagU=1" class="nav-item nav-link active"><i
+<a href="{{BASE_URL}}listU?pagU=1" class="nav-item nav-link active"><i
         class="fa fa-users"></i><span>Empleados</span></a>
 <a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
-<a href="<?= BASE_URL ?>profile?idU={{$_SESSION['id']}}" class="nav-item nav-link"><i class="fa fa-user"></i><span> Perfil</span></a>
+<a href="{{BASE_URL}}profile?idU={{$_SESSION['id']}}" class="nav-item nav-link"><i class="fa fa-user"></i><span> Perfil</span></a>
 @endsection
 
 
@@ -62,7 +62,7 @@
             </table>
         </div>
         <div class="clearfix">
-            <div class="hint-text">Mostrando <b>{{PAGINATOR}}</b> de
+            <div class="hint-text">Mostrando <b>{{$_SESSION['listU']}}</b> de
                 <b>{{ UserController::getInstance()->tResultadosU() }}</b> registros
             </div>
             <b class="pagination"> {{ UserController::getInstance()->paginacionU() }}</b>

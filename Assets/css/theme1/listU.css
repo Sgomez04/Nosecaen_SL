@@ -9,12 +9,12 @@ body {
 }
 
 .list:hover {
-    background-color:#350042af;
+    background-color:#ac6d3baf;
 	color:white;
 }
 
 table th:hover {
-    background-color:#350042af;
+    background-color:#ad4e00af;
 	color:white;
 	cursor:pointer;
 }
@@ -34,12 +34,12 @@ table #edit {
 }
 
 .table-title {
-	background: #1c0029;
+	background: #130d0d;
 	color: #fff;
 	padding: 16px 25px;
 	margin: 0px -112px -40px;
 	border-radius: 3px 3px 0 0;
-	border: 1px solid #BC6FF1;
+	border: 1px solid #c24513;
 	border-bottom: none;
 }
 
@@ -107,22 +107,22 @@ table.table td:last-child i {
 
 table.table td a {
 	font-weight    : bold;
-	color          : #566787;
+	color          : #876e56;
 	display        : inline-block;
 	text-decoration: none;
 	outline        : none !important;
 }
 
 table.table td a:hover {
-	color: #2196F3;
+	color: #2c1101;
 }
 
 table.table td a.edit {
-	color: #078fff;
+	color: #2c1101;
 }
 
 table.table td a.delete {
-	color: #F44336;
+	color: #fa4113;
 }
 
 table.table td i {
@@ -160,7 +160,7 @@ table.table .avatar {
 }
 
 .actual {
-    background: rgb(153, 61, 211) !important;
+    background: #c95a10 !important;
     color: rgb(255, 255, 255) !important;
 	border: 5px solid;
 	border-color: white;
@@ -186,7 +186,7 @@ textarea {
 }
 
 .sorting {
-	background-color: #392b50af !important;
+	background-color: #503c2baf !important;
 	color: white;
 }
 
@@ -207,11 +207,11 @@ textarea {
   }
   
   .table-responsive::-webkit-scrollbar-track {
-	background: rgba(41, 1, 46, 0);        /* color of the tracking area */
+	background: #01162e00;        /* color of the tracking area */
   }
   
   .table-responsive::-webkit-scrollbar-thumb {
-	background-color: #31024b;    /* color of the scroll thumb */
+	background-color: #211717;    /* color of the scroll thumb */
 	border-radius: 15px;       /* roundness of the scroll thumb */
-	border: 3px solid #cb8af7;  /* creates padding around scroll thumb */
+	border: 3px solid #c55528;  /* creates padding around scroll thumb */
   }

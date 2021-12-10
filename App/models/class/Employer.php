@@ -56,8 +56,8 @@ class Employer
             $tipo = "'" . $data->types . "'";
             $nombre = "'" . $data->name . "'";
 
-            $sql = "UPDATE task SET user= " . $user . ", passwords= " . $password . ",
-            types= " . $tipo . ", names= " . $nombre . " WHERE id_employer =  " . $id . "";
+            $sql = "UPDATE employer SET user= " . $user . ", passwords= " . $password . ",
+            types= " . $tipo . ", names= " . $nombre . " WHERE id_employer=  " . $id . ";";
 
             $sentencia =  Connection::Conex()->prepare($sql);
 
@@ -70,7 +70,7 @@ class Employer
     /**
      * Elimina una tarea elegida
      * 
-     * @return void
+     * @param int $id_employer
      */
     function borrarUser($id_employer)
     {

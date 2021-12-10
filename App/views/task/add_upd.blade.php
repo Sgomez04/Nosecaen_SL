@@ -5,7 +5,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="{{ ASSETS_URL }}css/theme1/form.css" />
+    <link rel="stylesheet" href="{{ ASSETS_URL }}css/{{$_SESSION['theme']}}/form.css" />
 
 @endsection
 

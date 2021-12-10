@@ -140,15 +140,14 @@ class Task
     /**
      * Añade una nueva tarea a la DataBase
      * 
-     * @return void
      */
     function añadirTarea(Task $data)
     {
         try {
             $sql = "INSERT INTO task(id_task, persona, telefono, descripcion,
             correo, direccion, poblacion, cp, provincia, estado, fecha_creacion, operario,
-            fecha_realizacion, anot_anterior, anot_posterior)VALUES ('',:persona,:phone,:descripcion,:correo,
-            :direccion,:poblacion,:cp,:provincia,:estado,CURDATE(),:operario,:fechaR,:aa,:ap,:fichero);";
+            fecha_realizacion)VALUES ('',:persona,:phone,:descripcion,:correo,
+            :direccion,:poblacion,:cp,:provincia,:estado,CURDATE(),:operario,:fechaR);";
 
             $sentencia = Connection::Conex()->prepare($sql);
 
@@ -163,9 +162,6 @@ class Task
             $sentencia->bindParam(':estado', $data->estado);
             $sentencia->bindParam(':operario', $data->operario);
             $sentencia->bindParam(':fechaR', $data->fecha_realizacion);
-            $sentencia->bindParam(':aa', $data->anot_anterior);
-            $sentencia->bindParam(':ap', $data->anot_posterior);
-            $sentencia->bindParam(':fichero', $data->fichero);
 
             $sentencia->execute();
         } catch (Exception $e) {

@@ -6,7 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/theme1/list.css" />
+    <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/<?php echo e($_SESSION['theme']); ?>/list.css" />
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('nav'); ?>
@@ -16,7 +16,7 @@
         <a href="<?php echo e(BASE_URL); ?>listU?pagU=1" class="nav-item nav-link"><i
                 class="fa fa-users"></i><span>Empleados</span></a>
     <?php else: ?>
-        <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-users"></i><span>Empleados</span></a>
+        <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#notEmployers"><i class="fa fa-users"></i><span>Empleados</span></a>
     <?php endif; ?>
     <a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
     <a href="<?php echo e(BASE_URL); ?>profile?idU=<?php echo e($_SESSION['id']); ?>" class="nav-item nav-link"><i
@@ -31,7 +31,7 @@
             </div>
             <div class="col-sm-6">
                 <?php if($type == 'admin'): ?>
-                    <a href="<?= BASE_URL ?>form" class="btn btn-success"><i class="material-icons">&#xE147;</i>
+                    <a href="<?php echo e(BASE_URL); ?>form" class="btn btn-success"><i class="material-icons">&#xE147;</i>
                         <span>Añadir nueva Tarea</span></a>
                 <?php endif; ?>
             </div>
@@ -63,12 +63,12 @@
                     <?php $__currentLoopData = TaskController::getInstance()->listar(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $t): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr class="list">
                             <td>
-                                <a href="<?= BASE_URL ?>form?id=<?php echo e($t['id_task']); ?>" class="edit"><i
+                                <a href="<?php echo e(BASE_URL); ?>form?id=<?php echo e($t['id_task']); ?>" class="edit"><i
                                         class="material-icons" title="Editar Tarea">&#xE254;</i></a>
                                 <br>
                                 <br>
                                 <?php if($type == 'admin'): ?>
-                                    <a href="<?= BASE_URL ?>cdel?id=<?php echo e($t['id_task']); ?>" class="delete"><i
+                                    <a href="<?php echo e(BASE_URL); ?>cdel?id=<?php echo e($t['id_task']); ?>" class="delete"><i
                                             class="material-icons" title="Eliminar Tarea">&#xE872;</i></a>
                                 <?php endif; ?>
                             </td>
@@ -88,7 +88,7 @@
                             <td><textarea cols="20" rows="5" readonly><?php echo e($t['anot_anterior']); ?></textarea></td>
                             <td><textarea cols="20" rows="5" readonly><?php echo e($t['anot_posterior']); ?></textarea></td>
                             <?php if($t['fichero'] != ''): ?>
-                                <td><a href="#">Ver archivo</a></td>
+                                <td><a href="<?php echo e(ASSETS_URL); ?>files/<?php echo e($t['fichero']); ?>">Ver archivo</a></td>
                             <?php else: ?>
                                 <td>Sin archivo</td>
                             <?php endif; ?>
@@ -98,7 +98,7 @@
             </table>
         </div>
         <div class="clearfix">
-            <div class="hint-text">Mostrando <b><?php echo e(PAGINATOR); ?></b> de
+            <div class="hint-text">Mostrando <b><?php echo e($_SESSION['listT']); ?></b> de
                 <b><?php echo e(TaskController::getInstance()->tResultados()); ?></b> registros
             </div>
 
@@ -107,7 +107,7 @@
     </div>
 
 
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+<div class="modal fade" id="notEmployers" tabindex="-1" role="dialog"
 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-confirm">
@@ -127,11 +127,10 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
 </div>
 </div>
-
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('script'); ?>
-    <script src="<?= ASSETS_URL ?>js/orderby.js"></script>
+    <script src="<?php echo e(ASSETS_URL); ?>js/orderby.js"></script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('plantilla', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Programas\DB\htdocs\PHP\NoSeCaenSL\App\views/task/list.blade.php ENDPATH**/ ?>

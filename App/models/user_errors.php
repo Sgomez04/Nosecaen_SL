@@ -20,4 +20,3 @@ if (empty($_REQUEST['name'])) {
     $error->AnotaError("name", "El nombre no pueden contener carácteres especiales");
  }
 
-

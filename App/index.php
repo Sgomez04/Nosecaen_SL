@@ -32,6 +32,7 @@ session_start();
 include(MODEL_PATH . 'class/Connection_db.php');
 include(CTRL_PATH . 'TaskControl.php');
 include(CTRL_PATH . 'UserControl.php');
+include(CTRL_PATH . 'Settings.php');
 
 /**
  * Instantiate App
@@ -42,6 +43,17 @@ $app = new \Slim\App($configuration);
 
 $app->any('/', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserController::getInstance()->Login());
+    return $response;
+});
+
+//AJUSTES
+$app->any('/form_setting', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(Settings::getInstance()->FormularioSettins());
+    return $response;
+});
+
+$app->any('/setting', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(Settings::getInstance()->GuardarSettins());
     return $response;
 });
 

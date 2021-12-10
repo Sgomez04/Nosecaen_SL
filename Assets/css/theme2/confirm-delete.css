@@ -1,6 +1,14 @@
 body {
 	font-family: 'Varela Round', sans-serif;
+	background-image: url("../../img/theme2/delete.jpg");
+	background-repeat: no-repeat;
+	background-size: cover ;
 }
+
+.modal-content{
+	background-color: rgba(255, 255, 255, 0.966) !important;
+}
+
 .modal-confirm {		
 	color: #636363;
 	width: 900px;

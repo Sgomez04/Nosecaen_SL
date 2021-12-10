@@ -5,7 +5,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="{{ ASSETS_URL }}css/theme1/form.css" />
+    <link rel="stylesheet" href="{{ ASSETS_URL }}css/{{$_SESSION['theme']}}/form.css" />
 
 @endsection
 
@@ -137,11 +137,11 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-briefcase"></i></span>
                         @if ($type == 'admin')
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="estado" VALUE="Admin" checked> Administrador</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="estado" VALUE="Operario"> Operario</label>
+                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="type" VALUE="admin" checked> Administrador</label>
+                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="type" VALUE="operario"> Operario</label>
                         @else
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="estado" VALUE="Admin"> Administrador</label>
-                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="estado" VALUE="Operario" checked> Operario</label>
+                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="type" VALUE="admin"> Administrador</label>
+                            <label>&nbsp &nbsp<INPUT TYPE="radio" NAME="type" VALUE="operario" checked> Operario</label>
                         @endif
                     </div>
                 </div>
