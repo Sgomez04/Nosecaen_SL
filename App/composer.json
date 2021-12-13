@@ -10,5 +10,10 @@
 
     "requires": {
         "twbs/bootstrap": "4.0.0"
+    },
+
+    "require-devs": {
+        "apigen/apigen": "dev-master",
+        "roave/better-reflection": "dev-master#c87d856"
     }
 }

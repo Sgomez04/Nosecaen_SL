@@ -5,22 +5,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="{{ ASSETS_URL }}css/{{$_SESSION['theme']}}/form.css" />
+    <link rel="stylesheet" href="{{ ASSETS_URL }}css/{{ $_SESSION['theme'] }}/form.css" />
 
 @endsection
 
 @section('nav')
-<a href="{{BASE_URL}}list?pag=1" class="nav-item nav-link active"><i
-        class="fa fa-gears"></i><span>Tareas</span></a>
-@if($type =='admin')
-        <a href="{{BASE_URL}}listU?pagU=1" class="nav-item nav-link"><i
-        class="fa fa-users"></i><span>Empleados</span></a>
-@else
-        <a href="#" class="nav-item nav-link"><i
-        class="fa fa-users"></i><span>Empleados</span></a>
-@endif
-<a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
-<a href="{{BASE_URL}}profile?idU={{$_SESSION['id']}}" class="nav-item nav-link"><i class="fa fa-user"></i><span> Perfil</span></a>
+    <a href="{{ BASE_URL }}list?pag=1" class="nav-item nav-link active"><i
+            class="fa fa-gears"></i><span>Tareas</span></a>
+    @if ($type == 'admin')
+        <a href="{{ BASE_URL }}listU?pag=1" class="nav-item nav-link"><i
+                class="fa fa-users"></i><span>Empleados</span></a>
+    @else
+        <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#notEmployers"><i class="fa fa-users"></i><span>Empleados</span></a>
+    @endif
+    <a href="{{ BASE_URL }}profile?idU={{ $_SESSION['id'] }}" class="nav-item nav-link"><i
+            class="fa fa-user"></i><span> Perfil</span></a>
 
 @endsection
 
@@ -236,18 +235,18 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-question-sign"></i></span>
-                        @if ($estado == 'P')
-                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P" checked> Pendiente</label><br>
+                        @if ($estado == 'C')
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P"> Pendiente</label><br>
                             <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="R"> Realizada</label><br>
-                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C"> Cancelada</label>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C" checked> Cancelada</label>
                         @elseif($estado == "R")
                             <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P"> Pendiente</label><br>
                             <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="R" checked> Realizada</label><br>
                             <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C"> Cancelada</label>
                         @else
-                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P"> Pendiente</label><br>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P" checked> Pendiente</label><br>
                             <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="R"> Realizada</label><br>
-                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C" checked> Cancelada</label>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C"> Cancelada</label>
                         @endif
                     </div>
                 </div>
@@ -305,13 +304,13 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         @if (!$_POST)
-                            <input type="date" name="fechaR" value="{{ $frealizacion }}" class="form-control datepicker"
+                            <input type="text" name="fechaR" value="{{ $frealizacion }}" class="form-control datepicker"
                                 placeholder="Fecha de realizacion de la tarea" />
                         @elseif(ErrorShow('fechaR', $error) == '')
-                            <input type="date" name="fechaR" value="{{ $frealizacion }}"
+                            <input type="text" name="fechaR" value="{{ $frealizacion }}"
                                 class="form-control datepicker is-valid" placeholder="Fecha de realizacion de la tarea" />
                         @else
-                            <input type="date" name="fechaR" value="{{ $frealizacion }}"
+                            <input type="text" name="fechaR" value="{{ $frealizacion }}"
                                 class="form-control datepicker is-invalid"
                                 placeholder="Fecha de realizacion de la tarea" />
                         @endif
@@ -320,7 +319,7 @@
                 </div>
             </div>
 
-            <div class="form-group" {{ $hide2 }}>
+            <div class="form-group" {{ $hide1 }}>
                 <label class="col-md-4 control-label" for="aa"> Anotaciones anteriores: </label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
@@ -366,8 +365,9 @@
                     <div class="input-group file">
                         <div>
                             <label for="image_uploads" id="labelFile">Selecciona un archivo (DOC, DOCX, PDF..)</label>
-                            <input type="file" id="image_uploads" name="fichero" accept=".doc, .docx, .pdf"
-                                class="form-control">
+                            <input type="file" id="image_uploads" name="fichero" class="form-control" value="{{ $fichero }}">
+                            <input type="hidden" name="fichero2" value="{{ $fichero }}">
+
                         </div>
                         <div class="preview">
                             @if (isset($fichero))
@@ -385,6 +385,28 @@
             </div>
         </fieldset>
     </form>
+
+    {{-- MODAL --}}
+    <div class="modal fade" id="notEmployers" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-confirm">
+                <div class="modal-header flex-column">
+                    <div class="icon-box">
+                        <i class="material-icons">&#xE5CD;</i>
+                    </div>
+                    <h4 class="modal-title w-100">Acceso Denegado</h4>
+                </div>
+                <div class="modal-body">
+                    <br>
+                    <p>No tienes los permisos suficientes para visualizar esta seccion</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <a href="#" class="bton btn-danger" data-dismiss="modal">Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')

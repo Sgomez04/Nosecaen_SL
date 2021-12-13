@@ -11,11 +11,6 @@ class UserController
     private $e_profile = "";
 
 
-    /**
-     * Constructor de la clase UserController
-     *
-     * @return void
-     */
     public function __construct()
     {
         if ($_SESSION) {
@@ -28,7 +23,7 @@ class UserController
     /**
      * Metedo que devuelve un objeto de la misma clase UserController
      *
-     * @return UserController
+     * @return objet
      */
     public static function getInstance()
     {
@@ -44,54 +39,19 @@ class UserController
     {
         $error = new GestorErrores('<span class="error">', '</span>');
         if ($_POST) { // Comprobamos que recibimos los datos y que no hay errores
-            $user = $this->model->comprobarUser($_POST['user'], $_POST['password']);
-            require_once 'models/user_errors.php';
+            $employer = $this->model->comprobarUser($_POST['user'], $_POST['password']);
+            require_once 'models/filter/checkLogin.php';
 
-            if ($user) { //si no hay errores comprobamos si el usuario existe
-                // $usuariook = strtolower($user->user);
-                // $passok =  strtolower($user->passwords);
+            if ($employer) { //si no hay errores comprobamos si el usuario existe
 
-                $_SESSION['logueado'] = $user->user;
-                $_SESSION['names'] = $user->names;
-                $_SESSION['type'] = $user->types;
-                $_SESSION['id'] = $user->id_employer;
+                $_SESSION['logueado'] = $employer->user;
+                $_SESSION['names'] = $employer->names;
+                $_SESSION['type'] = $employer->types;
+                $_SESSION['id'] = $employer->id_employer;
                 $_SESSION['ulogo'] = mt_rand(1, 8);
                 $_SESSION['theme'] = "theme1";
                 $_SESSION['listT'] = PAGINATOR;
                 $_SESSION['listU'] = PAGINATOR;
-
-
-
-
-                // //Creamos un par de cookies para recordar el user/pass. Tcaducidad=15días
-                // if (isset($_POST['recuerdo']) && ($_POST['recuerdo'] == "on")) // Si está seleccioniado el checkbox...
-                // { // Creamos las cookies para ambas variables 
-                //     setcookie('user', $usuariook, time() + (15 * 24 * 60 * 60));
-                //     setcookie('password', $passok, time() + (15 * 24 * 60 * 60));
-                //     setcookie('recuerdo', $_POST['recuerdo'], time() + (15 * 24 * 60 * 60));
-                // } else {  //Si no está seleccionado el checkbox..
-                //     // Eliminamos las cookies
-                //     if (isset($_COOKIE['user'])) {
-                //         setcookie('usuario', "");
-                //     }
-                //     if (isset($_COOKIE['password'])) {
-                //         setcookie('password', "");
-                //     }
-                //     if (isset($_COOKIE['recuerdo'])) {
-                //         setcookie('recuerdo', "");
-                //     }
-                // }
-
-                // // Lógica asociada a mantener la sesión abierta 
-                // if (isset($_POST['abierta']) && ($_POST['abierta'] == "on")) // Si está seleccionado el checkbox...
-                // { // Creamos una cookie para la sesión 
-                //     setcookie('abierta', $_POST['user'], time() + (15 * 24 * 60 * 60));
-                // } else {  //Si no está seleccionado el checkbox..
-                //     // Eliminamos la cookie
-                //     if (isset($_COOKIE['abierta'])) {
-                //         setcookie('abierta', "");
-                //     }
-                // }
 
                 // Redirigimos a la página de inicio de nuestro sitio  
                 header("Location:" . BASE_URL . "list?pag=1");
@@ -179,7 +139,7 @@ class UserController
     public function GuardarU()
     {
         $error = new GestorErrores('<span class="alert alert-danger" role="alert">', '</span>');
-        require_once 'models/user_errors.php';
+        require_once 'models/filter/user_errors.php';
 
         if ($error->HayErrores()) {
 
@@ -206,13 +166,18 @@ class UserController
 
 
             if ($user->id_employer > 0) {
+                if($user->id_employer == $_SESSION['id']){
+                    $_SESSION['names'] =  $user->name;
+                    $_SESSION['logueado'] = $user->user;
+                }
+
                 $this->model->modificarUser($user);
             } else {
                 $this->model->añadirUser($user);
             }
 
             if($_SESSION['type'] == "admin"){
-                header("Location: " . BASE_URL . "listU?pagU=1");
+                header("Location: " . BASE_URL . "listU?pag=1");
                 exit;
             } else{
                 header("Location: " . BASE_URL . "list?pag=1");
@@ -230,7 +195,7 @@ class UserController
     public function EliminarU()
     {
         $this->model->borrarUser($_REQUEST['id']);
-        header("Location: " . BASE_URL . "listU?pagU=1");
+        header("Location: " . BASE_URL . "listU?pag=1");
         exit;
     }
 
@@ -295,7 +260,7 @@ class UserController
      */
     public function tResultadosU()
     {
-        return $this->model->mostrarTotalResultados();
+        return $this->model->pag->mostrarTotalResultados();
     }
 
     /**
@@ -305,6 +270,6 @@ class UserController
      */
     public function paginacionU()
     {
-        return $this->model->mostrarPaginas();
+        return $this->model->pag->mostrarPaginas();
     }
 }

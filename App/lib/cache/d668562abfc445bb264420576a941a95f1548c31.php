@@ -19,7 +19,6 @@
         <a href="#" class="nav-item nav-link active"><i
         class="fa fa-users"></i><span>Empleados</span></a>
 <?php endif; ?>
-<a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
 <a href="<?php echo e(BASE_URL); ?>profile?idU=<?php echo e($_SESSION['id']); ?>" class="nav-item nav-link"><i class="fa fa-user"></i><span> Perfil</span></a>
 
 <?php $__env->stopSection(); ?>

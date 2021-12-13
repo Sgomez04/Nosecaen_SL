@@ -10,8 +10,6 @@ if (empty($_REQUEST['persona'])) {
    $error->AnotaError("persona", "El nombre y apellidos no pueden contener carácteres especiales");
 }
 
-
-
 /// FILTRADO DEL CAMPO telefono /// 
 if (empty($_REQUEST['telefono'])) {
     $error->AnotaError("telefono",'El campo telefono no puede estar vacio');
@@ -67,29 +65,24 @@ if (empty($_REQUEST['operario'])) {
 }
 
 // // FILTRADO DEL CAMPO fecha de realizacion //
-if ($_REQUEST['fechaR'] == '') {
+if (empty($_REQUEST['fechaR'])) {
      $error -> AnotaError("fechaR",'El campo no puede estar vacio');
 } else {
     $fecha = explode('-', $_REQUEST['fechaR']);
     if (!checkdate($fecha[1], $fecha[2], $fecha[0])) {
-       $error -> AnotaError("fechaR",'Introduzca una fecha válida (formato yyyy-mm-dd).');
+       $error -> AnotaError("fechaR",'Introduzca una fecha válida (formato yyyy-mm-dd)');
     }
+
+    if (strtotime($_REQUEST['fechaR']) < strtotime(date("Y-m-d",time())) ) {
+        $error -> AnotaError("fechaR",'La fecha tiene que ser posterior a la actual');
+     }
 }
 
 }
 
 if($_SESSION['type'] == "operario"){
 // // FILTRADO DEL CAMPO anotacion anterior //
-if (preg_match("/\W/", $_REQUEST['aa'])) {
-    $error->AnotaError("operario",'El nombre del operario no puede contener carácteres especiales');
-}
-
-// // FILTRADO DEL CAMPO anotacion posterior //
-if (preg_match("/\W/", $_REQUEST['ap'])) {
-    $error->AnotaError("operario",'El nombre del operario no puede contener carácteres especiales');
-}
-
-if ($_FILES['fichero']['type'] == "image" ) {
-    $error->AnotaError("fichero",'El archivo ha de ser un archivo de tipo Documento de texto o PDF');
+if (empty($_REQUEST['aa'])) {
+    $error->AnotaError("operario",'El campo operario no puede estar vacio');
 }
 }

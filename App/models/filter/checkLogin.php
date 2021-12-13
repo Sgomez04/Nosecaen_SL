@@ -1,4 +1,4 @@
 <?php
-if(!$user){
+if(!$employer){
     $error->AnotaError("login",'Credenciales inválidas');
 }

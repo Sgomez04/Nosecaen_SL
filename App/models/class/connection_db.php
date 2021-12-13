@@ -30,6 +30,7 @@ class Connection
         }
     }
 
+    
     public function getConnection()
     {
         return $this->db;

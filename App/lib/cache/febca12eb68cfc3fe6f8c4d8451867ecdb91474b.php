@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8" />
     <title>NoSeCaen S.L</title>
-    <link rel="stylesheet" href="{{ ASSETS_URL }}css/bootstrap/bootstrap.min.css" />
-    <link rel="stylesheet" href="{{ ASSETS_URL }}css/bootstrap/bootstrap-theme.css.map" />
-    <link rel="stylesheet" href="{{ ASSETS_URL }}css/bootstrap/bootstrap.css" />
-    <link rel="stylesheet" href="{{ ASSETS_URL }}css/bootstrap/bootstrap.css.map" />
-    <link rel="stylesheet" href="{{ ASSETS_URL }}css/bootstrap/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/bootstrap/bootstrap-theme.css.map" />
+    <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/bootstrap/bootstrap.css.map" />
+    <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/bootstrap/bootstrap-theme.min.css" />
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -20,15 +20,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    {{-- Css --}}
-    <link rel="stylesheet" href="{{ ASSETS_URL }}css/theme1/navbar.css" />
-    <link rel="stylesheet" href="{{ ASSETS_URL }}css/login.css" />
-    <link rel="stylesheet" href="{{ ASSETS_URL }}css/theme1/footer.css" />
+    
+    <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/theme1/navbar.css" />
+    <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/login.css" />
+    <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/theme1/footer.css" />
 </head>
 
 <body>
     <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
-        <img src="{{ ASSETS_URL }}img/logo3.png" class="logoI"><span class="logoN"><b>NoSeCaeN</b>
+        <img src="<?php echo e(ASSETS_URL); ?>img/logo3.png" class="logoI"><span class="logoN"><b>NoSeCaeN</b>
             S.L.</span>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -50,27 +50,33 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="avatar">
-                    <img src="{{ ASSETS_URL }}img/avatar.png" alt="Avatar">
+                    <img src="<?php echo e(ASSETS_URL); ?>img/avatar.png" alt="Avatar">
                 </div>
                 <h4 class="modal-title">Login Empleado</h4>
             </div>
             <br>
-            <center> {!! ErrorShow('login', $error) !!}</center>
+            <center> <?php echo ErrorShow('login', $error); ?></center>
             <br>
             <div class="modal-body">
-                <form action="{{ BASE_URL }}check" method="POST">
+                <form action="<?php echo e(BASE_URL); ?>check" method="POST">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="user" placeholder="Usuario" required="required" value="{{ $user }}">
+                        <input type="text" class="form-control" name="user" placeholder="Usuario" required="required" value="<?php echo e($user); ?>">
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" name="password" placeholder="Contraseña"
-                            required="required" value="{{ $password }}">
+                            required="required" value="<?php echo e($password); ?>">
                     </div>
-                    <br>
                     <div class="form-group">
                         <button type="submit" name="submit"
                             class="btn btn-primary btn-lg btn-block login-btn">Login</button>
                     </div>
+                    <label><input type="checkbox" name="recuerdo" <?php if (isset($_COOKIE['recuerdo'])) {
+    echo ' checked';
+} ?>> Recuérdeme</label>
+                    <br>
+                    <label><input type="checkbox" name="abierta" <?php if (isset($_COOKIE['abierta'])) {
+    echo ' checked';
+} ?>> Mantener la sesión abierta</label>
                 </form>
             </div>
             <div class="modal-footer">
@@ -105,13 +111,13 @@
     </footer>
 
 
-    <script src="{{ ASSETS_URL }}js/jquery.min.js"></script>
-    <script src="{{ ASSETS_URL }}js/popper.js"></script>
-    <script src="{{ ASSETS_URL }}js/bootstrap.min.js"></script>
+    <script src="<?php echo e(ASSETS_URL); ?>js/jquery.min.js"></script>
+    <script src="<?php echo e(ASSETS_URL); ?>js/popper.js"></script>
+    <script src="<?php echo e(ASSETS_URL); ?>js/bootstrap.min.js"></script>
 
-    @yield('script')
+    <?php echo $__env->yieldContent('script'); ?>
 
-    {{-- MODAL --}}
+    
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -136,3 +142,4 @@
 </body>
 
 </html>
+<?php /**PATH D:\Programas\DB\htdocs\PHP\NoSeCaenSL_final\App\views/user/login.blade.php ENDPATH**/ ?>

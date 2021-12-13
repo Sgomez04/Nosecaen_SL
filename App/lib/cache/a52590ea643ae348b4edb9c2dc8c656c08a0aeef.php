@@ -245,18 +245,18 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-question-sign"></i></span>
-                        <?php if($estado == 'P'): ?>
-                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P" checked> Pendiente</label><br>
+                        <?php if($estado == 'C'): ?>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P"> Pendiente</label><br>
                             <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="R"> Realizada</label><br>
-                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C"> Cancelada</label>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C" checked> Cancelada</label>
                         <?php elseif($estado == "R"): ?>
                             <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P"> Pendiente</label><br>
                             <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="R" checked> Realizada</label><br>
                             <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C"> Cancelada</label>
                         <?php else: ?>
-                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P"> Pendiente</label><br>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="P" checked> Pendiente</label><br>
                             <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="R"> Realizada</label><br>
-                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C" checked> Cancelada</label>
+                            <label>&nbsp <INPUT TYPE="radio" name="estado" VALUE="C"> Cancelada</label>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -316,13 +316,13 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         <?php if(!$_POST): ?>
-                            <input type="date" name="fechaR" value="<?php echo e($frealizacion); ?>" class="form-control datepicker"
+                            <input type="text" name="fechaR" value="<?php echo e($frealizacion); ?>" class="form-control datepicker"
                                 placeholder="Fecha de realizacion de la tarea" />
                         <?php elseif(ErrorShow('fechaR', $error) == ''): ?>
-                            <input type="date" name="fechaR" value="<?php echo e($frealizacion); ?>"
+                            <input type="text" name="fechaR" value="<?php echo e($frealizacion); ?>"
                                 class="form-control datepicker is-valid" placeholder="Fecha de realizacion de la tarea" />
                         <?php else: ?>
-                            <input type="date" name="fechaR" value="<?php echo e($frealizacion); ?>"
+                            <input type="text" name="fechaR" value="<?php echo e($frealizacion); ?>"
                                 class="form-control datepicker is-invalid"
                                 placeholder="Fecha de realizacion de la tarea" />
                         <?php endif; ?>
@@ -332,7 +332,7 @@
                 </div>
             </div>
 
-            <div class="form-group" <?php echo e($hide2); ?>>
+            <div class="form-group" <?php echo e($hide1); ?>>
                 <label class="col-md-4 control-label" for="aa"> Anotaciones anteriores: </label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
@@ -380,8 +380,9 @@
                     <div class="input-group file">
                         <div>
                             <label for="image_uploads" id="labelFile">Selecciona un archivo (DOC, DOCX, PDF..)</label>
-                            <input type="file" id="image_uploads" name="fichero" accept=".doc, .docx, .pdf"
-                                class="form-control">
+                            <input type="file" id="image_uploads" name="fichero" class="form-control" value="<?php echo e($fichero); ?>">
+                            <input type="hidden" name="fichero2" value="<?php echo e($fichero); ?>">
+
                         </div>
                         <div class="preview">
                             <?php if(isset($fichero)): ?>

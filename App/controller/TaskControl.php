@@ -12,6 +12,7 @@ class TaskController
     private $blade;
     private $user;
     private $fileDir;
+    private $file ="";
 
     public function __construct()
     {
@@ -19,13 +20,13 @@ class TaskController
         $this->model = new Task($this->pag);
         $this->blade = TemplateBlade::GetInstance();
         $this->user = new Employer($this->pag);
-        $this->fileDir = __DIR__ . "/../Assets/files/";
+        $this->fileDir = $_SERVER['DOCUMENT_ROOT'] . "/PHP/NoSeCaenSL/Assets/files/";
     }
-    
+
     /**
      * Metedo que devuelve un objeto de la misma clase TaskController
      *
-     * @return void
+     * @return objet
      */
     public static function getInstance()
     {
@@ -65,6 +66,7 @@ class TaskController
 
         if (isset($_REQUEST['id'])) {
             $t = $this->model->verTarea($_REQUEST['id']);
+            $this->file= $t->fichero;
         }
 
         return  $this->blade->render('task/add_upd', [
@@ -100,8 +102,7 @@ class TaskController
     public function Guardar()
     {
         $error = new GestorErrores('<span style="color:red">', '</span>');
-        require_once 'models/task_errors.php';
-
+        require_once 'models/filter/task_errors.php';
         $fichero_subido = basename($_FILES['fichero']['name']);
 
         if ($error->HayErrores()) {
@@ -142,9 +143,6 @@ class TaskController
         } else {
             $task = new Task($this->pag);
 
-            $fichero_subido = basename($_FILES['fichero']['name']);
-            $nameFile = $_FILES['fichero']['name'];
-            move_uploaded_file($_FILES['fichero']['tmp_name'], $this->fileDir . $fichero_subido);
 
             $task->id_task =  $_REQUEST['id'];
             $task->persona =  ValorPost('persona');
@@ -161,9 +159,15 @@ class TaskController
             $task->fecha_realizacion = ValorPost('fechaR');
             $task->anot_anterior =  ValorPost('aa');
             $task->anot_posterior =  ValorPost('ap');
-            $task->fichero = $nameFile;
 
             if ($task->id_task > 0) {
+                if(ValorPost('fichero2') != ""){
+                    $task->fichero = ValorPost('fichero2');
+                } else{
+                    $fichero_subido = basename($_FILES['fichero']['name']);
+                    move_uploaded_file($_FILES['fichero']['tmp_name'], $this->fileDir . $fichero_subido);
+                    $task->fichero = $_FILES['fichero']['name'];
+                }
                 $this->model->modificarTarea($task);
             } else {
                 $this->model->añadirTarea($task);
@@ -196,7 +200,7 @@ class TaskController
     {
         return $this->blade->render('task/delete', ['id' => $_REQUEST['id'], 'type' => $_SESSION['type']]);
     }
-  
+
     /**
      * Metodo que recoge los datos de la lista de tareas desde la base de datos
      *
@@ -207,7 +211,7 @@ class TaskController
         return $this->model->listaTareas();
     }
 
-    
+
     /**
      * Metodo que recoge los datos de la lista de provincias desde la base de datos
      *
@@ -218,7 +222,7 @@ class TaskController
         return $this->model->listaProvincias();
     }
 
-    
+
     /**
      * Metodo que recoge el total de registros que contiene la tabla de tareas desde la base de datos
      *
@@ -226,10 +230,10 @@ class TaskController
      */
     public function tResultados()
     {
-        return $this->model->mostrarTotalResultados();
+        return $this->model->pag->mostrarTotalResultados();
     }
 
-        
+
     /**
      * Metodo que muestra la paginacion de la lista de tareas
      *
@@ -237,6 +241,6 @@ class TaskController
      */
     public function paginacion()
     {
-        return $this->model->mostrarPaginas();
+        return $this->model->pag->mostrarPaginas();
     }
 }

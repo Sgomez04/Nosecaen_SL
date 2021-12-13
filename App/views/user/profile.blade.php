@@ -12,12 +12,11 @@
 @section('nav')
     <a href="{{ BASE_URL }}list?pag=1" class="nav-item nav-link"><i class="fa fa-gears"></i><span>Tareas</span></a>
     @if ($type == 'admin')
-        <a href="{{ BASE_URL }}listU?pagU=1" class="nav-item nav-link"><i
+        <a href="{{ BASE_URL }}listU?pag=1" class="nav-item nav-link"><i
                 class="fa fa-users"></i><span>Empleados</span></a>
     @else
         <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-users"></i><span>Empleados</span></a>
     @endif
-    <a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
     <a href="{{ BASE_URL }}profile?idU={{ $_SESSION['id'] }}" class="nav-item nav-link active"><i
             class="fa fa-user"></i><span> Perfil</span></a>
 

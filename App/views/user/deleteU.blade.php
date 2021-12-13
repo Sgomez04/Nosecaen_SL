@@ -9,13 +9,12 @@
 <a href="{{BASE_URL}}list?pag=1" class="nav-item nav-link active"><i
         class="fa fa-gears"></i><span>Tareas</span></a>
 @if($type =='admin')
-        <a href="{{BASE_URL}}listU?pagU=1" class="nav-item nav-link"><i
+        <a href="{{BASE_URL}}listU?pag=1" class="nav-item nav-link"><i
         class="fa fa-users"></i><span>Empleados</span></a>
 @else
         <a href="#" class="nav-item nav-link"><i
         class="fa fa-users"></i><span>Empleados</span></a>
 @endif
-<a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
 <a href="{{BASE_URL}}profile?idU={{$_SESSION['id']}}" class="nav-item nav-link"><i class="fa fa-user"></i><span> Perfil</span></a>
 
 @endsection
@@ -34,7 +33,7 @@
                 <p>¿Esta segur@ de que desea eliminar a este empleado? Esta accion no puede deshacerse</p>
             </div>
             <div class="modal-footer justify-content-center">
-                <a href="{{BASE_URL}}listU?pagU=1" class="bton btn-secondary" data-dismiss="modal">Cancelar</a>
+                <a href="{{BASE_URL}}listU?pag=1" class="bton btn-secondary" data-dismiss="modal">Cancelar</a>
                 <a href="{{BASE_URL}}delU?id={{ $id }}" class="bton btn-danger">Eliminar</a>
             </div>
         </div>

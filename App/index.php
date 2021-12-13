@@ -117,7 +117,6 @@ $app->any('/delU', function (Request $request, Response $response, $args) {
 });
 
 
-
 //TAREA
 
 //CRUD Task

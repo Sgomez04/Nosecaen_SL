@@ -1,11 +1,7 @@
 <?php
 class Settings
 {
-    /**
-     * Constructor de la clase Settings
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         $this->blade = TemplateBlade::GetInstance();
@@ -14,14 +10,19 @@ class Settings
     /**
      * Metedo que devuelve un objeto de la misma clase Settings
      *
-     * @return Settings
+     * @return objet
      */
     public static function getInstance()
     {
         return new self;
     }
 
-
+    
+    /**
+     * FormularioSettins
+     *
+     * @return void
+     */
     public function FormularioSettins()
     {
         return $this->blade->render('form_setting', [
@@ -31,11 +32,16 @@ class Settings
             'listU' => $_SESSION['listU']
         ]);
     }
-
+    
+    /**
+     * GuardarSettins
+     *
+     * @return void
+     */
     public function GuardarSettins()
     {
         $error = new GestorErrores('<span style="color:red">', '</span>');
-        require_once 'models/setting_errors.php';
+        require_once 'models/filter/setting_errors.php';
         if (!$error->HayErrores()) {
             $_SESSION['listT'] = ValorPost('listT');
             $_SESSION['listU'] = ValorPost('listU');

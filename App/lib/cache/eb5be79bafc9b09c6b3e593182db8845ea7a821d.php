@@ -41,8 +41,6 @@
                 <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#exampleModalCenter"><i
                         class="fa fa-users"></i><span>Empleados</span></a>
                 <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#exampleModalCenter"><i
-                        class="fa fa-search"></i><span>Busqueda</span></a>
-                <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#exampleModalCenter"><i
                         class="fa fa-user"></i><span> Perfil</span></a>
             </div>
         </div>

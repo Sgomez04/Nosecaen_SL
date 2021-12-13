@@ -1,4 +1,6 @@
 <?php
+include_once (LIB_PATH . 'Paginator.php');
+
 /**Clase tarea que extiende de la clase conexion
  * 
  * 
@@ -14,32 +16,23 @@ class Employer
 
 
     //Paginacion
-    private $paginaActual;
-    private $totalPaginas;
-    private $nResultados;
-    private $resultadosPorPagina;
-    private $indice;
-    private $pag;
+    public $pag;
 
     function __construct($nPorPagina)
     {
-        try {
-           
-            $this->resultadosPorPagina = $nPorPagina;
-            $this->indice = 0;
-            $this->paginaActual = 1;
-
-            $this->calcularPaginas();
-        } catch (Exception $e) {
-            die($e->getMessage());
-        }
+        $this->pag = new Paginator($nPorPagina, "employer");
     }
-
+    
+    /**
+     * listaUsuarios
+     *
+     * @return objet
+     */
     function listaUsuarios()
     {
         try {
             $query =  Connection::Conex()->prepare('SELECT * FROM employer LIMIT :pos, :n');
-            $query->execute(['pos' => $this->indice, 'n' => $this->resultadosPorPagina]);
+            $query->execute(['pos' => $this->pag->getIndice(), 'n' => $this->pag->getResultadosPorPagina()]);
 
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
@@ -71,6 +64,7 @@ class Employer
      * Elimina una tarea elegida
      * 
      * @param int $id_employer
+     * @return boolean
      */
     function borrarUser($id_employer)
     {
@@ -87,7 +81,8 @@ class Employer
     /**
      * Añade una nueva tarea a la DataBase
      * 
-     * @return void
+     * @param Employer $data
+     * @return boolean
      */
     function añadirUser(Employer $data)
     {
@@ -108,6 +103,13 @@ class Employer
         }
     }
 
+    /**
+     * Comprueba si el usuario indicado con usuario y contraseña existe
+     * 
+     * @param string $user
+     * @param string $password
+     * @return objet
+     */
     public function comprobarUser($user,$password)
     {
         try {
@@ -122,6 +124,12 @@ class Employer
         }
     }
 
+    /**
+     * Devuelve todos los datos de un usuario especificio (segun una id)
+     * 
+     * @param int $id_employer
+     * @return objet
+     */
     public function verUser($id_employer)
     {
         try {
@@ -134,64 +142,4 @@ class Employer
             die($e->getMessage());
         }
     }
-
-    
-    //PAGINACION    
-    /**
-     * Calcula el numero de paginas que tiene que montar
-     *
-     * @return void
-     */
-    function calcularPaginas()
-    {
-        $queryTotalResultados = Connection::Conex()->query('SELECT COUNT(*) AS total FROM employer');
-        $this->nResultados = $queryTotalResultados->fetch(PDO::FETCH_OBJ)->total;
-        $this->totalPaginas = ceil($this->nResultados / $this->resultadosPorPagina);
-
-        if (isset($_GET['pagU'])) {
-            $this->paginaActual = $_GET['pagU'];
-            $this->indice = ($this->paginaActual - 1) * $this->resultadosPorPagina;
-        }
-    }
-
-    /**
-     * Muestra las paginas
-     *
-     * @return void
-     */
-    function mostrarPaginas()
-    {
-        $actual = '';
-
-        echo "<ul class='pagination'>";
-            if($this->paginaActual == 1){
-                echo '<li><a href="?pagU='  . ($this->paginaActual) . '" class="page-link" hidden> << Anterior </a></li>';
-            }else{
-                echo '<li><a href="?pagU='  . ($this->paginaActual - 1) . '" class="page-link">' . "<< Anterior" . '</a></li>';
-            }
-
-        for ($i = 0; $i < $this->totalPaginas; $i++) {
-            if (($i + 1) == $this->paginaActual) {
-                $actual = 'class="actual"';
-                $this->pag == $this->paginaActual;
-            } else {
-                $actual = '';
-            }
-            echo '<li><a ' . $actual . ' href="?pagU='  . ($i + 1) . '" class="page-link">' . ($i + 1) . '</a></li>';
-        }
-        
-        if($this->paginaActual == $this->totalPaginas){
-            echo '<li><a href="?pagU='  . ($this->paginaActual) . '" class="page-link" hidden> Siguiente >> </a></li>';
-        }else{
-            echo '<li><a href="?pagU=' . ($this->paginaActual + 1) .' " class="page-link"> Siguiente >> </a></li>';
-        }
-        echo "</ul>";
-    }
-
-
-    function mostrarTotalResultados()
-    {
-        return $this->nResultados;
-    }
-
 }

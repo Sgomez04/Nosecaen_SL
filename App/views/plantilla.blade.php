@@ -23,9 +23,6 @@
 
         <link rel="stylesheet" href="{{ ASSETS_URL }}css/{{ $_SESSION['theme'] }}/navbar.css" />
         <link rel="stylesheet" href="{{ ASSETS_URL }}css/theme1/footer.css" />
-        <link rel="stylesheet" href="{{ ASSETS_URL }}css/settings.css" />
-
-
 
         @yield('link')
     </head>

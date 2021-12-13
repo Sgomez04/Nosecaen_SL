@@ -1,8 +1,8 @@
 <?php
+include_once (LIB_PATH . 'Paginator.php');
 
 class Task
 {
-
     //Propiedades de la Tarea
     public $id_task = "";
     public $persona = "";
@@ -22,43 +22,24 @@ class Task
     public $fichero = "";
 
     //Paginacion
-    private $paginaActual;
-    private $totalPaginas;
-    private $nResultados;
-    private $resultadosPorPagina;
-    private $indice;
-    private $pag;
+    public $pag;
 
-    /**
-     * Constructor de la clase Task
-     *
-     * @param  mixed $nPorPagina
-     * @return void
-     */
+
     function __construct($nPorPagina)
     {
-        try {
-            $this->resultadosPorPagina = $nPorPagina;
-            $this->indice = 0;
-            $this->paginaActual = 1;
-
-            $this->calcularPaginas();
-        } catch (Exception $e) {
-            die($e->getMessage());
-        }
+        $this->pag = new Paginator($nPorPagina,"task");
     }
 
     /**
      * Muestra una lista de todas las tareas existentes en la DataBase
      *
-     * @return void
+     * @return objet
      */
-
     function listaTareas()
     {
         try {
             $query = Connection::Conex()->prepare('SELECT * FROM task LIMIT :pos, :n');
-            $query->execute(['pos' => $this->indice, 'n' => $this->resultadosPorPagina]);
+            $query->execute(['pos' => $this->pag->getIndice(), 'n' => $this->pag->getResultadosPorPagina()]);
 
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
@@ -69,7 +50,7 @@ class Task
     /**
      * Muestra una lista de todas las provincias existentes en la DataBase
      *
-     * @return void
+     * @return objet
      */
     function listaProvincias()
     {
@@ -86,7 +67,7 @@ class Task
     /**
      * Modifica los datos de una tarea elegida 
      * 
-     * @return void
+     * @return boolean
      */
     function modificarTarea(Task $data)
     {
@@ -123,7 +104,7 @@ class Task
     /**
      * Elimina una tarea elegida
      * 
-     * @return void
+     * @return boolean
      */
     function borrarTarea($id_task)
     {
@@ -140,6 +121,7 @@ class Task
     /**
      * Añade una nueva tarea a la DataBase
      * 
+     * @return boolean
      */
     function añadirTarea(Task $data)
     {
@@ -172,7 +154,7 @@ class Task
     /**
      * Muestra los datos tan solo de una tarea
      * 
-     * @return void
+     * @return objet
      */
     public function verTarea($id_task)
     {
@@ -186,63 +168,4 @@ class Task
             die($e->getMessage());
         }
     }
-
-    //PAGINACION    
-    /**
-     * Calcula el numero de paginas que tiene que montar
-     *
-     * @return void
-     */
-    function calcularPaginas()
-    {
-        $queryTotalResultados = Connection::Conex()->query('SELECT COUNT(*) AS total FROM task');
-        $this->nResultados = $queryTotalResultados->fetch(PDO::FETCH_OBJ)->total;
-        $this->totalPaginas = ceil($this->nResultados / $this->resultadosPorPagina);
-
-        if (isset($_GET['pag'])) {
-            $this->paginaActual = $_GET['pag'];
-            $this->indice = ($this->paginaActual - 1) * $this->resultadosPorPagina;
-        }
-    }
-
-    /**
-     * Muestra las paginas
-     *
-     * @return void
-     */
-    function mostrarPaginas()
-    {
-        $actual = '';
-
-        echo "<ul class='pagination'>";
-            if($this->paginaActual == 1){
-                echo '<li><a href="?pag='  . ($this->paginaActual) . '" class="page-link" hidden> << Anterior </a></li>';
-            }else{
-                echo '<li><a href="?pag='  . ($this->paginaActual - 1) . '" class="page-link">' . "<< Anterior" . '</a></li>';
-            }
-
-        for ($i = 0; $i < $this->totalPaginas; $i++) {
-            if (($i + 1) == $this->paginaActual) {
-                $actual = 'class="actual"';
-                $this->pag == $this->paginaActual;
-            } else {
-                $actual = '';
-            }
-            echo '<li><a ' . $actual . ' href="?pag='  . ($i + 1) . '" class="page-link">' . ($i + 1) . '</a></li>';
-        }
-        
-        if($this->paginaActual == $this->totalPaginas){
-            echo '<li><a href="?pag='  . ($this->paginaActual) . '" class="page-link" hidden> Siguiente >> </a></li>';
-        }else{
-            echo '<li><a href="?pag=' . ($this->paginaActual + 1) .' " class="page-link"> Siguiente >> </a></li>';
-        }
-        echo "</ul>";
-    }
-
-
-    function mostrarTotalResultados()
-    {
-        return $this->nResultados;
-    }
-
 }

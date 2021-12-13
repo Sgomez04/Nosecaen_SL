@@ -1,7 +1,7 @@
-@extends ('plantilla')
 
-@section('link')
-    <link rel="stylesheet" href="{{ ASSETS_URL }}css/{{$_SESSION['theme']}}/confirm-delete.css" />
+
+<?php $__env->startSection('link'); ?>
+    <link rel="stylesheet" href="<?php echo e(ASSETS_URL); ?>css/<?php echo e($_SESSION['theme']); ?>/confirm-delete.css" />
 
     <!-- Latest minified bootstrap css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -13,23 +13,23 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('nav')
-    <a href="{{ BASE_URL }}list?pag=1" class="nav-item nav-link active"><i
+<?php $__env->startSection('nav'); ?>
+    <a href="<?php echo e(BASE_URL); ?>list?pag=1" class="nav-item nav-link active"><i
             class="fa fa-gears"></i><span>Tareas</span></a>
-    @if ($type == 'admin')
-        <a href="{{ BASE_URL }}listU?pag=1" class="nav-item nav-link"><i
+    <?php if($type == 'admin'): ?>
+        <a href="<?php echo e(BASE_URL); ?>listU?pag=1" class="nav-item nav-link"><i
                 class="fa fa-users"></i><span>Empleados</span></a>
-    @else
+    <?php else: ?>
         <a href="#" class="nav-item nav-link"><i class="fa fa-users"></i><span>Empleados</span></a>
-    @endif
-    <a href="{{ BASE_URL }}profile?idU={{ $_SESSION['id'] }}" class="nav-item nav-link"><i
+    <?php endif; ?>
+    <a href="<?php echo e(BASE_URL); ?>profile?idU=<?php echo e($_SESSION['id']); ?>" class="nav-item nav-link"><i
             class="fa fa-user"></i><span> Perfil</span></a>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('cuerpo')
+<?php $__env->startSection('cuerpo'); ?>
 
     <div class="modal-dialog modal-confirm">
         <div class="modal-content">
@@ -43,9 +43,11 @@
                 <p>¿Esta segur@ de que desea eliminar la tarea? Esta accion no puede deshacerse</p>
             </div>
             <div class="modal-footer justify-content-center">
-                <a href="{{ BASE_URL }}list" class="bton btn-secondary" data-dismiss="modal">Cancelar</a>
-                <a href="{{BASE_URL}}del?id={{ $id }}" class="bton btn-danger">Eliminar</a>
+                <a href="<?php echo e(BASE_URL); ?>list" class="bton btn-secondary" data-dismiss="modal">Cancelar</a>
+                <a href="<?php echo e(BASE_URL); ?>del?id=<?php echo e($id); ?>" class="bton btn-danger">Eliminar</a>
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('plantilla', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Programas\DB\htdocs\PHP\NoSeCaenSL\App\views/task/delete.blade.php ENDPATH**/ ?>

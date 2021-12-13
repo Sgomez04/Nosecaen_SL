@@ -1,7 +1,6 @@
 @extends ('plantilla')
 
 @section('link')
-    <link rel="stylesheet" href="{{ ASSETS_URL }}css/settings.css" />
 
     <!-- Latest minified bootstrap css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -12,18 +11,18 @@
     <!-- Latest minified bootstrap js -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <link rel="stylesheet" href="{{ ASSETS_URL }}css/{{ $_SESSION['theme'] }}/changes.css" />
 
 @endsection
 
 @section('nav')
     <a href="{{ BASE_URL }}list?pag=1" class="nav-item nav-link"><i class="fa fa-gears"></i><span>Tareas</span></a>
     @if ($type == 'admin')
-        <a href="{{ BASE_URL }}listU?pagU=1" class="nav-item nav-link"><i
+        <a href="{{ BASE_URL }}listU?pag=1" class="nav-item nav-link"><i
                 class="fa fa-users"></i><span>Empleados</span></a>
     @else
         <a href="#" class="nav-item nav-link"><i class="fa fa-users"></i><span>Empleados</span></a>
     @endif
-    <a href="#" class="nav-item nav-link"><i class="fa fa-search"></i><span>Busqueda</span></a>
     <a href="{{ BASE_URL }}profile?idU={{ $_SESSION['id'] }}" class="nav-item nav-link"><i
             class="fa fa-user"></i><span> Perfil</span></a>
 
@@ -34,16 +33,15 @@
     <div class="modal-dialog modal-confirm">
         <div class="modal-content">
             <div class="modal-header flex-column">
-                <h4 class="modal-title w-100">Eliminacion de la tarea</h4>
+                <h4 class="modal-title w-100">AJUSTES DE LA APLICACION</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <form id="frm-tarea" action="setting" method="POST" enctype="multipart/form-data"
-                            class="form-horizontal">
-                            <label for="">Tema (colores):<div class="{{ $_SESSION['theme'] }}"></div>
-                            </label>
+                        <form id="frm-tarea" action="setting" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
+                                <label>Tema (colores): Actual -><div class="{{ $_SESSION['theme'] }}"></div>
+                                </label>
                                 <select name="theme" class="form-control selectpicker">
                                     @if ($_SESSION['theme'] == 'theme1')
                                         <option value="theme1" selected>Tema 1 (naranjado)</option>
